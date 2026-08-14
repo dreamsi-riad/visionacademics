@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISION Academics | কোর্স ও ভর্তি তথ্য</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   ১) এখানে আপনার প্রতিষ্ঠানের সব তথ্য বদলাতে পারবেন (নিচে JS অংশে CONFIG অবজেক্টে)
+   ২) এই ফাইলটা শুধু কপি-পেস্ট করলেই কাজ করবে — আলাদা কোনো সার্ভার/অ্যাডমিন লাগবে না
+   ========================================================= */
+
+:root{
+  --ink:#1E2A47;
+  --ink-soft:#4A5772;
+  --paper:#FAF7F0;
+  --paper-line:#E7DFCB;
+  --card:#FFFFFF;
+  --accent:#E8A33D;
+  --accent-dark:#C97F1F;
+  --margin:#C84B4B;
+  --sky:#5B8FBF;
+  --green:#4C8C6B;
+  --shadow:0 10px 30px rgba(30,42,71,0.08);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri', sans-serif;
+  font-size:17px;
+  line-height:1.65;
+}
+
+/* ছবিতে থাকা "খাতার মার্জিন" মোটিফ — বাংলা পরীক্ষার খাতার লাল দাগের রেফারেন্স */
+.margin-rule{
+  position:relative;
+}
+
+h1,h2,h3{
+  font-family:'Tiro Bangla', serif;
+  margin:0;
+  color:var(--ink);
+  font-weight:400;
+}
+
+.eyebrow{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:13px;
+  color:var(--accent-dark);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before{
+  content:"";
+  width:18px;
+  height:2px;
+  background:var(--accent-dark);
+  display:inline-block;
+}
+
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; cursor:pointer; }
+
+.container{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 28px;
+}
+
+/* ---------- Navbar ---------- */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,247,240,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--paper-line);
+}
+.nav-inner{
+  max-width:1180px;
+  margin:0 auto;
+  padding:16px 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:22px;
+  line-height:1.15;
+  color:var(--ink);
+}
+.brand .dot{
+  width:12px;height:12px;border-radius:3px;
+  background:var(--accent);
+  transform:rotate(45deg);
+  flex:none;
+}
+.brand .brand-logo{
+  width:60px;height:60px;
+  border-radius:8px;
+  object-fit:cover;
+  flex:none;
+}
+.nav-links{
+  display:flex;
+  gap:30px;
+  font-weight:600;
+  font-size:15.5px;
+}
+.nav-links a{
+  position:relative;
+  color:var(--ink-soft);
+  padding:4px 0;
+}
+.nav-links a:hover{ color:var(--ink); }
+.nav-links a::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-3px;
+  height:2px; background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .25s ease;
+}
+.nav-links a:hover::after{ transform:scaleX(1); }
+.nav-cta{
+  background:var(--ink);
+  color:#fff !important;
+  padding:10px 20px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:14.5px;
+  white-space:nowrap;
+}
+.burger{ display:none; background:none; border:none; font-size:26px; color:var(--ink); }
+
+@media(max-width:860px){
+  .nav-links{
+    position:absolute; top:100%; left:0; right:0;
+    background:var(--paper);
+    flex-direction:column;
+    padding:18px 28px 26px;
+    gap:16px;
+    border-bottom:1px solid var(--paper-line);
+    display:none;
+  }
+  .nav-links.open{ display:flex; }
+  .burger{ display:block; }
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:70px 0 40px;
+  overflow:hidden;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:50px;
+  align-items:center;
+}
+@media(max-width:900px){
+  .hero-grid{ grid-template-columns:1fr; gap:20px; }
+}
+@media(max-width:720px){
+  .hero{ padding:10px 0 40px; }
+}
+.hero h1{
+  font-size:clamp(34px, 5vw, 54px);
+  line-height:1.25;
+  margin-top:10px;
+}
+.hero h1 span{
+  position:relative;
+  white-space:nowrap;
+}
+.hero h1 span::after{
+  content:"";
+  position:absolute; left:-4px; right:-4px; bottom:2px; top:8px;
+  background:var(--accent);
+  opacity:.35;
+  z-index:-1;
+  border-radius:6px;
+  transform:rotate(-1deg);
+}
+.hero p.lead{
+  margin-top:8px;
+  font-size:18px;
+  color:var(--ink-soft);
+  max-width:52ch;
+}
+.hero-actions{
+  margin-top:10px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  border:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.btn-primary{
+  background:var(--accent);
+  color:var(--ink);
+  box-shadow:0 8px 20px rgba(232,163,61,.4);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(232,163,61,.5); }
+.btn-outline{
+  background:transparent;
+  color:var(--ink);
+  border:1.5px solid var(--ink);
+}
+.btn-outline:hover{ background:var(--ink); color:#fff; }
+
+.hero-stats{
+  margin-top:25px;
+  display:flex;
+  gap:34px;
+  flex-wrap:wrap;
+  border:2px solid var(--sky);
+  border-radius:16px;
+  padding:16px 24px;
+}
+.hero-stats div b{
+  font-family:'Baloo Da 2', sans-serif;
+  font-size:26px;
+  color:var(--ink);
+  display:block;
+}
+.hero-stats div span{
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+@media(max-width:480px){
+  .hero-stats{
+    gap:6px;
+    padding:12px 8px;
+    flex-wrap:nowrap;
+  }
+  .hero-stats div{ flex:1 1 0; min-width:0; text-align:center; }
+  .hero-stats div b{ font-size:clamp(15px,4.8vw,20px); white-space:nowrap; }
+  .hero-stats div span{ font-size:clamp(9px,2.6vw,11px); display:block; line-height:1.2; }
+}
+
+/* level badges — SSC / HSC / BBA highlighted cards, equal width, no rotation */
+.hero-levels{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  margin-bottom:22px;
+}
+.level-card{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:clamp(26px, 3.4vw, 34px);
+  line-height:1;
+  text-align:center;
+  padding:8px 10px;
+  border-radius:10px;
+  color:#fff;
+  box-shadow:0 8px 18px rgba(30,42,71,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.level-card svg{
+  width:1em;
+  height:1em;
+  flex:0 0 auto;
+  stroke:#fff;
+}
+.level-card.level-ssc{
+  background:linear-gradient(to top, #4b0000, #e10505);
+}
+.level-card.level-hsc{
+  background:linear-gradient(to top, #0a0059, #0011ff);
+}
+.level-card.level-bba{
+  background:linear-gradient(to top, #003904, #00c40f);
+}
+@media(max-width:900px){
+  .hero-levels{ margin-top:6px; }
+}
+@media(max-width:480px){
+  .level-card{ font-size:clamp(20px, 6vw, 26px); padding:10.5px 8px; }
+}
+
+/* teacher photo — horizontal auto-scroll carousel (feature photos, ratio 3840x2160) */
+.pinboard{
+  position:relative;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 16px 30px rgba(30,42,71,.18);
+  background:#eee;
+}
+.pin-track{
+  display:flex;
+  width:100%;
+}
+.pin-card{
+  position:relative;
+  flex:0 0 100%;
+  width:100%;
+}
+.pin-card img{
+  width:100%;
+  aspect-ratio:3840/2160;
+  object-fit:cover;
+  display:block;
+  background:#eee;
+}
+.pin-card .name{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  padding:16px 18px;
+  background:linear-gradient(to top, rgba(30,42,71,.75), rgba(30,42,71,0));
+  color:#fff;
+  font-family:'Baloo Da 2', sans-serif;
+  font-size:14.5px;
+  font-weight:600;
+}
+@media(max-width:900px){
+  .pinboard{ margin-top:10px; }
+  .pin-card .name{ font-size:13px; padding:12px 14px; }
+}
+
+/* ---------- Admission image modal ---------- */
+.admission-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.admission-modal.open{
+  display:flex;
+}
+.admission-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(30,42,71,.72);
+}
+.admission-modal-content{
+  position:relative;
+  max-width:900px;
+  width:100%;
+  background:#fff;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+.admission-modal-content img{
+  width:100%;
+  aspect-ratio:3840/2160;
+  object-fit:cover;
+  display:block;
+}
+.admission-modal-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:36px;height:36px;
+  border-radius:50%;
+  background:rgba(30,42,71,.85);
+  color:#fff;
+  border:none;
+  font-size:22px;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:2;
+}
+.admission-modal-close:hover{ background:var(--ink); }
+
+/* ---------- Section shell ---------- */
+section{ padding:70px 0; }
+.section-head{
+  max-width:640px;
+  margin-bottom:44px;
+}
+.section-head h2{
+  font-size:clamp(28px,3.4vw,38px);
+  margin-top:12px;
+}
+.section-head p{
+  color:var(--ink-soft);
+  margin-top:12px;
+  font-size:16.5px;
+}
+
+/* ---------- Program pills (like the original site's category tabs) ---------- */
+.pill-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:36px;
+}
+.pill{
+  padding:9px 20px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  font-weight:600;
+  font-size:14.5px;
+  color:var(--ink-soft);
+  transition:.2s ease;
+}
+.pill.active, .pill:hover{
+  background:var(--ink);
+  color:#fff;
+  border-color:var(--ink);
+}
+
+/* ---------- Course cards ("exam admit card" styling) ---------- */
+.course-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(270px,1fr));
+  gap:24px;
+}
+.course-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  border:1px solid var(--paper-line);
+  display:flex;
+  flex-direction:column;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.course-card:hover{ transform:translateY(-4px); box-shadow:0 18px 34px rgba(30,42,71,.14); }
+.course-image{
+  width:100%;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  background:#eee;
+  display:block;
+}
+.course-top{
+  padding:18px 22px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  border-bottom:1.5px dashed var(--paper-line);
+}
+.course-tag{
+  font-family:'Baloo Da 2', sans-serif;
+  font-size:12px;
+  font-weight:700;
+  color:var(--green);
+  background:rgba(76,140,107,.12);
+  padding:4px 10px;
+  border-radius:999px;
+}
+.course-body{ padding:18px 22px 22px; flex:1; display:flex; flex-direction:column; }
+.course-body h3{
+  font-size:21px;
+  margin-bottom:8px;
+}
+.course-body p{
+  color:var(--ink-soft);
+  font-size:15px;
+  flex:1;
+}
+.course-includes{
+  list-style:none;
+  padding:0; margin:14px 0 0;
+  display:flex; flex-direction:column; gap:6px;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+.course-includes li::before{
+  content:"✓ ";
+  color:var(--green);
+  font-weight:700;
+}
+.course-foot{
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.price{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.price-row{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.price-now{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:22px;
+  color:#5B4FE9;
+}
+.price-old{
+  font-family:'Hind Siliguri', sans-serif;
+  font-weight:400;
+  font-size:14px;
+  color:#9AA1B5;
+  text-decoration:line-through;
+  text-decoration-thickness:1px;
+}
+.price small{
+  font-family:'Hind Siliguri', sans-serif;
+  font-weight:500;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+.course-foot .btn{ padding:10px 18px; font-size:13.5px; }
+
+/* মোবাইলে কোর্স কার্ড গ্রিডের বদলে পাশাপাশি (horizontal) স্ক্রল হবে */
+@media(max-width:760px){
+  .course-grid{
+    display:flex;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    gap:16px;
+    padding-bottom:10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .course-card{
+    flex:0 0 82%;
+    scroll-snap-align:start;
+  }
+}
+@media(max-width:480px){
+  .course-card{ flex:0 0 88%; }
+}
+
+/* ---------- Why us ---------- */
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
+}
+.why-card{
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  aspect-ratio:8/5;
+}
+.why-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ---------- Free YouTube videos ---------- */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+}
+.video-card{
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.video-thumb{
+  position:relative;
+  aspect-ratio:16/9;
+  background:#000;
+  cursor:pointer;
+  overflow:hidden;
+}
+.video-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .3s ease;
+}
+.video-thumb:hover img{ transform:scale(1.05); }
+.video-thumb iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+.video-play-btn{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:56px; height:56px;
+  border-radius:50%;
+  background:rgba(30,42,71,.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s ease;
+}
+.video-thumb:hover .video-play-btn{
+  background:var(--accent);
+  transform:translate(-50%,-50%) scale(1.08);
+}
+.video-play-btn svg{
+  width:20px; height:20px;
+  fill:#fff;
+  margin-left:3px;
+}
+.video-card .video-title{
+  padding:14px 16px;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:600;
+  font-size:14.5px;
+  color:var(--ink);
+}
+
+/* ---------- Teachers ---------- */
+.teacher-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:22px;
+}
+.teacher-card{
+  background:#fff;
+  border-radius:var(--radius);
+  border:1px solid var(--paper-line);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.teacher-photo{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  background:#eee;
+}
+.teacher-info{ padding:16px 18px 20px; }
+.teacher-info .name{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:700;
+  font-size:17px;
+}
+.teacher-info .subject{
+  color:var(--accent-dark);
+  font-size:13.5px;
+  font-weight:600;
+  margin-top:3px;
+}
+.teacher-info .bio{
+  color:var(--ink-soft);
+  font-size:13.5px;
+  margin-top:8px;
+}
+
+/* মোবাইলে শিক্ষক কার্ড গ্রিডের বদলে পাশাপাশি (horizontal) স্ক্রল হবে */
+@media(max-width:760px){
+  .teacher-grid{
+    display:flex;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    gap:16px;
+    padding-bottom:10px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .teacher-card{
+    flex:0 0 62%;
+    scroll-snap-align:start;
+  }
+}
+@media(max-width:480px){
+  .teacher-card{ flex:0 0 70%; }
+}
+
+/* ---------- Message form ---------- */
+.message-box{
+  max-width:640px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px 30px;
+}
+.message-box .section-head{ margin-bottom:26px; max-width:none; }
+.form-row{ margin-bottom:16px; display:flex; flex-direction:column; gap:6px; }
+.form-row label{ font-weight:600; font-size:14.5px; color:var(--ink); }
+.form-row input,
+.form-row textarea{
+  font-family:inherit;
+  font-size:15px;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1.5px solid var(--paper-line);
+  background:var(--paper);
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s ease;
+}
+.form-row input:focus,
+.form-row textarea:focus{ border-color:var(--accent); }
+.form-row textarea{ resize:vertical; min-height:100px; }
+#msgSubmitBtn{ width:100%; justify-content:center; margin-top:6px; }
+#msgSubmitBtn:disabled{ opacity:.6; cursor:not-allowed; }
+.form-status{
+  margin-top:14px;
+  font-size:14.5px;
+  font-weight:600;
+  text-align:center;
+  display:none;
+}
+.form-status.show{ display:block; }
+.form-status.ok{ color:var(--green); }
+.form-status.err{ color:var(--margin); }
+
+/* ---------- CTA band ---------- */
+.cta-band{
+  background:var(--ink);
+  color:#fff;
+  border-radius:24px;
+  padding:54px 40px;
+  text-align:center;
+  margin:0 28px;
+}
+.cta-band h2{ color:#fff; font-size:clamp(26px,3.4vw,36px); }
+.cta-band p{ color:#C9D1E3; margin-top:12px; font-size:16px; }
+.cta-band .btn-primary{ margin-top:24px; }
+
+/* ---------- Footer ---------- */
+footer{
+  padding:60px 0 30px;
+  color:var(--ink-soft);
+  font-size:14.5px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr;
+  gap:40px;
+  padding-bottom:36px;
+  border-bottom:1px solid var(--paper-line);
+}
+@media(max-width:760px){
+  .footer-grid{ grid-template-columns:1fr; }
+}
+.footer-grid h4{
+  font-family:'Baloo Da 2', sans-serif;
+  color:var(--ink);
+  font-size:15px;
+  margin-bottom:14px;
+}
+.footer-grid p, .footer-grid a{ display:block; margin-bottom:8px; }
+.footer-grid a:hover{ color:var(--accent-dark); }
+.social-row{ display:flex; gap:10px; margin-top:14px; }
+.social-row a{
+  width:36px; height:36px; border-radius:50%;
+  background:#fff; border:1px solid var(--paper-line);
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px;
+}
+.copyright{
+  text-align:center;
+  margin-top:26px;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .cta-band{ margin:0 16px; padding:40px 24px; }
+  section{ padding:54px 0; }
+  .container{ padding:0 18px; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand"><img src="https://drive.google.com/thumbnail?id=1MjAoPzKGe9sW6feuTIcF-AgoT-iFG0fS&sz=w1000" alt="VISION Academics Logo" class="brand-logo"><span id="brand-name">VISION Academics</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#courses">কোর্সসমূহ</a>
+      <a href="#why">কেন আমরা</a>
+      <a href="#teachers">শিক্ষকবৃন্দ</a>
+      <a href="#videos">ফ্রি ক্লাস</a>
+      <a href="#contact">যোগাযোগ</a>
+    </nav>
+    <a href="#" class="nav-cta" id="admissionBtn">ভর্তি হোন</a>
+    <button class="burger" id="burgerBtn">☰</button>
+  </div>
+</header>
+
+<!-- ============ ADMISSION IMAGE MODAL ============ -->
+<div class="admission-modal" id="admissionModal">
+  <div class="admission-modal-backdrop" id="admissionModalBackdrop"></div>
+  <div class="admission-modal-content">
+    <button class="admission-modal-close" id="admissionModalClose" aria-label="Close">&times;</button>
+    <img src="" alt="ভর্তি তথ্য" id="admissionModalImg">
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">নতুন ব্যাচ শুরু হচ্ছে শীঘ্রই</span>
+        <h1>নিজের প্রস্তুতি হোক <span>সঠিক পথে</span></h1>
+        <p class="lead" id="hero-lead">অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।</p>
+        <div class="hero-actions">
+          <a href="#courses" class="btn btn-primary">কোর্সগুলো দেখুন</a>
+          <a href="#contact" class="btn btn-outline">যোগাযোগ করুন</a>
+        </div>
+        <div class="hero-stats" id="hero-stats"></div>
+      </div>
+
+      <div>
+        <div class="hero-levels">
+          <span class="level-card level-ssc">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            SSC
+          </span>
+          <span class="level-card level-hsc">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+            HSC
+          </span>
+          <span class="level-card level-bba">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
+            BBA
+          </span>
+        </div>
+        <div class="pinboard" id="pinboard">
+          <div class="pin-track" id="pinTrack"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COURSES ============ -->
+  <section id="courses" class="margin-rule">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">আমাদের প্রোগ্রামসমূহ</span>
+        <h2>যেসব কোর্স পড়ানো হয়</h2>
+        <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন কোর্সের বিস্তারিত ও ফি।</p>
+      </div>
+
+      <div class="pill-row" id="pillRow"></div>
+      <div class="course-grid" id="courseGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ WHY US ============ -->
+  <section id="why">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">আমাদের বিশেষত্ব</span>
+        <h2>কেন শিক্ষার্থীরা আমাদের বেছে নেয়</h2>
+      </div>
+      <div class="why-grid" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ FREE YOUTUBE VIDEOS ============ -->
+  <section id="videos" class="margin-rule">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">ফ্রি ভিডিও লেকচার</span>
+        <h2>বিনামূল্যে দেখুন কিছু ক্লাস</h2>
+        <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন সেই বিভাগের ফ্রি ভিডিও লেকচারগুলো।</p>
+      </div>
+
+      <div class="pill-row" id="videoPillRow"></div>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ TEACHERS ============ -->
+  <section id="teachers" class="margin-rule">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">আমাদের টিম</span>
+        <h2>শিক্ষকবৃন্দের সাথে পরিচিত হোন</h2>
+        <p>যারা প্রতিদিন ক্লাসে থেকে আপনার প্রস্তুতিকে এগিয়ে নেবেন।</p>
+      </div>
+      <div class="teacher-grid" id="teacherGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ MESSAGE FORM (Google Sheet এ চলে যাবে) ============ -->
+  <section id="message" class="margin-rule">
+    <div class="container">
+      <div class="message-box" id="messageBox"></div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section>
+    <div class="cta-band">
+      <span class="eyebrow" style="color:#F3C978;">ভর্তি চলছে</span>
+      <h2>আজই যোগ দিন, আসন সংখ্যা সীমিত</h2>
+      <p>ফোনে অথবা সরাসরি আমাদের অফিসে এসে বিস্তারিত জেনে নিন।</p>
+      <a href="#contact" class="btn btn-primary">এখনই যোগাযোগ করুন</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER / CONTACT ============ -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4 id="footer-brand">VISION Academics</h4>
+        <p id="footer-tagline">মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+        <div class="social-row" id="socialRow"></div>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p id="c-phone">📞 ০১৬০১-৯২৯২৪৪</p>
+        <p id="c-email">✉️ info@example.com</p>
+        <p id="c-address">📍 ঠিকানা এখানে বসবে</p>
+      </div>
+      <div>
+        <h4>শর্টকাট</h4>
+        <a href="#courses">কোর্সসমূহ</a>
+        <a href="#teachers">শিক্ষকবৃন্দ</a>
+        <a href="#why">কেন আমরা</a>
+      </div>
+    </div>
+    <p class="copyright" id="copyright-line">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================================
+   এখান থেকেই পুরো সাইটের তথ্য বদলাতে পারবেন — HTML/CSS-এ হাত না দিয়ে শুধু নিচের CONFIG পরিবর্তন করুন।
+   - ছবির জায়গায় (image) নিজের ছবির লিংক / ফাইলের path বসিয়ে দিন
+   - দাম, বিবরণ, শিক্ষকের নাম — সবকিছু এখানেই টেক্সট আকারে আছে
+   ========================================================================================= */
+const CONFIG = {
+  // ব্র্যান্ডের নাম — নেভবার (উপরে) ও ফুটার (নিচে) দুই জায়গাতেই দেখাবে
+  brand: "VISION Academics",
+  // ফুটারে ব্র্যান্ড নামের নিচে ছোট এক লাইনের ট্যাগলাইন
+  tagline: "মানসম্পন্ন শিক্ষা, সবার নাগালে।",
+  // হিরো সেকশনে (হেডিং-এর নিচে) দেখানো বড় প্যারাগ্রাফ টেক্সট
+  heroLead: "অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।",
+
+  // "ভর্তি হোন" (নেভবার) ও "Enroll Now" (প্রতিটা কোর্স কার্ড) — দুই জায়গার বাটনেই
+  // ক্লিক করলে এই একই ছবিটা popup আকারে দেখানো হয়।
+  // এই একটা লিংক বদলালেই সব জায়গায় (নেভবার + প্রতিটা কোর্স কার্ড) একসাথে বদলে যাবে।
+  admissionImage: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000",
+
+  // হিরো সেকশনে হেডিং-এর নিচে যে সংখ্যাগুলো দেখা যায় (যেমন: ১৫+ শিক্ষক, ১০০০০+ শিক্ষার্থী)
+  stats: [
+    { number: "১৫+",   label: "অভিজ্ঞ শিক্ষক" },
+    { number: "১০০০০+", label: "শিক্ষার্থী" },
+    { number: "১০+",  label: "কোর্সের সংখ্যা" },
+  ],
+
+  // হিরো সেকশনে (ডানপাশে) "পিনবোর্ড" আকারে ঘুরতে থাকা শিক্ষকদের/প্রতিষ্ঠানের ছবি (সর্বোচ্চ ৫টি ব্যবহার হবে)
+  pinPhotos: [
+    { image: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", name: "শিক্ষক ১" },
+    { image: "https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000", name: "শিক্ষক ২" },
+    { image: "https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000", name: "শিক্ষক ৩" },
+    { image: "https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000", name: "শিক্ষক ৪" },
+    { image: "https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000", name: "শিক্ষক ৫" },
+  ],
+
+  // "কোর্সসমূহ" সেকশনের উপরে যে ফিল্টার বাটন/ট্যাব দেখা যায় (সবগুলো, SSC, HSC ইত্যাদি)
+  categories: ["সবগুলো", "SSC", "HSC", "BBA", "MBA", "BBS", "BBA Professional"],
+
+  // "কোর্সসমূহ" সেকশনে দেখানো সব কোর্স কার্ড — প্রতিটা কার্ডে category, ব্যাজ (tag),
+  // ছবি (image), শিরোনাম (title), বিবরণ (description), অন্তর্ভুক্ত বিষয় (includes),
+  // এবং দাম (price + priceNote) থাকে
+  courses: [
+    // ---------- SSC (4 cards) ----------
+    {
+      category: "SSC",
+      tag: "নতুন ব্যাচ",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "SSC Accounting Batch",
+      description: "নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ SSC হিসাববিজ্ঞান বিষয়ের সম্পূর্ণ প্রস্তুতি।",
+      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
+      price: "২০০০",
+      oldPrice: "২৭০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "SSC",
+      tag: "চলমান",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "SSC Math Special Batch",
+      description: "সহজ পদ্ধতিতে গণিতের বেসিক থেকে অ্যাডভান্সড—সব টপিক কভার করা হবে।",
+      includes: ["টপিক ভিত্তিক ক্লাস", "সাপ্তাহিক শিট", "প্রশ্নব্যাংক সমাধান"],
+      price: "২০০০",
+      oldPrice: "২৭০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "SSC",
+      tag: "জনপ্রিয়",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "SSC Higher Math Batch",
+      description: "উচ্চতর গণিতের কঠিন অধ্যায়গুলো সহজভাবে বুঝিয়ে দেওয়া হয় ধাপে ধাপে।",
+      includes: ["Concept Building ক্লাস", "মডেল টেস্ট", "পিডিএফ নোট"],
+      price: "২২০০",
+      oldPrice: "৩০০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "SSC",
+      tag: "নতুন",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "SSC English Batch",
+      description: "গ্রামার থেকে রাইটিং পর্যন্ত—পরীক্ষায় ভালো করার জন্য সম্পূর্ণ প্রস্তুতি।",
+      includes: ["গ্রামার ক্লাস", "রাইটিং প্র্যাকটিস", "সাপ্তাহিক পরীক্ষা"],
+      price: "১৮০০",
+      oldPrice: "২৪০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+
+    // ---------- HSC (4 cards) ----------
+    {
+      category: "HSC",
+      tag: "নতুন ব্যাচ",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "Special HSC Batch",
+      description: "নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ HSC পরীক্ষার সম্পূর্ণ প্রস্তুতি।",
+      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
+      price: "২৯০০",
+      oldPrice: "৩৯০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "HSC",
+      tag: "চলমান",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "HSC Accounting Batch",
+      description: "হিসাববিজ্ঞানের প্রতিটি অধ্যায় ধাপে ধাপে বিশ্লেষণ করে শেখানো হয়।",
+      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
+      price: "৩০০০",
+      oldPrice: "৪১০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "HSC",
+      tag: "জনপ্রিয়",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "HSC Business Organization Batch",
+      description: "ব্যবসায় সংগঠন ও ব্যবস্থাপনার প্রতিটি টপিক সহজভাবে শেখানো হয়।",
+      includes: ["টপিক ভিত্তিক ক্লাস", "মডেল টেস্ট", "পিডিএফ নোট"],
+      price: "২৮০০",
+      oldPrice: "৩৮০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "HSC",
+      tag: "নতুন",
+      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
+      title: "HSC Finance & Banking Batch",
+      description: "ফাইন্যান্স ও ব্যাংকিং বিষয়ে পরীক্ষার সম্পূর্ণ প্রস্তুতি একসাথে।",
+      includes: ["লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "প্রশ্নব্যাংক সমাধান"],
+      price: "২৮০০",
+      oldPrice: "৩৮০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+
+    // ---------- BBA (4 cards) ----------
+    {
+      category: "BBA",
+      tag: "চলমান",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBA 1st Year Full Course",
+      description: "লেনদেন থেকে শুরু করে ফাইনাল অ্যাকাউন্টস পর্যন্ত ধাপে ধাপে বিশ্লেষণ।",
+      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
+      price: "৮০০০",
+      oldPrice: "১০৮০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "BBA",
+      tag: "নতুন ব্যাচ",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBA 2nd Year Full Course",
+      description: "মার্কেটিং, ফাইন্যান্স ও ম্যানেজমেন্টের মূল বিষয়গুলো নিয়ে সাজানো কোর্স।",
+      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক মডেল টেস্ট", "পিডিএফ নোট"],
+      price: "৮০০০",
+      oldPrice: "১০৮০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "BBA",
+      tag: "জনপ্রিয়",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBA Admission Preparation",
+      description: "দেশের সেরা বিশ্ববিদ্যালয়ে BBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।",
+      includes: ["Math + English + Analytical", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
+      price: "৭০০০",
+      oldPrice: "৯৪০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "BBA",
+      tag: "নতুন",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBA Statistics Batch",
+      description: "পরিসংখ্যানের ধারণা থেকে প্রয়োগ পর্যন্ত সহজ পদ্ধতিতে শেখানো হয়।",
+      includes: ["Concept Building ক্লাস", "সমস্যা সমাধান সেশন", "সাপ্তাহিক শিট"],
+      price: "৭৫০০",
+      oldPrice: "১০১০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+
+    // ---------- MBA (1 card) ----------
+    {
+      category: "MBA",
+      tag: "জনপ্রিয়",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "MBA Full Course",
+      description: "দেশের সেরা বিশ্ববিদ্যালয়ে MBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।",
+      includes: ["Math + English + Analytical", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
+      price: "৮০০০",
+      oldPrice: "১০৮০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+
+    // ---------- BBS (3 cards) ----------
+    {
+      category: "BBS",
+      tag: "নতুন ব্যাচ",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBS 1st Year Full Course",
+      description: "হিসাববিজ্ঞান ও ব্যবস্থাপনার মূল বিষয়গুলো ধাপে ধাপে শেখানো হয়।",
+      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
+      price: "৬০০০",
+      oldPrice: "৮১০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "BBS",
+      tag: "চলমান",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBS 2nd Year Full Course",
+      description: "ফাইন্যান্স ও মার্কেটিং বিষয়ে সম্পূর্ণ প্রস্তুতি একসাথে দেওয়া হয়।",
+      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
+      price: "৬০০০",
+      oldPrice: "৮১০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+    {
+      category: "BBS",
+      tag: "জনপ্রিয়",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBS Honours Admission Prep",
+      description: "অনার্স ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও নিয়মিত মডেল টেস্ট।",
+      includes: ["টপিক ভিত্তিক ক্লাস", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
+      price: "৫৫০০",
+      oldPrice: "৭৪০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+
+    // ---------- BBA Professional (1 card) ----------
+    {
+      category: "BBA Professional",
+      tag: "নতুন",
+      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
+      title: "BBA Professional | মাস্টারক্লাস",
+      description: "চাকরি ও একাডেমিক—দুই ক্ষেত্রেই কাজে লাগবে এমন প্র্যাক্টিক্যাল কারিকুলাম।",
+      includes: ["ইন্ডাস্ট্রি এক্সপার্ট সেশন", "কেস স্টাডি", "সার্টিফিকেট"],
+      price: "৪৫০০",
+      oldPrice: "৬১০০",
+      priceNote: "সম্পূর্ণ কোর্স"
+    },
+  ],
+
+  // "ফ্রি ভিডিও লেকচার" সেকশন — প্রতিটা বিভাগের (SSC/HSC/BBA/MBA/BBS) জন্য ৪টা করে ফ্রি ইউটিউব ভিডিও।
+  // শুধু youtube link (title সহ) বসিয়ে দিলেই video card + thumbnail + play বাটন অটোমেটিক তৈরি হয়ে যাবে।
+  // প্রথমে পেজ লোড হলে SSC ট্যাব active থাকবে, অন্য ট্যাবে ক্লিক করলে সেই বিভাগের ভিডিও দেখাবে।
+  freeVideos: {
+    SSC: [
+      { title: "SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "SSC গণিত — বীজগণিত বেসিক", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "SSC ইংরেজি — গ্রামার বেসিক", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+    ],
+    HSC: [
+      { title: "HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "HSC ফাইন্যান্স — মৌলিক ধারণা", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "HSC পরিসংখ্যান — গড় ও মধ্যক", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+    ],
+    BBA: [
+      { title: "BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "BBA মার্কেটিং — বেসিক কনসেপ্ট", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "BBA পরিসংখ্যান — সমস্যা সমাধান", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+    ],
+    MBA: [
+      { title: "MBA ভর্তি প্রস্তুতি — গণিত সেশন", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "MBA ইংরেজি — Vocabulary Booster", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "MBA অ্যানালিটিক্যাল — Reasoning Tips", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "MBA মেন্টরশিপ সেশন — পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+    ],
+    BBS: [
+      { title: "BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
+      { title: "BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "BBS ফাইন্যান্স — মৌলিক ধারণা", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+      { title: "BBS অনার্স ভর্তি প্রস্তুতি — টিপস", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+    ],
+  },
+
+  // "কেন আমরা" সেকশনের ৩টা কার্ড — এখন শুধু ছবি (icon) দেখায়, টেক্সট (title/desc) ছবির
+  // মধ্যেই লেখা থাকে, তাই title ও desc আপাতত ব্যবহার হচ্ছে না (ভবিষ্যতে দরকার হলে থাকবে)
+  whyUs: [
+    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"অভিজ্ঞ শিক্ষক", desc:"বছরের পর বছরের অভিজ্ঞতা নিয়ে পড়ানো, শিক্ষার্থীবান্ধব পদ্ধতিতে।" },
+    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"মানসম্পন্ন কনটেন্ট", desc:"যত্ন সহকারে তৈরি নোট, শিট আর নিয়মিত মূল্যায়নের ব্যবস্থা।" },
+    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"সাশ্রয়ী ফি", desc:"গুণগত শিক্ষা যেন সবার নাগালের মধ্যে থাকে, সেই লক্ষ্যেই আমাদের ফি কাঠামো।" },
+  ],
+
+  // "শিক্ষকবৃন্দ" সেকশনে দেখানো প্রতিটা শিক্ষকের ছবি, নাম, বিষয় ও পদবি
+  teachers: [
+    { image:"https://drive.google.com/thumbnail?id=1aoT4KkproYMlPNbnuvKZyxsESD3Lh352&sz=w1000", name:"Tanvir Sir", subject:"Accounting", bio:"Director & Teacher" },
+    { image:"https://drive.google.com/thumbnail?id=1ZXpiJTvVPEwU47tsZ8bpDYUfVgNCTxeU&sz=w1000", name:"Farhad Sir", subject:"Statistics", bio:"Director & Teacher" },
+    { image:"https://drive.google.com/thumbnail?id=1zw1Jr0R5kuZovGiBAVMU3fH2nWlhYQRN&sz=w1000", name:"Saiful Sir", subject:"Taxation in Bangladesh", bio:"Senior Teacher" },
+    { image:"https://drive.google.com/thumbnail?id=14720XIcOoC9zhL3F9Frc7PUCHQenXegw&sz=w1000", name:"RIAD", subject:"Editor & Designer", bio:"Advisor" },
+  ],
+
+  // "যোগাযোগ" সেকশনে দেখানো ফোন নম্বর, ইমেইল ও ঠিকানা
+  contact: {
+    phone: "📞 01764859503",
+    email: "✉️ bbavision@gmail.com",
+    address: "📍 ১১২, দায়রা শরীফ আবাসিক এলাকা, (গেট-২) আজিমপুর",
+  },
+
+  // ফুটারে দেখানো সোশ্যাল মিডিয়া লিংক (Facebook, YouTube, Instagram)
+  social: [
+    { icon:"f", label:"Facebook", url:"https://www.facebook.com/BBAcoaching" },
+    { icon:"▶", label:"YouTube", url:"https://www.youtube.com/@bbavisioncoaching" },
+    { icon:"in", label:"Instagram", url:"#" },
+  ],
+
+  // ফুটারের একদম নিচে দেখানো কপিরাইট লাইন
+  copyright: "© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।",
+
+  // ============================================================================
+  // "মেসেজ পাঠান" ফর্মের সব লেখা এখান থেকে বদলাতে পারবেন
+  // ============================================================================
+  messageForm: {
+    eyebrow: "যোগাযোগ ফর্ম",
+    heading: "আমাদের মেসেজ পাঠান",
+    subtext: "নিচের ফর্মটি পূরণ করে পাঠালে আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।",
+    nameLabel: "নাম",
+    namePlaceholder: "আপনার নাম লিখুন",
+    classLabel: "ক্লাস / কোর্স",
+    classPlaceholder: "যেমন: SSC / HSC / BBA",
+    phoneLabel: "ফোন নম্বর",
+    phonePlaceholder: "আপনার ফোন নম্বর",
+    messageLabel: "মেসেজ",
+    messagePlaceholder: "আপনার প্রশ্ন বা মেসেজ লিখুন",
+    submitText: "পাঠিয়ে দিন",
+    sendingText: "পাঠানো হচ্ছে...",
+    successText: "✅ আপনার মেসেজ পাঠানো হয়েছে, ধন্যবাদ!",
+    errorText: "❌ দুঃখিত, মেসেজ পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+    notSetupText: "⚠️ ফর্মটি এখনো সেটআপ হয়নি — CONFIG.formEndpoint এ Google Apps Script URL বসাতে হবে।",
+  },
+
+  // ============================================================================
+  // "আমাদের মেসেজ পাঠান" ফর্মটা যেন সাবমিট হলে সরাসরি আপনার Google Sheet-এ চলে যায়,
+  // তার জন্য এখানে আপনার Google Apps Script "Web App" URL বসাতে হবে।
+  // কীভাবে বানাবেন তার ধাপে ধাপে গাইড এই ফাইলের একদম নিচে (কমেন্ট আকারে) দেওয়া আছে।
+  // URL টা এমন দেখতে হবে: https://script.google.com/macros/s/AKfycb.../exec
+  // ============================================================================
+  formEndpoint: "https://script.google.com/macros/s/AKfycbx1QVvoeRpM9DdRA5Iv_PtsUBWZh3thRwhKTa3VqIXVLLooWsQNGfioOr7JS3KK5NrccA/exec",
+};
+
+/* ================= রেন্ডারিং লজিক — এখান থেকে নিচের অংশে হাত না দেওয়াই ভালো ================= */
+
+document.getElementById('brand-name').textContent = CONFIG.brand;
+document.getElementById('footer-brand').textContent = CONFIG.brand;
+document.getElementById('footer-tagline').textContent = CONFIG.tagline;
+document.getElementById('hero-lead').textContent = CONFIG.heroLead;
+document.getElementById('c-phone').textContent = CONFIG.contact.phone;
+document.getElementById('c-email').textContent = CONFIG.contact.email;
+document.getElementById('c-address').textContent = CONFIG.contact.address;
+document.getElementById('copyright-line').textContent = CONFIG.copyright;
+document.title = CONFIG.brand + " | কোর্স ও ভর্তি তথ্য";
+
+// stats
+document.getElementById('hero-stats').innerHTML = CONFIG.stats.map(s => `
+  <div><b>${s.number}</b><span>${s.label}</span></div>
+`).join('');
+
+// pinboard photos — horizontal auto-scroll carousel (3s interval, infinite recycle)
+(function(){
+  const track = document.getElementById('pinTrack');
+  const slides = CONFIG.pinPhotos.slice(0,5);
+  if(slides.length === 0) return;
+
+  // ১টা ক্লোন (প্রথম ছবির) শেষে যোগ করা হলো, যাতে লুপ সিমলেস (seamless) মনে হয়
+  const renderSlides = [...slides, slides[0]];
+  track.innerHTML = renderSlides.map(p => `
+    <div class="pin-card">
+      <img src="${p.image}" alt="${p.name}">
+      <div class="name">${p.name}</div>
+    </div>
+  `).join('');
+
+  const totalReal = slides.length;
+  let pinIndex = 0;
+  const TRANSITION_MS = 700;
+
+  function goNext(){
+    pinIndex++;
+    track.style.transition = `transform ${TRANSITION_MS}ms ease`;
+    track.style.transform = `translateX(-${pinIndex * 100}%)`;
+
+    if(pinIndex === totalReal){
+      // শেষ (ক্লোন করা) স্লাইডে পৌঁছে গেলে, ট্রানজিশন শেষ হবার পর নিঃশব্দে শুরুতে ফিরিয়ে আনা হয়
+      setTimeout(() => {
+        track.style.transition = 'none';
+        pinIndex = 0;
+        track.style.transform = `translateX(0%)`;
+      }, TRANSITION_MS);
+    }
+  }
+
+  if(slides.length > 1){
+    setInterval(goNext, 3000);
+  }
+})();
+
+// category pills
+let activeCategory = "সবগুলো";
+function renderPills(){
+  document.getElementById('pillRow').innerHTML = CONFIG.categories.map(c => `
+    <button class="pill ${c === activeCategory ? 'active' : ''}" data-cat="${c}">${c}</button>
+  `).join('');
+  document.querySelectorAll('.pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.cat;
+      renderPills();
+      renderCourses();
+    });
+  });
+}
+
+// course cards
+function renderCourses(){
+  const list = activeCategory === "সবগুলো"
+    ? CONFIG.courses
+    : CONFIG.courses.filter(c => c.category === activeCategory);
+
+  document.getElementById('courseGrid').innerHTML = list.map(c => `
+    <div class="course-card">
+      <img class="course-image" src="${c.image}" alt="${c.title}">
+      <div class="course-top">
+        <span class="eyebrow" style="color:var(--sky)">${c.category}</span>
+        <span class="course-tag">${c.tag}</span>
+      </div>
+      <div class="course-body">
+        <h3>${c.title}</h3>
+        <p>${c.description}</p>
+        <ul class="course-includes">
+          ${c.includes.map(i => `<li>${i}</li>`).join('')}
+        </ul>
+        <div class="course-foot">
+          <div class="price">
+            <div class="price-row">
+              <span class="price-now">৳${c.price}</span>
+              ${c.oldPrice ? `<span class="price-old">৳${c.oldPrice}</span>` : ``}
+            </div>
+            <small>${c.priceNote}</small>
+          </div>
+          <a href="#" class="btn btn-primary admission-trigger">Enroll Now</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// why us
+document.getElementById('whyGrid').innerHTML = CONFIG.whyUs.map(w => `
+  <div class="why-card">
+    <img src="${w.icon}" alt="${w.title}">
+  </div>
+`).join('');
+
+// ---- Free YouTube videos section ----
+// যেকোনো ধরনের ইউটিউব লিংক (watch?v=, youtu.be/, embed/, shorts/) থেকে video ID বের করে
+function getYouTubeId(url){
+  if(!url) return null;
+  const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|shorts\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
+
+const videoCategories = Object.keys(CONFIG.freeVideos);
+let activeVideoCategory = videoCategories[0]; // ডিফল্ট হিসেবে প্রথম বিভাগ (SSC) active থাকবে
+
+function renderVideoPills(){
+  document.getElementById('videoPillRow').innerHTML = videoCategories.map(c => `
+    <button class="pill ${c === activeVideoCategory ? 'active' : ''}" data-vcat="${c}">${c}</button>
+  `).join('');
+  document.querySelectorAll('#videoPillRow .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeVideoCategory = btn.dataset.vcat;
+      renderVideoPills();
+      renderVideos();
+    });
+  });
+}
+
+function renderVideos(){
+  const list = CONFIG.freeVideos[activeVideoCategory] || [];
+  document.getElementById('videoGrid').innerHTML = list.map((v, i) => {
+    const id = getYouTubeId(v.youtubeUrl);
+    const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+    return `
+      <div class="video-card">
+        <div class="video-thumb" data-yid="${id || ''}">
+          <img src="${thumb}" alt="${v.title}">
+          <div class="video-play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="video-title">${v.title}</div>
+      </div>
+    `;
+  }).join('');
+
+  document.querySelectorAll('.video-thumb').forEach(thumbEl => {
+    thumbEl.addEventListener('click', () => {
+      const id = thumbEl.dataset.yid;
+      if(!id) return;
+      thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    });
+  });
+}
+
+renderVideoPills();
+renderVideos();
+
+// teachers
+document.getElementById('teacherGrid').innerHTML = CONFIG.teachers.map(t => `
+  <div class="teacher-card">
+    <img class="teacher-photo" src="${t.image}" alt="${t.name}">
+    <div class="teacher-info">
+      <div class="name">${t.name}</div>
+      <div class="subject">${t.subject}</div>
+      <div class="bio">${t.bio}</div>
+    </div>
+  </div>
+`).join('');
+
+// social
+document.getElementById('socialRow').innerHTML = CONFIG.social.map(s => `
+  <a href="${s.url}" title="${s.label}">${s.icon}</a>
+`).join('');
+
+renderPills();
+renderCourses();
+
+// mobile nav toggle
+document.getElementById('burgerBtn').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// nav link click korle mobile menu auto close hobe
+document.querySelectorAll('#navLinks a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// ---- "মেসেজ পাঠান" ফর্ম — CONFIG.messageForm থেকে রেন্ডার হবে, সাবমিট হলে Google Apps Script এর মাধ্যমে Google Sheet এ সেভ হবে ----
+(function(){
+  const mf = CONFIG.messageForm;
+
+  document.getElementById('messageBox').innerHTML = `
+    <div class="section-head">
+      <span class="eyebrow">${mf.eyebrow}</span>
+      <h2>${mf.heading}</h2>
+      <p>${mf.subtext}</p>
+    </div>
+
+    <form id="msgForm">
+      <div class="form-row">
+        <label for="msgName">${mf.nameLabel}</label>
+        <input type="text" id="msgName" name="name" required placeholder="${mf.namePlaceholder}">
+      </div>
+      <div class="form-row">
+        <label for="msgClass">${mf.classLabel}</label>
+        <input type="text" id="msgClass" name="class" required placeholder="${mf.classPlaceholder}">
+      </div>
+      <div class="form-row">
+        <label for="msgPhone">${mf.phoneLabel}</label>
+        <input type="tel" id="msgPhone" name="phone" required placeholder="${mf.phonePlaceholder}">
+      </div>
+      <div class="form-row">
+        <label for="msgText">${mf.messageLabel}</label>
+        <textarea id="msgText" name="message" required placeholder="${mf.messagePlaceholder}"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="msgSubmitBtn">${mf.submitText}</button>
+      <p class="form-status" id="msgStatus"></p>
+    </form>
+  `;
+
+  const form = document.getElementById('msgForm');
+  const btn = document.getElementById('msgSubmitBtn');
+  const status = document.getElementById('msgStatus');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if(!CONFIG.formEndpoint || CONFIG.formEndpoint === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
+      status.textContent = mf.notSetupText;
+      status.className = "form-status show err";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = mf.sendingText;
+    status.className = "form-status";
+
+    const data = new FormData(form);
+
+    // no-cors mode ব্যবহার করা হয়েছে কারণ Google Apps Script সাধারণত CORS হেডার পাঠায় না;
+    // এতে রেসপন্স পড়া যায় না, কিন্তু ডেটা ঠিকই শিটে গিয়ে জমা হয়।
+    fetch(CONFIG.formEndpoint, { method: 'POST', mode: 'no-cors', body: data })
+      .then(() => {
+        status.textContent = mf.successText;
+        status.className = "form-status show ok";
+        form.reset();
+      })
+      .catch(() => {
+        status.textContent = mf.errorText;
+        status.className = "form-status show err";
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = mf.submitText;
+      });
+  });
+})();
+
+// admission image modal
+const admissionModal = document.getElementById('admissionModal');
+document.getElementById('admissionModalImg').src = CONFIG.admissionImage;
+function openAdmissionModal(e){
+  e.preventDefault();
+  admissionModal.classList.add('open');
+}
+function closeAdmissionModal(){
+  admissionModal.classList.remove('open');
+}
+document.getElementById('admissionBtn').addEventListener('click', openAdmissionModal);
+document.getElementById('admissionModalClose').addEventListener('click', closeAdmissionModal);
+document.getElementById('admissionModalBackdrop').addEventListener('click', closeAdmissionModal);
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeAdmissionModal();
+});
+// delegated click for all "Enroll Now" buttons (course cards render dynamically)
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('.admission-trigger');
+  if(trigger) openAdmissionModal(e);
+});
+</script>
+</body>
+</html>
