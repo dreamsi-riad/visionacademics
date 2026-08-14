@@ -439,10 +439,10 @@ header.nav{
 .admission-modal-close:hover{ background:var(--ink); }
 
 /* ---------- Section shell ---------- */
-section{ padding:70px 0; }
+section{ padding:52px 0; }
 .section-head{
   max-width:640px;
-  margin-bottom:44px;
+  margin-bottom:34px;
 }
 .section-head h2{
   font-size:clamp(28px,3.4vw,38px);
@@ -526,7 +526,6 @@ section{ padding:70px 0; }
 .course-body p{
   color:var(--ink-soft);
   font-size:15px;
-  flex:1;
 }
 .course-includes{
   list-style:none;
@@ -541,7 +540,8 @@ section{ padding:70px 0; }
   font-weight:700;
 }
 .course-foot{
-  margin-top:18px;
+  margin-top:auto;
+  padding-top:18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -786,18 +786,148 @@ section{ padding:70px 0; }
 .form-status.ok{ color:var(--green); }
 .form-status.err{ color:var(--margin); }
 
-/* ---------- CTA band ---------- */
+/* ---------- CTA band : "admission ticket" style call card ---------- */
 .cta-band{
-  background:var(--ink);
+  position:relative;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(232,163,61,.16), transparent 55%),
+    radial-gradient(circle at 88% 82%, rgba(91,143,191,.18), transparent 55%),
+    #16223F;
   color:#fff;
-  border-radius:24px;
-  padding:54px 40px;
-  text-align:center;
+  border-radius:26px;
+  padding:0;
   margin:0 28px;
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+  box-shadow:0 20px 44px rgba(22,34,63,.28);
 }
-.cta-band h2{ color:#fff; font-size:clamp(26px,3.4vw,36px); }
-.cta-band p{ color:#C9D1E3; margin-top:12px; font-size:16px; }
-.cta-band .btn-primary{ margin-top:24px; }
+.cta-left{
+  position:relative;
+  flex:1 1 auto;
+  padding:44px 20px 44px 44px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:10px;
+}
+.cta-band .eyebrow{ color:var(--accent); }
+.cta-band .eyebrow::before{ background:var(--accent); }
+.cta-band h2{ color:#fff; font-size:clamp(23px,2.6vw,30px); font-weight:700; line-height:1.3; }
+.cta-band p{ color:#C7CEE0; margin-top:4px; font-size:15.5px; max-width:52ch; }
+
+/* dashed "ticket" divider with punched notches, only between the two halves */
+.cta-divider{
+  position:relative;
+  flex:0 0 auto;
+  width:0;
+  border-left:2px dashed rgba(255,255,255,.25);
+  margin:22px 0;
+}
+.cta-divider::before,
+.cta-divider::after{
+  content:"";
+  position:absolute; left:50%;
+  width:26px; height:26px;
+  background:var(--paper);
+  border-radius:50%;
+  transform:translateX(-50%);
+}
+.cta-divider::before{ top:-13px; }
+.cta-divider::after{ bottom:-13px; }
+
+.cta-right{
+  position:relative;
+  flex:0 0 auto;
+  width:280px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+}
+.cta-phone{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+}
+.call-badge{
+  position:relative;
+  width:64px; height:64px;
+  display:flex; align-items:center; justify-content:center;
+}
+.call-badge .ring{
+  position:absolute; inset:0;
+  border-radius:50%;
+  border:1.5px dashed rgba(232,163,61,.55);
+  animation:spin-slow 14s linear infinite;
+}
+.call-badge .ring.ring2{
+  inset:-9px;
+  border-color:rgba(232,163,61,.28);
+  animation-duration:20s;
+  animation-direction:reverse;
+}
+.call-badge .pulse{
+  position:absolute; inset:0;
+  border-radius:50%;
+  background:var(--accent);
+  opacity:.55;
+  animation:pulse-ring 2.2s ease-out infinite;
+}
+.call-badge .core{
+  position:relative;
+  width:64px; height:64px;
+  border-radius:50%;
+  background:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 18px rgba(232,163,61,.4);
+}
+.call-badge svg{ width:26px; height:26px; stroke:var(--ink); }
+@keyframes pulse-ring{
+  0%{ transform:scale(1); opacity:.5; }
+  100%{ transform:scale(1.7); opacity:0; }
+}
+@keyframes spin-slow{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+.cta-phone .tap-label{
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#8E9AB8;
+}
+.cta-phone .num{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:24px;
+  color:#fff;
+  letter-spacing:.01em;
+}
+.cta-phone:hover .num{ color:var(--accent); }
+.cta-phone:hover .call-badge .core{ transform:scale(1.06); }
+.call-badge .core{ transition:transform .2s ease; }
+
+@media(max-width:760px){
+  .cta-band{ flex-direction:column; }
+  .cta-left{ padding:34px 28px 8px; text-align:center; align-items:center; }
+  .cta-band p{ max-width:44ch; }
+  .cta-divider{
+    width:auto; height:0; align-self:stretch;
+    border-left:none; border-top:2px dashed rgba(255,255,255,.25);
+    margin:22px 28px 0;
+  }
+  .cta-divider::before{ top:auto; left:-13px; transform:translateY(-50%); }
+  .cta-divider::after{ bottom:auto; left:auto; right:-13px; top:0; transform:translateY(-50%); }
+  .cta-right{ width:auto; padding:26px 28px 34px; }
+}
+@media(max-width:480px){
+  .cta-phone .num{ font-size:20px; }
+}
 
 /* ---------- Footer ---------- */
 footer{
@@ -837,7 +967,7 @@ footer{
 }
 
 @media(max-width:600px){
-  .cta-band{ margin:0 16px; padding:40px 24px; }
+  .cta-band{ margin:0 16px; }
   section{ padding:54px 0; }
   .container{ padding:0 18px; }
 }
@@ -993,10 +1123,26 @@ footer{
   <!-- ============ CTA ============ -->
   <section>
     <div class="cta-band">
-      <span class="eyebrow" style="color:#F3C978;">ভর্তি চলছে</span>
-      <h2>আজই যোগ দিন, আসন সংখ্যা সীমিত</h2>
-      <p>ফোনে অথবা সরাসরি আমাদের অফিসে এসে বিস্তারিত জেনে নিন।</p>
-      <a href="#contact" class="btn btn-primary">এখনই যোগাযোগ করুন</a>
+      <div class="cta-left">
+        <span class="eyebrow">সরাসরি যোগাযোগ</span>
+        <h2>যেকোন প্রয়োজনে কল করুন</h2>
+        <p>কোর্স, ক্লাস, পড়াশোনা, প্রোমো কোড অথবা যেকোনো বিষয়ে জানতে হলে এখনই কল করো।</p>
+      </div>
+      <div class="cta-divider"></div>
+      <div class="cta-right">
+        <a href="tel:+8801764859503" class="cta-phone">
+          <div class="call-badge">
+            <span class="ring"></span>
+            <span class="ring ring2"></span>
+            <span class="pulse"></span>
+            <span class="core">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+          </div>
+          <span class="tap-label">কল করতে ট্যাপ করুন</span>
+          <span class="num">01764-859503</span>
+        </a>
+      </div>
     </div>
   </section>
 
