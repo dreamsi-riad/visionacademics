@@ -386,58 +386,6 @@ header.nav{
   .pin-card .name{ font-size:13px; padding:12px 14px; }
 }
 
-/* ---------- Admission image modal ---------- */
-.admission-modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-}
-.admission-modal.open{
-  display:flex;
-}
-.admission-modal-backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(30,42,71,.72);
-}
-.admission-modal-content{
-  position:relative;
-  max-width:900px;
-  width:100%;
-  background:#fff;
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.35);
-}
-.admission-modal-content img{
-  width:100%;
-  aspect-ratio:3840/2160;
-  object-fit:cover;
-  display:block;
-}
-.admission-modal-close{
-  position:absolute;
-  top:12px;
-  right:12px;
-  width:36px;height:36px;
-  border-radius:50%;
-  background:rgba(30,42,71,.85);
-  color:#fff;
-  border:none;
-  font-size:22px;
-  line-height:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  z-index:2;
-}
-.admission-modal-close:hover{ background:var(--ink); }
-
 /* ---------- Section shell ---------- */
 section{ padding:52px 0; }
 .section-head{
@@ -1015,19 +963,10 @@ footer{
       <a href="#videos">ফ্রি ক্লাস</a>
       <a href="#contact">যোগাযোগ</a>
     </nav>
-    <a href="#" class="nav-cta" id="admissionBtn">ভর্তি হোন</a>
+    <a href="admission.html" class="nav-cta" id="admissionBtn">ভর্তি হোন</a>
     <button class="burger" id="burgerBtn">☰</button>
   </div>
 </header>
-
-<!-- ============ ADMISSION IMAGE MODAL ============ -->
-<div class="admission-modal" id="admissionModal">
-  <div class="admission-modal-backdrop" id="admissionModalBackdrop"></div>
-  <div class="admission-modal-content">
-    <button class="admission-modal-close" id="admissionModalClose" aria-label="Close">&times;</button>
-    <img src="" alt="ভর্তি তথ্য" id="admissionModalImg">
-  </div>
-</div>
 
 <main id="top">
 
@@ -1671,7 +1610,7 @@ function renderCourses(){
             </div>
             <small>${c.priceNote}</small>
           </div>
-          <a href="#" class="btn btn-primary admission-trigger">Enroll Now</a>
+          <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
         </div>
       </div>
     </div>
@@ -1843,27 +1782,8 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   });
 })();
 
-// admission image modal
-const admissionModal = document.getElementById('admissionModal');
-document.getElementById('admissionModalImg').src = CONFIG.admissionImage;
-function openAdmissionModal(e){
-  e.preventDefault();
-  admissionModal.classList.add('open');
-}
-function closeAdmissionModal(){
-  admissionModal.classList.remove('open');
-}
-document.getElementById('admissionBtn').addEventListener('click', openAdmissionModal);
-document.getElementById('admissionModalClose').addEventListener('click', closeAdmissionModal);
-document.getElementById('admissionModalBackdrop').addEventListener('click', closeAdmissionModal);
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') closeAdmissionModal();
-});
-// delegated click for all "Enroll Now" buttons (course cards render dynamically)
-document.addEventListener('click', (e) => {
-  const trigger = e.target.closest('.admission-trigger');
-  if(trigger) openAdmissionModal(e);
-});
+// নোট: "ভর্তি হোন" (নেভবার) ও "Enroll Now" (কোর্স কার্ড) বাটনগুলো এখন popup না দেখিয়ে
+// সরাসরি admission.html পেজে নিয়ে যায় (href="admission.html" দিয়ে করা হয়েছে)।
 </script>
 </body>
 </html>
