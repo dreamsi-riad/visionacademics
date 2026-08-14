@@ -90,7 +90,8 @@ header.nav{
 .nav-inner{
   max-width:1180px;
   margin:0 auto;
-  padding:16px 28px;
+  height:64px;
+  padding:0 28px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -113,9 +114,11 @@ header.nav{
   flex:none;
 }
 .brand .brand-logo{
-  width:60px;height:60px;
-  border-radius:8px;
-  object-fit:cover;
+  height:64px;
+  max-height:100%;
+  width:auto;
+  aspect-ratio:3.84/1;
+  object-fit:contain;
   flex:none;
 }
 .nav-links{
@@ -165,7 +168,7 @@ header.nav{
 
 /* ---------- Hero ---------- */
 .hero{
-  padding:70px 0 40px;
+  padding:32px 0 24px;
   overflow:hidden;
 }
 .hero-grid{
@@ -178,7 +181,12 @@ header.nav{
   .hero-grid{ grid-template-columns:1fr; gap:20px; }
 }
 @media(max-width:720px){
-  .hero{ padding:10px 0 40px; }
+  .hero{ padding:10px 0 24px; }
+}
+/* হিরোর ঠিক পরের সেকশনের উপরের ফাঁকা জায়গা কমানো (শুধু হিরোর সাথে লাগোয়া সেকশনের জন্য) */
+.hero + section{ padding-top:36px; }
+@media(max-width:720px){
+  .hero + section{ padding-top:26px; }
 }
 .hero h1{
   font-size:clamp(34px, 5vw, 54px);
@@ -188,15 +196,6 @@ header.nav{
 .hero h1 span{
   position:relative;
   white-space:nowrap;
-}
-.hero h1 span::after{
-  content:"";
-  position:absolute; left:-4px; right:-4px; bottom:2px; top:8px;
-  background:var(--accent);
-  opacity:.35;
-  z-index:-1;
-  border-radius:6px;
-  transform:rotate(-1deg);
 }
 .hero p.lead{
   margin-top:8px;
@@ -240,31 +239,68 @@ header.nav{
 .hero-stats{
   margin-top:25px;
   display:flex;
-  gap:34px;
-  flex-wrap:wrap;
-  border:2px solid var(--sky);
-  border-radius:16px;
-  padding:16px 24px;
+  gap:14px;
+  flex-wrap:nowrap;
 }
-.hero-stats div b{
+.stat-card{
+  flex:1 1 0;
+  min-width:0;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:12px 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.22,1,.36,1);
+}
+.stat-card.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.stat-icon-box{
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.stat-icon{
+  width:20px;
+  height:20px;
+}
+.stat-text{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+.stat-text b{
   font-family:'Baloo Da 2', sans-serif;
-  font-size:26px;
-  color:var(--ink);
-  display:block;
+  font-size:20px;
+  line-height:1.15;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-.hero-stats div span{
-  font-size:13.5px;
+.stat-text span{
+  font-size:12px;
   color:var(--ink-soft);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 @media(max-width:480px){
-  .hero-stats{
-    gap:6px;
-    padding:12px 8px;
-    flex-wrap:nowrap;
-  }
-  .hero-stats div{ flex:1 1 0; min-width:0; text-align:center; }
-  .hero-stats div b{ font-size:clamp(15px,4.8vw,20px); white-space:nowrap; }
-  .hero-stats div span{ font-size:clamp(10px,3vw,12.5px); display:block; line-height:1.2; white-space:nowrap; }
+  .hero-stats{ gap:6px; }
+  .stat-card{ padding:8px 6px; gap:6px; border-radius:12px; }
+  .stat-icon-box{ width:30px; height:30px; border-radius:8px; }
+  .stat-icon{ width:15px; height:15px; }
+  .stat-text b{ font-size:clamp(13px,4vw,17px); }
+  .stat-text span{ font-size:clamp(8.5px,2.4vw,10.5px); }
 }
 
 /* level badges — SSC / HSC / BBA highlighted cards, equal width, no rotation */
@@ -450,14 +486,14 @@ section{ padding:70px 0; }
 .course-card{
   background:var(--card);
   border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow), 0 0 0 0 rgba(79,143,255,0);
   overflow:hidden;
   border:1px solid var(--paper-line);
   display:flex;
   flex-direction:column;
-  transition:transform .2s ease, box-shadow .2s ease;
+  transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
-.course-card:hover{ transform:translateY(-4px); box-shadow:0 18px 34px rgba(30,42,71,.14); }
+.course-card:hover{ transform:translateY(-9px) scale(1.015); box-shadow:0 26px 46px rgba(30,42,71,.20), 0 0 34px 6px rgba(79,143,255,.45); }
 .course-image{
   width:100%;
   aspect-ratio:16/10;
@@ -466,7 +502,7 @@ section{ padding:70px 0; }
   display:block;
 }
 .course-top{
-  padding:18px 22px 14px;
+  padding:10px 22px 6px;
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
@@ -482,7 +518,7 @@ section{ padding:70px 0; }
   padding:4px 10px;
   border-radius:999px;
 }
-.course-body{ padding:18px 22px 22px; flex:1; display:flex; flex-direction:column; }
+.course-body{ padding:8px 22px 22px; flex:1; display:flex; flex-direction:column; }
 .course-body h3{
   font-size:21px;
   margin-bottom:8px;
@@ -540,7 +576,7 @@ section{ padding:70px 0; }
   font-family:'Anek Bangla', sans-serif;
   font-weight:500;
   font-size:13px;
-  color:var(--ink-soft);
+  color:var(--green);
 }
 .course-foot .btn{ padding:10px 18px; font-size:13.5px; }
 
@@ -576,7 +612,10 @@ section{ padding:70px 0; }
   border-radius:var(--radius);
   overflow:hidden;
   aspect-ratio:8/5;
+  box-shadow:0 0 0 0 rgba(79,143,255,0);
+  transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
+.why-card:hover{ transform:translateY(-9px) scale(1.015); box-shadow:0 26px 46px rgba(30,42,71,.20), 0 0 34px 6px rgba(79,143,255,.45); }
 .why-card img{
   width:100%;
   height:100%;
@@ -658,11 +697,13 @@ section{ padding:70px 0; }
   border-radius:var(--radius);
   border:1px solid var(--paper-line);
   overflow:hidden;
-  box-shadow:var(--shadow);
+  box-shadow:var(--shadow), 0 0 0 0 rgba(79,143,255,0);
+  transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
+.teacher-card:hover{ transform:translateY(-9px) scale(1.015); box-shadow:0 26px 46px rgba(30,42,71,.20), 0 0 34px 6px rgba(79,143,255,.45); }
 .teacher-photo{
   width:100%;
-  aspect-ratio:4/5;
+  height:200px;
   object-fit:cover;
   background:#eee;
 }
@@ -806,7 +847,7 @@ footer{
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand"><img src="https://drive.google.com/thumbnail?id=1MjAoPzKGe9sW6feuTIcF-AgoT-iFG0fS&sz=w1000" alt="VISION Academics Logo" class="brand-logo"><span id="brand-name">VISION Academics</span></a>
+    <a href="#top" class="brand"><img src="" alt="VISION Academics" class="brand-logo" id="brand-logo"></a>
     <nav class="nav-links" id="navLinks">
       <a href="#courses">কোর্সসমূহ</a>
       <a href="#why">কেন আমরা</a>
@@ -834,13 +875,8 @@ footer{
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">নতুন ব্যাচ শুরু হচ্ছে শীঘ্রই</span>
         <h1>নিজের প্রস্তুতি হোক <span>সঠিক পথে</span></h1>
         <p class="lead" id="hero-lead">অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।</p>
-        <div class="hero-actions">
-          <a href="#courses" class="btn btn-primary">কোর্সগুলো দেখুন</a>
-          <a href="#contact" class="btn btn-outline">যোগাযোগ করুন</a>
-        </div>
         <div class="hero-stats" id="hero-stats"></div>
       </div>
 
@@ -969,7 +1005,11 @@ footer{
    - দাম, বিবরণ, শিক্ষকের নাম — সবকিছু এখানেই টেক্সট আকারে আছে
    ========================================================================================= */
 const CONFIG = {
-  // ব্র্যান্ডের নাম — নেভবার (উপরে) ও ফুটার (নিচে) দুই জায়গাতেই দেখাবে
+  // নেভবারের (উপরে বাম পাশে) লোগো ইমেজ — এই একটা ইমেজেই লোগো + "VISION Academics" লেখা দুটোই থাকবে
+  // ছবির অনুপাত (ratio) 3840x1000 (≈ 3.84:1) রাখলে সবচেয়ে ভালো ফিট হবে, বিকৃত হবে না
+  logoImage: "https://drive.google.com/thumbnail?id=1hb_36gWJxuFnzxUnnEsYcCJzZ7O7ztxs&sz=w1000",
+
+  // ব্র্যান্ডের নাম — ফুটার (নিচে) ও পেজ টাইটেলে দেখাবে
   brand: "VISION Academics",
   // ফুটারে ব্র্যান্ড নামের নিচে ছোট এক লাইনের ট্যাগলাইন
   tagline: "মানসম্পন্ন শিক্ষা, সবার নাগালে।",
@@ -983,9 +1023,9 @@ const CONFIG = {
 
   // হিরো সেকশনে হেডিং-এর নিচে যে সংখ্যাগুলো দেখা যায় (যেমন: ১৫+ শিক্ষক, ১০০০০+ শিক্ষার্থী)
   stats: [
-    { number: "১৫+",   label: "অভিজ্ঞ শিক্ষক" },
-    { number: "১০০০০+", label: "শিক্ষার্থী" },
-    { number: "১০+",  label: "কোর্সের সংখ্যা" },
+    { number: "১৫+",   label: "অভিজ্ঞ শিক্ষক", color: "#1E3A8A", bg: "#EAF1FB", icon: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>` },
+    { number: "১০০০০+", label: "শিক্ষার্থী", color: "#C82333", bg: "#FDECEA", icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>` },
+    { number: "১০+",  label: "কোর্সের সংখ্যা", color: "#0F5132", bg: "#E8F5EC", icon: `<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>` },
   ],
 
   // হিরো সেকশনে (ডানপাশে) "পিনবোর্ড" আকারে ঘুরতে থাকা শিক্ষকদের/প্রতিষ্ঠানের ছবি (সর্বোচ্চ ৫টি ব্যবহার হবে)
@@ -1306,7 +1346,7 @@ const CONFIG = {
 
 /* ================= রেন্ডারিং লজিক — এখান থেকে নিচের অংশে হাত না দেওয়াই ভালো ================= */
 
-document.getElementById('brand-name').textContent = CONFIG.brand;
+document.getElementById('brand-logo').src = CONFIG.logoImage;
 document.getElementById('footer-brand').textContent = CONFIG.brand;
 document.getElementById('footer-tagline').textContent = CONFIG.tagline;
 document.getElementById('hero-lead').textContent = CONFIG.heroLead;
@@ -1318,8 +1358,61 @@ document.title = CONFIG.brand + " | কোর্স ও ভর্তি তথ�
 
 // stats
 document.getElementById('hero-stats').innerHTML = CONFIG.stats.map(s => `
-  <div><b>${s.number}</b><span>${s.label}</span></div>
+  <div class="stat-card">
+    <div class="stat-icon-box" style="background:${s.bg}">
+      <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg>
+    </div>
+    <div class="stat-text">
+      <b class="stat-number" style="color:${s.color}" data-final="${s.number}">০</b>
+      <span>${s.label}</span>
+    </div>
+  </div>
 `).join('');
+
+// কার্ডগুলো একটার পর একটা (stagger) fade+slide-up হয়ে দেখা দেবে
+document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
+  setTimeout(() => card.classList.add('visible'), 80 + i * 140);
+});
+
+// সংখ্যাগুলো ০ থেকে গুনতে গুনতে উঠবে (counting-up animation) — যখন স্ক্রিনে দেখা যাবে তখন একবার চলবে
+(function(){
+  const bnDigits = '০১২৩৪৫৬৭৮৯';
+  const enDigits = '0123456789';
+  const bn2en = s => s.replace(/[০-৯]/g, d => enDigits[bnDigits.indexOf(d)]);
+  const en2bn = n => String(n).replace(/[0-9]/g, d => bnDigits[enDigits.indexOf(d)]);
+
+  const numberEls = document.querySelectorAll('.stat-number');
+
+  function animateCount(el){
+    const finalText = el.getAttribute('data-final'); // যেমন: "১০০০০+"
+    const suffix = finalText.replace(/[০-৯]/g, ''); // "+" অংশটুকু আলাদা করে রাখা
+    const target = parseInt(bn2en(finalText.replace(/[^০-৯]/g, '')), 10);
+    const duration = 2400;
+    const start = performance.now();
+
+    function tick(now){
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+      const current = Math.round(target * eased);
+      el.textContent = en2bn(current) + suffix;
+      if(progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statsBox = document.getElementById('hero-stats');
+  if(statsBox && numberEls.length){
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          numberEls.forEach(animateCount);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(statsBox);
+  }
+})();
 
 // pinboard photos — horizontal auto-scroll carousel (3s interval, infinite recycle)
 (function(){
