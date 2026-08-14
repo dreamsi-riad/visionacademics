@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ভর্তি ফর্ম | VISION Academics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   এই পেজটা index.html এর মতোই একই রঙ/ফন্ট থিম ব্যবহার করে।
+   নিচে CONFIG অবজেক্টে লোগো, ব্র্যান্ড নাম, ফুটার তথ্য ও ফর্ম সাবমিট লিংক বদলানো যাবে।
+   ========================================================= */
+
+:root{
+  --ink:#1E2A47;
+  --ink-soft:#4A5772;
+  --paper:#FAF7F0;
+  --paper-line:#E7DFCB;
+  --card:#FFFFFF;
+  --accent:#E8A33D;
+  --accent-dark:#C97F1F;
+  --margin:#C84B4B;
+  --sky:#5B8FBF;
+  --green:#4C8C6B;
+  --shadow:0 10px 30px rgba(30,42,71,0.08);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:'Anek Bangla', sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  background:var(--paper);
+}
+h1,h2,h3{
+  font-family:'Anek Bangla', sans-serif;
+  margin:0;
+  color:var(--ink);
+  font-weight:400;
+}
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; cursor:pointer; }
+
+.container{
+  max-width:min(1100px, 100%);
+  margin:0 auto;
+  padding:0 clamp(18px, 2.6vw, 64px);
+}
+
+.eyebrow{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:13px;
+  color:var(--accent-dark);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before{
+  content:"";
+  width:18px;
+  height:2px;
+  background:var(--accent-dark);
+  display:inline-block;
+}
+
+/* ---------- Navbar (index.html এর সাথে মিল রেখে) ---------- */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,247,240,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--paper-line);
+}
+.nav-inner{
+  max-width:min(2300px, 100%);
+  margin:0 auto;
+  height:64px;
+  padding:0 clamp(18px, 2.6vw, 64px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:22px;
+  line-height:1.15;
+  color:var(--ink);
+}
+.brand .brand-logo{
+  height:64px;
+  max-height:100%;
+  width:auto;
+  aspect-ratio:3.84/1;
+  object-fit:contain;
+  flex:none;
+}
+.back-link{
+  font-weight:600;
+  font-size:15px;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.back-link:hover{ color:var(--ink); }
+
+/* ---------- Page head ---------- */
+.page-head{
+  padding:44px 0 10px;
+  text-align:center;
+}
+.page-head h1{
+  font-size:clamp(28px, 4vw, 42px);
+  margin-top:10px;
+}
+.page-head p{
+  margin-top:10px;
+  color:var(--ink-soft);
+  max-width:60ch;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ---------- Admission form card ---------- */
+.admission-wrap{ padding:26px 0 70px; }
+.admission-box{
+  max-width:720px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px 30px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 16px;
+}
+.form-grid .full{ grid-column:1 / -1; }
+@media(max-width:640px){
+  .form-grid{ grid-template-columns:1fr; }
+}
+.form-row{ margin-bottom:16px; display:flex; flex-direction:column; gap:6px; }
+.form-row label{ font-weight:600; font-size:14.5px; color:var(--ink); }
+.form-row label .req{ color:var(--margin); }
+.form-row input,
+.form-row select,
+.form-row textarea{
+  font-family:inherit;
+  font-size:15px;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1.5px solid var(--paper-line);
+  background:var(--paper);
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s ease;
+  width:100%;
+}
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus{ border-color:var(--accent); }
+.form-row textarea{ resize:vertical; min-height:100px; }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  border:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.btn-primary{
+  background:var(--accent);
+  color:var(--ink);
+  box-shadow:0 8px 20px rgba(232,163,61,.4);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(232,163,61,.5); }
+#admSubmitBtn{ width:100%; margin-top:6px; }
+#admSubmitBtn:disabled{ opacity:.6; cursor:not-allowed; }
+
+.form-status{
+  margin-top:14px;
+  font-size:14.5px;
+  font-weight:600;
+  text-align:center;
+  display:none;
+}
+.form-status.show{ display:block; }
+.form-status.ok{ color:var(--green); }
+.form-status.err{ color:var(--margin); }
+
+/* ---------- Footer ---------- */
+footer{
+  background:var(--ink);
+  color:#EDEFF5;
+  padding:44px 0 22px;
+  margin-top:0;
+}
+footer .container{ max-width:min(2300px, 100%); }
+footer h4{ color:#fff; font-size:16px; margin-bottom:12px; }
+footer p, footer a{ color:#C9CFDE; font-size:14.5px; display:block; margin-bottom:6px; }
+footer a:hover{ color:#fff; }
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:30px;
+  padding-bottom:26px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+@media(max-width:700px){
+  .footer-grid{ grid-template-columns:1fr; }
+}
+.copyright{
+  margin-top:18px;
+  font-size:13.5px;
+  color:#9AA3BB;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index14.html" class="brand"><img src="" alt="VISION Academics" class="brand-logo" id="brand-logo"></a>
+    <a href="index14.html" class="back-link">← হোমে ফিরে যান</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-head container">
+    <span class="eyebrow">ভর্তি ফরম</span>
+    <h1>ভর্তি হওয়ার জন্য আবেদন করুন</h1>
+    <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করে জমা দিন। আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।</p>
+  </section>
+
+  <section class="admission-wrap container">
+    <div class="admission-box" id="admissionBox"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4 id="footer-brand">VISION Academics</h4>
+        <p id="footer-tagline">মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p id="c-phone">📞 ০১৬০১-৯২৯২৪৪</p>
+        <p id="c-email">✉️ info@example.com</p>
+      </div>
+      <div>
+        <h4>শর্টকাট</h4>
+        <a href="index14.html#courses">কোর্সসমূহ</a>
+        <a href="index14.html#teachers">শিক্ষকবৃন্দ</a>
+        <a href="index14.html#contact">যোগাযোগ</a>
+      </div>
+    </div>
+    <p class="copyright" id="copyright-line">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================================
+   এখান থেকে লোগো, ব্র্যান্ড নাম, কোর্স তালিকা (dropdown) ও ফর্ম সাবমিট লিংক বদলাতে পারবেন।
+   index.html এর CONFIG এর সাথে মিলিয়ে রাখলে দুই পেজেই একই তথ্য দেখাবে।
+   ========================================================================================= */
+const CONFIG = {
+  logoImage: "https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000",
+  brand: "VISION Academics",
+  tagline: "মানসম্পন্ন শিক্ষা, সবার নাগালে।",
+
+  // ভর্তি ফর্মে "কোন কোর্সে ভর্তি হতে চান" ড্রপডাউনের অপশনগুলো
+  courseOptions: ["SSC", "HSC", "BBA", "MBA", "BBS", "BBA Professional", "অন্যান্য"],
+
+  // ফর্ম সাবমিট হলে যে Google Apps Script URL এ ডেটা পাঠানো হবে (index.html এর "মেসেজ পাঠান" ফর্মের সাথে একই শিটে জমা হবে)
+  formEndpoint: "https://script.google.com/macros/s/AKfycbx1QVvoeRpM9DdRA5Iv_PtsUBWZh3thRwhKTa3VqIXVLLooWsQNGfioOr7JS3KK5NrccA/exec",
+
+  notSetupText: "⚠️ ফর্মটি এখনো সেটআপ হয়নি — CONFIG.formEndpoint এ Google Apps Script URL বসাতে হবে।",
+  successText: "✅ আপনার আবেদন সফলভাবে জমা হয়েছে। আমরা শীঘ্রই যোগাযোগ করব।",
+  errorText: "❌ দুঃখিত, পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+  sendingText: "পাঠানো হচ্ছে...",
+  submitText: "ভর্তির আবেদন পাঠান"
+};
+
+document.getElementById('brand-logo').src = CONFIG.logoImage;
+document.getElementById('footer-brand').textContent = CONFIG.brand;
+document.getElementById('footer-tagline').textContent = CONFIG.tagline;
+document.getElementById('copyright-line').textContent = `© ২০২৬ ${CONFIG.brand} — সর্বস্বত্ব সংরক্ষিত।`;
+
+// ---- ভর্তি ফর্ম রেন্ডার ও সাবমিট ----
+(function(){
+  document.getElementById('admissionBox').innerHTML = `
+    <form id="admForm">
+      <div class="form-grid">
+        <div class="form-row full">
+          <label for="admName">শিক্ষার্থীর পূর্ণ নাম <span class="req">*</span></label>
+          <input type="text" id="admName" name="name" required placeholder="যেমন: রহিম উদ্দিন">
+        </div>
+
+        <div class="form-row">
+          <label for="admClass">শ্রেণি / লেভেল <span class="req">*</span></label>
+          <input type="text" id="admClass" name="class" required placeholder="যেমন: নবম শ্রেণি / HSC">
+        </div>
+
+        <div class="form-row">
+          <label for="admCourse">কোন কোর্সে ভর্তি হতে চান <span class="req">*</span></label>
+          <select id="admCourse" name="course" required>
+            <option value="" disabled selected>নির্বাচন করুন</option>
+            ${CONFIG.courseOptions.map(c => `<option value="${c}">${c}</option>`).join('')}
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="admPhone">মোবাইল নম্বর <span class="req">*</span></label>
+          <input type="tel" id="admPhone" name="phone" required placeholder="যেমন: 01XXXXXXXXX">
+        </div>
+
+        <div class="form-row">
+          <label for="admGuardianPhone">অভিভাবকের মোবাইল নম্বর</label>
+          <input type="tel" id="admGuardianPhone" name="guardianPhone" placeholder="যেমন: 01XXXXXXXXX">
+        </div>
+
+        <div class="form-row">
+          <label for="admGuardianName">অভিভাবকের নাম</label>
+          <input type="text" id="admGuardianName" name="guardianName" placeholder="পিতা/মাতা/অভিভাবকের নাম">
+        </div>
+
+        <div class="form-row">
+          <label for="admEmail">ইমেইল</label>
+          <input type="email" id="admEmail" name="email" placeholder="যেমন: example@mail.com">
+        </div>
+
+        <div class="form-row full">
+          <label for="admSchool">বর্তমান/পূর্ববর্তী প্রতিষ্ঠানের নাম</label>
+          <input type="text" id="admSchool" name="institution" placeholder="স্কুল/কলেজের নাম">
+        </div>
+
+        <div class="form-row full">
+          <label for="admAddress">ঠিকানা</label>
+          <input type="text" id="admAddress" name="address" placeholder="বর্তমান ঠিকানা লিখুন">
+        </div>
+
+        <div class="form-row full">
+          <label for="admNote">অতিরিক্ত কিছু জানাতে চাইলে</label>
+          <textarea id="admNote" name="note" placeholder="কোনো প্রশ্ন বা মন্তব্য থাকলে লিখুন (ঐচ্ছিক)"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="admSubmitBtn">${CONFIG.submitText}</button>
+      <p class="form-status" id="admStatus"></p>
+    </form>
+  `;
+
+  const form = document.getElementById('admForm');
+  const btn = document.getElementById('admSubmitBtn');
+  const status = document.getElementById('admStatus');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if(!CONFIG.formEndpoint || CONFIG.formEndpoint === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
+      status.textContent = CONFIG.notSetupText;
+      status.className = "form-status show err";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = CONFIG.sendingText;
+    status.className = "form-status";
+
+    const data = new FormData(form);
+    data.append('formType', 'admission'); // শিটে বোঝার জন্য যে এটা ভর্তি ফর্ম থেকে এসেছে
+
+    // no-cors mode ব্যবহার করা হয়েছে কারণ Google Apps Script সাধারণত CORS হেডার পাঠায় না;
+    // এতে রেসপন্স পড়া যায় না, কিন্তু ডেটা ঠিকই শিটে গিয়ে জমা হয়।
+    fetch(CONFIG.formEndpoint, { method: 'POST', mode: 'no-cors', body: data })
+      .then(() => {
+        status.textContent = CONFIG.successText;
+        status.className = "form-status show ok";
+        form.reset();
+      })
+      .catch(() => {
+        status.textContent = CONFIG.errorText;
+        status.className = "form-status show err";
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = CONFIG.submitText;
+      });
+  });
+})();
+</script>
+</body>
+</html>
