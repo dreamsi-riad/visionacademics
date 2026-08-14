@@ -32,11 +32,11 @@
 html{scroll-behavior:smooth;}
 body{
   margin:0;
-  background:var(--paper);
   color:var(--ink);
   font-family:'Anek Bangla', sans-serif;
   font-size:17px;
   line-height:1.65;
+  background:var(--paper);
 }
 
 /* ছবিতে থাকা "খাতার মার্জিন" মোটিফ — বাংলা পরীক্ষার খাতার লাল দাগের রেফারেন্স */
@@ -75,9 +75,9 @@ img{ max-width:100%; display:block; }
 button{ font-family:inherit; cursor:pointer; }
 
 .container{
-  max-width:1180px;
+  max-width:min(2300px, 96vw);
   margin:0 auto;
-  padding:0 28px;
+  padding:0 clamp(18px, 2.6vw, 64px);
 }
 
 /* ---------- Navbar ---------- */
@@ -88,10 +88,10 @@ header.nav{
   border-bottom:1px solid var(--paper-line);
 }
 .nav-inner{
-  max-width:1180px;
+  max-width:min(2300px, 96vw);
   margin:0 auto;
   height:64px;
-  padding:0 28px;
+  padding:0 clamp(18px, 2.6vw, 64px);
   display:flex;
   align-items:center;
   justify-content:space-between;
