@@ -210,6 +210,9 @@ header.nav{
   gap:14px;
   flex-wrap:wrap;
 }
+.hero-actions .btn{
+  border-radius:10px;
+}
 .btn{
   display:inline-flex;
   align-items:center;
@@ -261,7 +264,7 @@ header.nav{
   }
   .hero-stats div{ flex:1 1 0; min-width:0; text-align:center; }
   .hero-stats div b{ font-size:clamp(15px,4.8vw,20px); white-space:nowrap; }
-  .hero-stats div span{ font-size:clamp(9px,2.6vw,11px); display:block; line-height:1.2; }
+  .hero-stats div span{ font-size:clamp(10px,3vw,12.5px); display:block; line-height:1.2; white-space:nowrap; }
 }
 
 /* level badges — SSC / HSC / BBA highlighted cards, equal width, no rotation */
@@ -987,11 +990,11 @@ const CONFIG = {
 
   // হিরো সেকশনে (ডানপাশে) "পিনবোর্ড" আকারে ঘুরতে থাকা শিক্ষকদের/প্রতিষ্ঠানের ছবি (সর্বোচ্চ ৫টি ব্যবহার হবে)
   pinPhotos: [
-    { image: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", name: "A1" },
-    { image: "https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000", name: "A2" },
-    { image: "https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000", name: "A3" },
-    { image: "https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000", name: "A4" },
-    { image: "https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000", name: "A5" },
+    { image: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", name: "শিক্ষক ১" },
+    { image: "https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000", name: "শিক্ষক ২" },
+    { image: "https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000", name: "শিক্ষক ৩" },
+    { image: "https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000", name: "শিক্ষক ৪" },
+    { image: "https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000", name: "শিক্ষক ৫" },
   ],
 
   // "কোর্সসমূহ" সেকশনের উপরে যে ফিল্টার বাটন/ট্যাব দেখা যায় (সবগুলো, SSC, HSC ইত্যাদি)
