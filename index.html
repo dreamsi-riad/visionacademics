@@ -42,11 +42,6 @@ body{
   background:var(--paper);
 }
 
-/* ছবিতে থাকা "খাতার মার্জিন" মোটিফ — বাংলা পরীক্ষার খাতার লাল দাগের রেফারেন্স */
-.margin-rule{
-  position:relative;
-}
-
 h1,h2,h3{
   font-family:'Anek Bangla', sans-serif;
   margin:0;
@@ -565,7 +560,7 @@ section{ padding:52px 0; }
   border:1px solid var(--paper-line);
   border-radius:var(--radius);
   overflow:hidden;
-  aspect-ratio:17/9;
+  aspect-ratio:17/7;
   box-shadow:0 0 0 0 rgba(79,143,255,0);
   transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
@@ -1094,7 +1089,7 @@ footer{
   <!-- ============================================================
        কোর্সসমূহ সেকশন
        ============================================================ -->
-  <section id="courses" class="margin-rule">
+  <section id="courses">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">আমাদের প্রোগ্রামসমূহ</span>
@@ -1641,7 +1636,7 @@ footer{
        প্রতিটা ভিডিও কার্ডে data-yid অ্যাট্রিবিউটে ইউটিউব ভিডিওর ১১-ডিজিটের আইডি বসাতে হয়
        (যেমন youtube.com/watch?v=এইটুকু অংশ) — ক্লিক করলে অটো প্লে হয়ে যাবে
        ============================================================ -->
-  <section id="videos" class="margin-rule">
+  <section id="videos">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">ফ্রি ভিডিও লেকচার</span>
@@ -1817,7 +1812,7 @@ footer{
   <!-- ============================================================
        শিক্ষকবৃন্দ সেকশন — ৪ জন শিক্ষক
        ============================================================ -->
-  <section id="teachers" class="margin-rule">
+  <section id="teachers">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">আমাদের টিম</span>
@@ -1870,7 +1865,7 @@ footer{
        ফর্মটা সাবমিট হলে নিচের script অংশের FORM_ENDPOINT ভ্যারিয়েবলে বসানো
        Google Apps Script URL এর মাধ্যমে সরাসরি Google Sheet এ গিয়ে সেভ হয়
        ============================================================ -->
-  <section id="message" class="margin-rule">
+  <section id="message">
     <div class="container">
       <div class="message-box">
         <div class="section-head">
@@ -1953,8 +1948,8 @@ footer{
       </div>
       <div>
         <h4>যোগাযোগ</h4>
-        <p>📞 01764859503</p>
-        <p>✉️ bbavision@gmail.com</p>
+        <p>📞 01764-859503</p>
+        <p>✉️ bbavission@gmail.com</p>
         <p>📍 ১১২, দায়রা শরীফ আবাসিক এলাকা, (গেট-২) আজিমপুর</p>
       </div>
       <div>
@@ -2133,7 +2128,7 @@ document.querySelectorAll('.video-thumb').forEach(thumbEl => {
     // এতে রেসপন্স পড়া যায় না, কিন্তু ডেটা ঠিকই শিটে গিয়ে জমা হয়।
     fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
       .then(() => {
-        status.textContent = "✅ আপনার মেসেজ পাঠানো হয়েছে, ধন্যবাদ!";
+        status.textContent = "✅ মেসেজ পাঠানো হয়েছে,আমাদের টিম খুব দ্রুত আপনার সাথে যোগাযোগ করবে,ধন্যবাদ!";
         status.className = "form-status show ok";
         form.reset();
       })
