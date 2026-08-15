@@ -9,8 +9,11 @@
 <style>
 
 /* =========================================================
-   ১) এখানে আপনার প্রতিষ্ঠানের সব তথ্য বদলাতে পারবেন (নিচে JS অংশে CONFIG অবজেক্টে)
-   ২) এই ফাইলটা শুধু কপি-পেস্ট করলেই কাজ করবে — আলাদা কোনো সার্ভার/অ্যাডমিন লাগবে না
+   এই ফাইলে কোনো আলাদা CONFIG অবজেক্ট বা এক্সট্রা আইডি নেই।
+   প্রতিটা তথ্য (লেখা, ছবি, দাম, লিংক) সরাসরি নিচের HTML অংশে বসানো আছে।
+   যেই তথ্য বদলাতে চান, শুধু Ctrl+F দিয়ে সেই লেখাটুকু (বা কমেন্টের বিষয়) খুঁজে
+   সরাসরি HTML-এ গিয়ে বদলে দিন — কোনো JS/CONFIG এর দরকার নেই।
+   প্রতিটা ব্লকের ঠিক উপরে বাংলায় কমেন্ট লেখা আছে সেটা কোন অংশ তা বোঝানোর জন্য।
    ========================================================= */
 
 :root{
@@ -955,7 +958,12 @@ footer{
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand"><img src="" alt="VISION Academics" class="brand-logo" id="brand-logo"></a>
+    <a href="#top" class="brand">
+      <!-- নেভবারের লোগো — এই একটা ছবিতেই লোগো + প্রতিষ্ঠানের নাম দুটোই আছে
+           (ছবির রেশিও প্রায় 3840x1000 ≈ 3.84:1 রাখলে সবচেয়ে ভালো ফিট হবে, বিকৃত হবে না) -->
+      <img src="https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000" alt="VISION Academics" class="brand-logo">
+    </a>
+    <!-- নেভবার মেনু লিংক (উপরের সারির লেখাগুলো) -->
     <nav class="nav-links" id="navLinks">
       <a href="#courses">কোর্সসমূহ</a>
       <a href="#why">কেন আমরা</a>
@@ -963,45 +971,126 @@ footer{
       <a href="#videos">ফ্রি ক্লাস</a>
       <a href="#contact">যোগাযোগ</a>
     </nav>
-    <a href="admission.html" class="nav-cta" id="admissionBtn">ভর্তি হোন</a>
+    <!-- নেভবারের ডানপাশের "ভর্তি হোন" বাটন — ক্লিক করলে সরাসরি admission.html পেজে যাবে -->
+    <a href="admission.html" class="nav-cta">ভর্তি হোন</a>
     <button class="burger" id="burgerBtn">☰</button>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- ============ HERO ============ -->
+  <!-- ============================================================
+       হিরো সেকশন — পেজের সবচেয়ে উপরের বড় অংশ
+       ============================================================ -->
   <section class="hero">
     <div class="container hero-grid">
       <div>
+        <!-- বড় হেডিং — দ্বিতীয় অংশ (span-এর ভেতরেরটুকু) রঙিন করে দেখানো হয় -->
         <h1>নিজের প্রস্তুতি হোক <span>সঠিক পথে</span></h1>
-        <p class="lead" id="hero-lead">অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।</p>
-        <div class="hero-stats" id="hero-stats"></div>
+        <!-- হেডিং-এর নিচে বড় প্যারাগ্রাফ (lead টেক্সট) -->
+        <p class="lead">অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।</p>
+
+        <!-- হিরো স্ট্যাটস — ৩টা সংখ্যা কার্ড (স্ক্রিনে আসলে ০ থেকে গুনে গুনে সংখ্যাটায় উঠবে) -->
+        <div class="hero-stats" id="hero-stats">
+
+          <!-- স্ট্যাটস কার্ড ১ — অভিজ্ঞ শিক্ষক -->
+          <div class="stat-card">
+            <div class="stat-icon-box" style="background:#EAF1FB">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <div class="stat-text">
+              <b class="stat-number" style="color:#1E3A8A" data-final="১৫+">০</b>
+              <span>অভিজ্ঞ শিক্ষক</span>
+            </div>
+          </div>
+
+          <!-- স্ট্যাটস কার্ড ২ — শিক্ষার্থী -->
+          <div class="stat-card">
+            <div class="stat-icon-box" style="background:#FDECEA">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#C82333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-text">
+              <b class="stat-number" style="color:#C82333" data-final="১০০০০+">০</b>
+              <span>শিক্ষার্থী</span>
+            </div>
+          </div>
+
+          <!-- স্ট্যাটস কার্ড ৩ — কোর্সের সংখ্যা -->
+          <div class="stat-card">
+            <div class="stat-icon-box" style="background:#E8F5EC">
+              <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#0F5132" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div class="stat-text">
+              <b class="stat-number" style="color:#0F5132" data-final="১০+">০</b>
+              <span>কোর্সের সংখ্যা</span>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <div>
+        <!-- হিরোর ডানপাশে ৩টা লেভেল ব্যাজ: SSC / HSC / BBA -->
         <div class="hero-levels">
           <span class="level-card level-ssc">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            SSC
+            <span>SSC</span>
           </span>
           <span class="level-card level-hsc">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
-            HSC
+            <span>HSC</span>
           </span>
           <span class="level-card level-bba">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
-            BBA
+            <span>BBA</span>
           </span>
         </div>
-        <div class="pinboard" id="pinboard">
-          <div class="pin-track" id="pinTrack"></div>
+
+        <!-- পিনবোর্ড — ৩ সেকেন্ড পরপর ঘুরতে থাকা ৫টা ছবি; ৬ষ্ঠটা (সবার শেষে) সিমলেস লুপ
+             তৈরির জন্য ১ম ছবিরই একটা ক্লোন — ১ম ছবি বদলালে এই ক্লোনটাও বদলে দিতে হবে -->
+        <div class="pinboard">
+          <div class="pin-track" id="pinTrack">
+
+            <!-- পিনবোর্ড ছবি ১ -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="শিক্ষক ১">
+              <div class="name">শিক্ষক ১</div>
+            </div>
+            <!-- পিনবোর্ড ছবি ২ -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000" alt="শিক্ষক ২">
+              <div class="name">শিক্ষক ২</div>
+            </div>
+            <!-- পিনবোর্ড ছবি ৩ -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000" alt="শিক্ষক ৩">
+              <div class="name">শিক্ষক ৩</div>
+            </div>
+            <!-- পিনবোর্ড ছবি ৪ -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000" alt="শিক্ষক ৪">
+              <div class="name">শিক্ষক ৪</div>
+            </div>
+            <!-- পিনবোর্ড ছবি ৫ -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000" alt="শিক্ষক ৫">
+              <div class="name">শিক্ষক ৫</div>
+            </div>
+            <!-- ক্লোন (ছবি ১ এর সিমলেস-লুপ ক্লোন — হাত দেওয়ার দরকার নেই, ছবি ১ বদলালে এটাও বদলান) -->
+            <div class="pin-card">
+              <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="শিক্ষক ১">
+              <div class="name">শিক্ষক ১</div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ COURSES ============ -->
+  <!-- ============================================================
+       কোর্সসমূহ সেকশন
+       ============================================================ -->
   <section id="courses" class="margin-rule">
     <div class="container">
       <div class="section-head">
@@ -1010,23 +1099,545 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন কোর্সের বিস্তারিত ও ফি।</p>
       </div>
 
-      <div class="pill-row" id="pillRow"></div>
-      <div class="course-grid" id="courseGrid"></div>
+      <!-- ফিল্টার ট্যাব (সবগুলো / SSC / HSC / ...) — এখানে নতুন ট্যাব যোগ করলে
+           নিচের কোর্স কার্ডগুলোতেও data-category দিয়ে সেই নাম বসাতে হবে -->
+      <div class="pill-row" id="pillRow">
+        <button class="pill active" data-cat="সবগুলো">সবগুলো</button>
+        <button class="pill" data-cat="SSC">SSC</button>
+        <button class="pill" data-cat="HSC">HSC</button>
+        <button class="pill" data-cat="BBA">BBA</button>
+        <button class="pill" data-cat="MBA">MBA</button>
+        <button class="pill" data-cat="BBS">BBS</button>
+        <button class="pill" data-cat="BBA Professional">BBA Professional</button>
+      </div>
+
+      <!-- কোর্স কার্ডগুলো — প্রতিটা কার্ডের data-category অ্যাট্রিবিউট দিয়ে বোঝা যায়
+           এটা কোন ট্যাবে দেখাবে (উপরের পিলের data-cat এর সাথে মিলে) -->
+      <div class="course-grid" id="courseGrid">
+
+        <!-- ▼▼▼ SSC কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- SSC — ১ম কার্ড: SSC Accounting Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Accounting Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC Accounting Batch</h3>
+            <p>নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ SSC হিসাববিজ্ঞান বিষয়ের সম্পূর্ণ প্রস্তুতি।</p>
+            <ul class="course-includes">
+              <li>রেকর্ডেড + লাইভ ক্লাস</li>
+              <li>সাপ্তাহিক পরীক্ষা</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২০০০</span>
+                  <span class="price-old">৳২৭০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSC — ২য় কার্ড: SSC Math Special Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Math Special Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC Math Special Batch</h3>
+            <p>সহজ পদ্ধতিতে গণিতের বেসিক থেকে অ্যাডভান্সড—সব টপিক কভার করা হবে।</p>
+            <ul class="course-includes">
+              <li>টপিক ভিত্তিক ক্লাস</li>
+              <li>সাপ্তাহিক শিট</li>
+              <li>প্রশ্নব্যাংক সমাধান</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২০০০</span>
+                  <span class="price-old">৳২৭০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSC — ৩য় কার্ড: SSC Higher Math Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Higher Math Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC Higher Math Batch</h3>
+            <p>উচ্চতর গণিতের কঠিন অধ্যায়গুলো সহজভাবে বুঝিয়ে দেওয়া হয় ধাপে ধাপে।</p>
+            <ul class="course-includes">
+              <li>Concept Building ক্লাস</li>
+              <li>মডেল টেস্ট</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২২০০</span>
+                  <span class="price-old">৳৩০০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSC — ৪র্থ কার্ড: SSC English Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC English Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC English Batch</h3>
+            <p>গ্রামার থেকে রাইটিং পর্যন্ত—পরীক্ষায় ভালো করার জন্য সম্পূর্ণ প্রস্তুতি।</p>
+            <ul class="course-includes">
+              <li>গ্রামার ক্লাস</li>
+              <li>রাইটিং প্র্যাকটিস</li>
+              <li>সাপ্তাহিক পরীক্ষা</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳১৮০০</span>
+                  <span class="price-old">৳২৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ HSC কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- HSC — ১ম কার্ড: Special HSC Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="Special HSC Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>Special HSC Batch</h3>
+            <p>নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ HSC পরীক্ষার সম্পূর্ণ প্রস্তুতি।</p>
+            <ul class="course-includes">
+              <li>রেকর্ডেড + লাইভ ক্লাস</li>
+              <li>সাপ্তাহিক পরীক্ষা</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৯০০</span>
+                  <span class="price-old">৳৩৯০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC — ২য় কার্ড: HSC Accounting Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Accounting Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>HSC Accounting Batch</h3>
+            <p>হিসাববিজ্ঞানের প্রতিটি অধ্যায় ধাপে ধাপে বিশ্লেষণ করে শেখানো হয়।</p>
+            <ul class="course-includes">
+              <li>Concept Building ক্লাস</li>
+              <li>প্রশ্নব্যাংক সমাধান</li>
+              <li>সাপ্তাহিক শিট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৩০০০</span>
+                  <span class="price-old">৳৪১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC — ৩য় কার্ড: HSC Business Organization Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Business Organization Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>HSC Business Organization Batch</h3>
+            <p>ব্যবসায় সংগঠন ও ব্যবস্থাপনার প্রতিটি টপিক সহজভাবে শেখানো হয়।</p>
+            <ul class="course-includes">
+              <li>টপিক ভিত্তিক ক্লাস</li>
+              <li>মডেল টেস্ট</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৮০০</span>
+                  <span class="price-old">৳৩৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC — ৪র্থ কার্ড: HSC Finance & Banking Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Finance & Banking Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>HSC Finance & Banking Batch</h3>
+            <p>ফাইন্যান্স ও ব্যাংকিং বিষয়ে পরীক্ষার সম্পূর্ণ প্রস্তুতি একসাথে।</p>
+            <ul class="course-includes">
+              <li>লাইভ ক্লাস</li>
+              <li>সাপ্তাহিক পরীক্ষা</li>
+              <li>প্রশ্নব্যাংক সমাধান</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৮০০</span>
+                  <span class="price-old">৳৩৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ BBA কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- BBA — ১ম কার্ড: BBA 1st Year Full Course -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA 1st Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA 1st Year Full Course</h3>
+            <p>লেনদেন থেকে শুরু করে ফাইনাল অ্যাকাউন্টস পর্যন্ত ধাপে ধাপে বিশ্লেষণ।</p>
+            <ul class="course-includes">
+              <li>Concept Building ক্লাস</li>
+              <li>প্রশ্নব্যাংক সমাধান</li>
+              <li>সাপ্তাহিক শিট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৮০০০</span>
+                  <span class="price-old">৳১০৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ২য় কার্ড: BBA 2nd Year Full Course -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA 2nd Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA 2nd Year Full Course</h3>
+            <p>মার্কেটিং, ফাইন্যান্স ও ম্যানেজমেন্টের মূল বিষয়গুলো নিয়ে সাজানো কোর্স।</p>
+            <ul class="course-includes">
+              <li>রেকর্ডেড + লাইভ ক্লাস</li>
+              <li>সাপ্তাহিক মডেল টেস্ট</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৮০০০</span>
+                  <span class="price-old">৳১০৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ৩য় কার্ড: BBA Admission Preparation -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Admission Preparation">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA Admission Preparation</h3>
+            <p>দেশের সেরা বিশ্ববিদ্যালয়ে BBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।</p>
+            <ul class="course-includes">
+              <li>Math + English + Analytical</li>
+              <li>সাপ্তাহিক মডেল টেস্ট</li>
+              <li>মেন্টরশিপ সাপোর্ট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৭০০০</span>
+                  <span class="price-old">৳৯৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ৪র্থ কার্ড: BBA Statistics Batch -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Statistics Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA Statistics Batch</h3>
+            <p>পরিসংখ্যানের ধারণা থেকে প্রয়োগ পর্যন্ত সহজ পদ্ধতিতে শেখানো হয়।</p>
+            <ul class="course-includes">
+              <li>Concept Building ক্লাস</li>
+              <li>সমস্যা সমাধান সেশন</li>
+              <li>সাপ্তাহিক শিট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৭৫০০</span>
+                  <span class="price-old">৳১০১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ MBA কোর্স (১টা কার্ড) ▼▼▼ -->
+
+        <!-- MBA — ১ম কার্ড: MBA Full Course -->
+        <div class="course-card" data-category="MBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="MBA Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">MBA</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>MBA Full Course</h3>
+            <p>দেশের সেরা বিশ্ববিদ্যালয়ে MBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।</p>
+            <ul class="course-includes">
+              <li>Math + English + Analytical</li>
+              <li>সাপ্তাহিক মডেল টেস্ট</li>
+              <li>মেন্টরশিপ সাপোর্ট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৮০০০</span>
+                  <span class="price-old">৳১০৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ BBS কোর্স (৩টা কার্ড) ▼▼▼ -->
+
+        <!-- BBS — ১ম কার্ড: BBS 1st Year Full Course -->
+        <div class="course-card" data-category="BBS">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS 1st Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBS</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>BBS 1st Year Full Course</h3>
+            <p>হিসাববিজ্ঞান ও ব্যবস্থাপনার মূল বিষয়গুলো ধাপে ধাপে শেখানো হয়।</p>
+            <ul class="course-includes">
+              <li>রেকর্ডেড + লাইভ ক্লাস</li>
+              <li>সাপ্তাহিক পরীক্ষা</li>
+              <li>পিডিএফ নোট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৬০০০</span>
+                  <span class="price-old">৳৮১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBS — ২য় কার্ড: BBS 2nd Year Full Course -->
+        <div class="course-card" data-category="BBS">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS 2nd Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBS</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>BBS 2nd Year Full Course</h3>
+            <p>ফাইন্যান্স ও মার্কেটিং বিষয়ে সম্পূর্ণ প্রস্তুতি একসাথে দেওয়া হয়।</p>
+            <ul class="course-includes">
+              <li>Concept Building ক্লাস</li>
+              <li>প্রশ্নব্যাংক সমাধান</li>
+              <li>সাপ্তাহিক শিট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৬০০০</span>
+                  <span class="price-old">৳৮১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBS — ৩য় কার্ড: BBS Honours Admission Prep -->
+        <div class="course-card" data-category="BBS">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS Honours Admission Prep">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBS</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>BBS Honours Admission Prep</h3>
+            <p>অনার্স ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও নিয়মিত মডেল টেস্ট।</p>
+            <ul class="course-includes">
+              <li>টপিক ভিত্তিক ক্লাস</li>
+              <li>সাপ্তাহিক মডেল টেস্ট</li>
+              <li>মেন্টরশিপ সাপোর্ট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৫৫০০</span>
+                  <span class="price-old">৳৭৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ BBA Professional কোর্স (১টা কার্ড) ▼▼▼ -->
+
+        <!-- BBA Professional — ১ম কার্ড: BBA Professional | মাস্টারক্লাস -->
+        <div class="course-card" data-category="BBA Professional">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Professional | মাস্টারক্লাস">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA Professional</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA Professional | মাস্টারক্লাস</h3>
+            <p>চাকরি ও একাডেমিক—দুই ক্ষেত্রেই কাজে লাগবে এমন প্র্যাক্টিক্যাল কারিকুলাম।</p>
+            <ul class="course-includes">
+              <li>ইন্ডাস্ট্রি এক্সপার্ট সেশন</li>
+              <li>কেস স্টাডি</li>
+              <li>সার্টিফিকেট</li>
+            </ul>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৪৫০০</span>
+                  <span class="price-old">৳৬১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- ============ WHY US ============ -->
+  <!-- ============================================================
+       কেন আমরা সেকশন — ৩টা কার্ড, শুধু ছবি দেখায় (ছবির মধ্যেই লেখা আছে)
+       ============================================================ -->
   <section id="why">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">আমাদের বিশেষত্ব</span>
         <h2>কেন শিক্ষার্থীরা আমাদের বেছে নেয়</h2>
       </div>
-      <div class="why-grid" id="whyGrid"></div>
+      <div class="why-grid">
+        <!-- কার্ড ১ — অভিজ্ঞ শিক্ষক -->
+        <div class="why-card">
+          <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="অভিজ্ঞ শিক্ষক">
+        </div>
+        <!-- কার্ড ২ — মানসম্পন্ন কনটেন্ট -->
+        <div class="why-card">
+          <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="মানসম্পন্ন কনটেন্ট">
+        </div>
+        <!-- কার্ড ৩ — সাশ্রয়ী ফি -->
+        <div class="why-card">
+          <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="সাশ্রয়ী ফি">
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ============ FREE YOUTUBE VIDEOS ============ -->
+  <!-- ============================================================
+       ফ্রি ভিডিও লেকচার সেকশন
+       প্রতিটা ভিডিও কার্ডে data-yid অ্যাট্রিবিউটে ইউটিউব ভিডিওর ১১-ডিজিটের আইডি বসাতে হয়
+       (যেমন youtube.com/watch?v=এইটুকু অংশ) — ক্লিক করলে অটো প্লে হয়ে যাবে
+       ============================================================ -->
   <section id="videos" class="margin-rule">
     <div class="container">
       <div class="section-head">
@@ -1035,12 +1646,174 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন সেই বিভাগের ফ্রি ভিডিও লেকচারগুলো।</p>
       </div>
 
-      <div class="pill-row" id="videoPillRow"></div>
-      <div class="video-grid" id="videoGrid"></div>
+      <!-- ভিডিও বিভাগ ট্যাব -->
+      <div class="pill-row" id="videoPillRow">
+        <button class="pill active" data-vcat="SSC">SSC</button>
+        <button class="pill" data-vcat="HSC">HSC</button>
+        <button class="pill" data-vcat="BBA">BBA</button>
+        <button class="pill" data-vcat="MBA">MBA</button>
+        <button class="pill" data-vcat="BBS">BBS</button>
+      </div>
+
+      <div class="video-grid" id="videoGrid">
+
+        <!-- ▼▼▼ SSC ভিডিও (৪টা) — ডিফল্টভাবে এগুলোই প্রথমে দেখা যাবে ▼▼▼ -->
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি</div>
+        </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC গণিত — বীজগণিত বেসিক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC গণিত — বীজগণিত বেসিক</div>
+        </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি</div>
+        </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC ইংরেজি — গ্রামার বেসিক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC ইংরেজি — গ্রামার বেসিক</div>
+        </div>
+
+        <!-- ▼▼▼ HSC ভিডিও (৪টা) — প্রথমে লুকানো (hidden), HSC ট্যাব ক্লিক করলে দেখা যাবে ▼▼▼ -->
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ফাইন্যান্স — মৌলিক ধারণা">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC ফাইন্যান্স — মৌলিক ধারণা</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC পরিসংখ্যান — গড় ও মধ্যক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC পরিসংখ্যান — গড় ও মধ্যক</div>
+        </div>
+
+        <!-- ▼▼▼ BBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA মার্কেটিং — বেসিক কনসেপ্ট">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA মার্কেটিং — বেসিক কনসেপ্ট</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA পরিসংখ্যান — সমস্যা সমাধান">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA পরিসংখ্যান — সমস্যা সমাধান</div>
+        </div>
+
+        <!-- ▼▼▼ MBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="MBA ভর্তি প্রস্তুতি — গণিত সেশন">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA ভর্তি প্রস্তুতি — গণিত সেশন</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA ইংরেজি — Vocabulary Booster">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA ইংরেজি — Vocabulary Booster</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA অ্যানালিটিক্যাল — Reasoning Tips">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA অ্যানালিটিক্যাল — Reasoning Tips</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA মেন্টরশিপ সেশন — পরিচিতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA মেন্টরশিপ সেশন — পরিচিতি</div>
+        </div>
+
+        <!-- ▼▼▼ BBS ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ফাইন্যান্স — মৌলিক ধারণা">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS ফাইন্যান্স — মৌলিক ধারণা</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS অনার্স ভর্তি প্রস্তুতি — টিপস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS অনার্স ভর্তি প্রস্তুতি — টিপস</div>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- ============ TEACHERS ============ -->
+  <!-- ============================================================
+       শিক্ষকবৃন্দ সেকশন — ৪ জন শিক্ষক
+       ============================================================ -->
   <section id="teachers" class="margin-rule">
     <div class="container">
       <div class="section-head">
@@ -1048,18 +1821,90 @@ footer{
         <h2>শিক্ষকবৃন্দের সাথে পরিচিত হোন</h2>
         <p>যারা প্রতিদিন ক্লাসে থেকে আপনার প্রস্তুতিকে এগিয়ে নেবেন।</p>
       </div>
-      <div class="teacher-grid" id="teacherGrid"></div>
+      <div class="teacher-grid">
+        <!-- শিক্ষক ১ -->
+        <div class="teacher-card">
+          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1aoT4KkproYMlPNbnuvKZyxsESD3Lh352&sz=w1000" alt="Tanvir Sir">
+          <div class="teacher-info">
+            <div class="name">Tanvir Sir</div>
+            <div class="subject">Accounting</div>
+            <div class="bio">Director & Teacher</div>
+          </div>
+        </div>
+        <!-- শিক্ষক ২ -->
+        <div class="teacher-card">
+          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1ZXpiJTvVPEwU47tsZ8bpDYUfVgNCTxeU&sz=w1000" alt="Farhad Sir">
+          <div class="teacher-info">
+            <div class="name">Farhad Sir</div>
+            <div class="subject">Statistics</div>
+            <div class="bio">Director & Teacher</div>
+          </div>
+        </div>
+        <!-- শিক্ষক ৩ -->
+        <div class="teacher-card">
+          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1zw1Jr0R5kuZovGiBAVMU3fH2nWlhYQRN&sz=w1000" alt="Saiful Sir">
+          <div class="teacher-info">
+            <div class="name">Saiful Sir</div>
+            <div class="subject">Taxation in Bangladesh</div>
+            <div class="bio">Senior Teacher</div>
+          </div>
+        </div>
+        <!-- শিক্ষক ৪ -->
+        <div class="teacher-card">
+          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=14720XIcOoC9zhL3F9Frc7PUCHQenXegw&sz=w1000" alt="RIAD">
+          <div class="teacher-info">
+            <div class="name">RIAD</div>
+            <div class="subject">Editor & Designer</div>
+            <div class="bio">Advisor</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ============ MESSAGE FORM (Google Sheet এ চলে যাবে) ============ -->
+  <!-- ============================================================
+       "আমাদের মেসেজ পাঠান" ফর্ম সেকশন
+       ফর্মটা সাবমিট হলে নিচের script অংশের FORM_ENDPOINT ভ্যারিয়েবলে বসানো
+       Google Apps Script URL এর মাধ্যমে সরাসরি Google Sheet এ গিয়ে সেভ হয়
+       ============================================================ -->
   <section id="message" class="margin-rule">
     <div class="container">
-      <div class="message-box" id="messageBox"></div>
+      <div class="message-box">
+        <div class="section-head">
+          <span class="eyebrow">যোগাযোগ ফর্ম</span>
+          <h2>আমাদের মেসেজ পাঠান</h2>
+          <p>নিচের ফর্মটি পূরণ করে পাঠালে আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।</p>
+        </div>
+
+        <form id="msgForm">
+          <div class="form-row">
+            <label for="msgName">নাম</label>
+            <input type="text" id="msgName" name="name" required placeholder="আপনার নাম লিখুন">
+          </div>
+          <div class="form-row">
+            <label for="msgClass">ক্লাস / কোর্স</label>
+            <input type="text" id="msgClass" name="class" required placeholder="যেমন: SSC / HSC / BBA">
+          </div>
+          <div class="form-row">
+            <label for="msgPhone">ফোন নম্বর</label>
+            <input type="tel" id="msgPhone" name="phone" required placeholder="আপনার ফোন নম্বর">
+          </div>
+          <div class="form-row">
+            <label for="msgText">মেসেজ</label>
+            <textarea id="msgText" name="message" required placeholder="আপনার প্রশ্ন বা মেসেজ লিখুন"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="msgSubmitBtn">পাঠিয়ে দিন</button>
+          <p class="form-status" id="msgStatus"></p>
+        </form>
+      </div>
     </div>
   </section>
 
-  <!-- ============ CTA ============ -->
+  <!-- ============================================================
+       সরাসরি কল করুন (CTA ব্যান্ড) সেকশন
+       ফোন নম্বর ২ জায়গায় আছে: বাটনে দেখানো নম্বর (ctaPhoneNumber এর জায়গা) ও
+       tel: লিংকের আসল ডায়াল নম্বর (দেশের কোডসহ) — দুটোই বদলাতে ভুলবেন না
+       ============================================================ -->
   <section>
     <div class="cta-band">
       <div class="cta-left">
@@ -1087,20 +1932,27 @@ footer{
 
 </main>
 
-<!-- ============ FOOTER / CONTACT ============ -->
+<!-- ============================================================
+     ফুটার / যোগাযোগ (পেজের একদম নিচের অংশ)
+     ============================================================ -->
 <footer id="contact">
   <div class="container">
     <div class="footer-grid">
       <div>
-        <h4 id="footer-brand">VISION Academics</h4>
-        <p id="footer-tagline">মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
-        <div class="social-row" id="socialRow"></div>
+        <h4 style="font-family:'Baloo Da 2', sans-serif; font-weight:800; font-size:22px; color:var(--ink); margin-bottom:6px;">VISION Academics</h4>
+        <p>মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+        <!-- সোশ্যাল মিডিয়া আইকন — Facebook, YouTube, Instagram -->
+        <div class="social-row">
+          <a href="https://www.facebook.com/BBAcoaching" title="Facebook">f</a>
+          <a href="https://www.youtube.com/@bbavisioncoaching" title="YouTube">▶</a>
+          <a href="#" title="Instagram">in</a>
+        </div>
       </div>
       <div>
         <h4>যোগাযোগ</h4>
-        <p id="c-phone">📞 ০১৬০১-৯২৯২৪৪</p>
-        <p id="c-email">✉️ info@example.com</p>
-        <p id="c-address">📍 ঠিকানা এখানে বসবে</p>
+        <p>📞 01764859503</p>
+        <p>✉️ bbavision@gmail.com</p>
+        <p>📍 ১১২, দায়রা শরীফ আবাসিক এলাকা, (গেট-২) আজিমপুর</p>
       </div>
       <div>
         <h4>শর্টকাট</h4>
@@ -1109,388 +1961,33 @@ footer{
         <a href="#why">কেন আমরা</a>
       </div>
     </div>
-    <p class="copyright" id="copyright-line">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
+    <p class="copyright">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
   </div>
 </footer>
 
 <script>
 /* =========================================================================================
-   এখান থেকেই পুরো সাইটের তথ্য বদলাতে পারবেন — HTML/CSS-এ হাত না দিয়ে শুধু নিচের CONFIG পরিবর্তন করুন।
-   - ছবির জায়গায় (image) নিজের ছবির লিংক / ফাইলের path বসিয়ে দিন
-   - দাম, বিবরণ, শিক্ষকের নাম — সবকিছু এখানেই টেক্সট আকারে আছে
+   এখান থেকে নিচে শুধু ইন্টার‌অ্যাকশনের (ক্লিক/অ্যানিমেশন) কোড — কোনো তথ্য/লেখা এখানে নেই।
+   সব তথ্য উপরের HTML অংশেই সরাসরি বসানো আছে। তথ্য বদলাতে উপরের HTML দেখুন, এখানে না।
    ========================================================================================= */
-const CONFIG = {
-  // নেভবারের (উপরে বাম পাশে) লোগো ইমেজ — এই একটা ইমেজেই লোগো + "VISION Academics" লেখা দুটোই থাকবে
-  // ছবির অনুপাত (ratio) 3840x1000 (≈ 3.84:1) রাখলে সবচেয়ে ভালো ফিট হবে, বিকৃত হবে না
-  logoImage: "https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000",
 
-  // ব্র্যান্ডের নাম — ফুটার (নিচে) ও পেজ টাইটেলে দেখাবে
-  brand: "VISION Academics",
-  // ফুটারে ব্র্যান্ড নামের নিচে ছোট এক লাইনের ট্যাগলাইন
-  tagline: "মানসম্পন্ন শিক্ষা, সবার নাগালে।",
-  // হিরো সেকশনে (হেডিং-এর নিচে) দেখানো বড় প্যারাগ্রাফ টেক্সট
-  heroLead: "অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।",
-
-  // "ভর্তি হোন" (নেভবার) ও "Enroll Now" (প্রতিটা কোর্স কার্ড) — দুই জায়গার বাটনেই
-  // ক্লিক করলে এই একই ছবিটা popup আকারে দেখানো হয়।
-  // এই একটা লিংক বদলালেই সব জায়গায় (নেভবার + প্রতিটা কোর্স কার্ড) একসাথে বদলে যাবে।
-  admissionImage: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000",
-
-  // হিরো সেকশনে হেডিং-এর নিচে যে সংখ্যাগুলো দেখা যায় (যেমন: ১৫+ শিক্ষক, ১০০০০+ শিক্ষার্থী)
-  stats: [
-    { number: "১৫+",   label: "অভিজ্ঞ শিক্ষক", color: "#1E3A8A", bg: "#EAF1FB", icon: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>` },
-    { number: "১০০০০+", label: "শিক্ষার্থী", color: "#C82333", bg: "#FDECEA", icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>` },
-    { number: "১০+",  label: "কোর্সের সংখ্যা", color: "#0F5132", bg: "#E8F5EC", icon: `<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>` },
-  ],
-
-  // হিরো সেকশনে (ডানপাশে) "পিনবোর্ড" আকারে ঘুরতে থাকা শিক্ষকদের/প্রতিষ্ঠানের ছবি (সর্বোচ্চ ৫টি ব্যবহার হবে)
-  pinPhotos: [
-    { image: "https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", name: "শিক্ষক ১" },
-    { image: "https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000", name: "শিক্ষক ২" },
-    { image: "https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000", name: "শিক্ষক ৩" },
-    { image: "https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000", name: "শিক্ষক ৪" },
-    { image: "https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000", name: "শিক্ষক ৫" },
-  ],
-
-  // "কোর্সসমূহ" সেকশনের উপরে যে ফিল্টার বাটন/ট্যাব দেখা যায় (সবগুলো, SSC, HSC ইত্যাদি)
-  categories: ["সবগুলো", "SSC", "HSC", "BBA", "MBA", "BBS", "BBA Professional"],
-
-  // "কোর্সসমূহ" সেকশনে দেখানো সব কোর্স কার্ড — প্রতিটা কার্ডে category, ব্যাজ (tag),
-  // ছবি (image), শিরোনাম (title), বিবরণ (description), অন্তর্ভুক্ত বিষয় (includes),
-  // এবং দাম (price + priceNote) থাকে
-  courses: [
-    // ---------- SSC (4 cards) ----------
-    {
-      category: "SSC",
-      tag: "নতুন ব্যাচ",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "SSC Accounting Batch",
-      description: "নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ SSC হিসাববিজ্ঞান বিষয়ের সম্পূর্ণ প্রস্তুতি।",
-      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
-      price: "২০০০",
-      oldPrice: "২৭০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "SSC",
-      tag: "চলমান",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "SSC Math Special Batch",
-      description: "সহজ পদ্ধতিতে গণিতের বেসিক থেকে অ্যাডভান্সড—সব টপিক কভার করা হবে।",
-      includes: ["টপিক ভিত্তিক ক্লাস", "সাপ্তাহিক শিট", "প্রশ্নব্যাংক সমাধান"],
-      price: "২০০০",
-      oldPrice: "২৭০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "SSC",
-      tag: "জনপ্রিয়",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "SSC Higher Math Batch",
-      description: "উচ্চতর গণিতের কঠিন অধ্যায়গুলো সহজভাবে বুঝিয়ে দেওয়া হয় ধাপে ধাপে।",
-      includes: ["Concept Building ক্লাস", "মডেল টেস্ট", "পিডিএফ নোট"],
-      price: "২২০০",
-      oldPrice: "৩০০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "SSC",
-      tag: "নতুন",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "SSC English Batch",
-      description: "গ্রামার থেকে রাইটিং পর্যন্ত—পরীক্ষায় ভালো করার জন্য সম্পূর্ণ প্রস্তুতি।",
-      includes: ["গ্রামার ক্লাস", "রাইটিং প্র্যাকটিস", "সাপ্তাহিক পরীক্ষা"],
-      price: "১৮০০",
-      oldPrice: "২৪০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-
-    // ---------- HSC (4 cards) ----------
-    {
-      category: "HSC",
-      tag: "নতুন ব্যাচ",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "Special HSC Batch",
-      description: "নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ HSC পরীক্ষার সম্পূর্ণ প্রস্তুতি।",
-      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
-      price: "২৯০০",
-      oldPrice: "৩৯০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "HSC",
-      tag: "চলমান",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "HSC Accounting Batch",
-      description: "হিসাববিজ্ঞানের প্রতিটি অধ্যায় ধাপে ধাপে বিশ্লেষণ করে শেখানো হয়।",
-      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
-      price: "৩০০০",
-      oldPrice: "৪১০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "HSC",
-      tag: "জনপ্রিয়",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "HSC Business Organization Batch",
-      description: "ব্যবসায় সংগঠন ও ব্যবস্থাপনার প্রতিটি টপিক সহজভাবে শেখানো হয়।",
-      includes: ["টপিক ভিত্তিক ক্লাস", "মডেল টেস্ট", "পিডিএফ নোট"],
-      price: "২৮০০",
-      oldPrice: "৩৮০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "HSC",
-      tag: "নতুন",
-      image: "https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000",
-      title: "HSC Finance & Banking Batch",
-      description: "ফাইন্যান্স ও ব্যাংকিং বিষয়ে পরীক্ষার সম্পূর্ণ প্রস্তুতি একসাথে।",
-      includes: ["লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "প্রশ্নব্যাংক সমাধান"],
-      price: "২৮০০",
-      oldPrice: "৩৮০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-
-    // ---------- BBA (4 cards) ----------
-    {
-      category: "BBA",
-      tag: "চলমান",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBA 1st Year Full Course",
-      description: "লেনদেন থেকে শুরু করে ফাইনাল অ্যাকাউন্টস পর্যন্ত ধাপে ধাপে বিশ্লেষণ।",
-      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
-      price: "৮০০০",
-      oldPrice: "১০৮০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "BBA",
-      tag: "নতুন ব্যাচ",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBA 2nd Year Full Course",
-      description: "মার্কেটিং, ফাইন্যান্স ও ম্যানেজমেন্টের মূল বিষয়গুলো নিয়ে সাজানো কোর্স।",
-      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক মডেল টেস্ট", "পিডিএফ নোট"],
-      price: "৮০০০",
-      oldPrice: "১০৮০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "BBA",
-      tag: "জনপ্রিয়",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBA Admission Preparation",
-      description: "দেশের সেরা বিশ্ববিদ্যালয়ে BBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।",
-      includes: ["Math + English + Analytical", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
-      price: "৭০০০",
-      oldPrice: "৯৪০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "BBA",
-      tag: "নতুন",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBA Statistics Batch",
-      description: "পরিসংখ্যানের ধারণা থেকে প্রয়োগ পর্যন্ত সহজ পদ্ধতিতে শেখানো হয়।",
-      includes: ["Concept Building ক্লাস", "সমস্যা সমাধান সেশন", "সাপ্তাহিক শিট"],
-      price: "৭৫০০",
-      oldPrice: "১০১০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-
-    // ---------- MBA (1 card) ----------
-    {
-      category: "MBA",
-      tag: "জনপ্রিয়",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "MBA Full Course",
-      description: "দেশের সেরা বিশ্ববিদ্যালয়ে MBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।",
-      includes: ["Math + English + Analytical", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
-      price: "৮০০০",
-      oldPrice: "১০৮০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-
-    // ---------- BBS (3 cards) ----------
-    {
-      category: "BBS",
-      tag: "নতুন ব্যাচ",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBS 1st Year Full Course",
-      description: "হিসাববিজ্ঞান ও ব্যবস্থাপনার মূল বিষয়গুলো ধাপে ধাপে শেখানো হয়।",
-      includes: ["রেকর্ডেড + লাইভ ক্লাস", "সাপ্তাহিক পরীক্ষা", "পিডিএফ নোট"],
-      price: "৬০০০",
-      oldPrice: "৮১০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "BBS",
-      tag: "চলমান",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBS 2nd Year Full Course",
-      description: "ফাইন্যান্স ও মার্কেটিং বিষয়ে সম্পূর্ণ প্রস্তুতি একসাথে দেওয়া হয়।",
-      includes: ["Concept Building ক্লাস", "প্রশ্নব্যাংক সমাধান", "সাপ্তাহিক শিট"],
-      price: "৬০০০",
-      oldPrice: "৮১০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-    {
-      category: "BBS",
-      tag: "জনপ্রিয়",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBS Honours Admission Prep",
-      description: "অনার্স ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও নিয়মিত মডেল টেস্ট।",
-      includes: ["টপিক ভিত্তিক ক্লাস", "সাপ্তাহিক মডেল টেস্ট", "মেন্টরশিপ সাপোর্ট"],
-      price: "৫৫০০",
-      oldPrice: "৭৪০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-
-    // ---------- BBA Professional (1 card) ----------
-    {
-      category: "BBA Professional",
-      tag: "নতুন",
-      image: "https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000",
-      title: "BBA Professional | মাস্টারক্লাস",
-      description: "চাকরি ও একাডেমিক—দুই ক্ষেত্রেই কাজে লাগবে এমন প্র্যাক্টিক্যাল কারিকুলাম।",
-      includes: ["ইন্ডাস্ট্রি এক্সপার্ট সেশন", "কেস স্টাডি", "সার্টিফিকেট"],
-      price: "৪৫০০",
-      oldPrice: "৬১০০",
-      priceNote: "সম্পূর্ণ কোর্স"
-    },
-  ],
-
-  // "ফ্রি ভিডিও লেকচার" সেকশন — প্রতিটা বিভাগের (SSC/HSC/BBA/MBA/BBS) জন্য ৪টা করে ফ্রি ইউটিউব ভিডিও।
-  // শুধু youtube link (title সহ) বসিয়ে দিলেই video card + thumbnail + play বাটন অটোমেটিক তৈরি হয়ে যাবে।
-  // প্রথমে পেজ লোড হলে SSC ট্যাব active থাকবে, অন্য ট্যাবে ক্লিক করলে সেই বিভাগের ভিডিও দেখাবে।
-  freeVideos: {
-    SSC: [
-      { title: "SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "SSC গণিত — বীজগণিত বেসিক", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "SSC ইংরেজি — গ্রামার বেসিক", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-    ],
-    HSC: [
-      { title: "HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "HSC ফাইন্যান্স — মৌলিক ধারণা", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "HSC পরিসংখ্যান — গড় ও মধ্যক", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-    BBA: [
-      { title: "BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "BBA মার্কেটিং — বেসিক কনসেপ্ট", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "BBA পরিসংখ্যান — সমস্যা সমাধান", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-    MBA: [
-      { title: "MBA ভর্তি প্রস্তুতি — গণিত সেশন", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "MBA ইংরেজি — Vocabulary Booster", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "MBA অ্যানালিটিক্যাল — Reasoning Tips", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "MBA মেন্টরশিপ সেশন — পরিচিতি", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-    BBS: [
-      { title: "BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস", youtubeUrl: "https://www.youtube.com/watch?v=lHkQDNbXyEE&t=4s" },
-      { title: "BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "BBS ফাইন্যান্স — মৌলিক ধারণা", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-      { title: "BBS অনার্স ভর্তি প্রস্তুতি — টিপস", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    ],
-  },
-
-  // "কেন আমরা" সেকশনের ৩টা কার্ড — এখন শুধু ছবি (icon) দেখায়, টেক্সট (title/desc) ছবির
-  // মধ্যেই লেখা থাকে, তাই title ও desc আপাতত ব্যবহার হচ্ছে না (ভবিষ্যতে দরকার হলে থাকবে)
-  whyUs: [
-    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"অভিজ্ঞ শিক্ষক", desc:"বছরের পর বছরের অভিজ্ঞতা নিয়ে পড়ানো, শিক্ষার্থীবান্ধব পদ্ধতিতে।" },
-    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"মানসম্পন্ন কনটেন্ট", desc:"যত্ন সহকারে তৈরি নোট, শিট আর নিয়মিত মূল্যায়নের ব্যবস্থা।" },
-    { icon:"https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000", title:"সাশ্রয়ী ফি", desc:"গুণগত শিক্ষা যেন সবার নাগালের মধ্যে থাকে, সেই লক্ষ্যেই আমাদের ফি কাঠামো।" },
-  ],
-
-  // "শিক্ষকবৃন্দ" সেকশনে দেখানো প্রতিটা শিক্ষকের ছবি, নাম, বিষয় ও পদবি
-  teachers: [
-    { image:"https://drive.google.com/thumbnail?id=1aoT4KkproYMlPNbnuvKZyxsESD3Lh352&sz=w1000", name:"Tanvir Sir", subject:"Accounting", bio:"Director & Teacher" },
-    { image:"https://drive.google.com/thumbnail?id=1ZXpiJTvVPEwU47tsZ8bpDYUfVgNCTxeU&sz=w1000", name:"Farhad Sir", subject:"Statistics", bio:"Director & Teacher" },
-    { image:"https://drive.google.com/thumbnail?id=1zw1Jr0R5kuZovGiBAVMU3fH2nWlhYQRN&sz=w1000", name:"Saiful Sir", subject:"Taxation in Bangladesh", bio:"Senior Teacher" },
-    { image:"https://drive.google.com/thumbnail?id=14720XIcOoC9zhL3F9Frc7PUCHQenXegw&sz=w1000", name:"RIAD", subject:"Editor & Designer", bio:"Advisor" },
-  ],
-
-  // "যোগাযোগ" সেকশনে দেখানো ফোন নম্বর, ইমেইল ও ঠিকানা
-  contact: {
-    phone: "📞 01764-859503",
-    email: "✉️ bbavission@gmail.com",
-    address: "📍 ১১২, দায়রা শরীফ আবাসিক এলাকা, (গেট-২) আজিমপুর",
-  },
-
-  // ফুটারে দেখানো সোশ্যাল মিডিয়া লিংক (Facebook, YouTube, Instagram)
-  social: [
-    { icon:"f", label:"Facebook", url:"https://www.facebook.com/BBAcoaching" },
-    { icon:"▶", label:"YouTube", url:"https://www.youtube.com/@bbavisioncoaching" },
-    { icon:"in", label:"Instagram", url:"#" },
-  ],
-
-  // ফুটারের একদম নিচে দেখানো কপিরাইট লাইন
-  copyright: "© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।",
-
-  // ============================================================================
-  // "মেসেজ পাঠান" ফর্মের সব লেখা এখান থেকে বদলাতে পারবেন
-  // ============================================================================
-  messageForm: {
-    eyebrow: "যোগাযোগ ফর্ম",
-    heading: "আমাদের মেসেজ পাঠান",
-    subtext: "নিচের ফর্মটি পূরণ করে পাঠালে আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।",
-    nameLabel: "নাম",
-    namePlaceholder: "আপনার নাম লিখুন",
-    classLabel: "ক্লাস / কোর্স",
-    classPlaceholder: "যেমন: SSC / HSC / BBA",
-    phoneLabel: "ফোন নম্বর",
-    phonePlaceholder: "আপনার ফোন নম্বর",
-    messageLabel: "মেসেজ",
-    messagePlaceholder: "আপনার প্রশ্ন বা মেসেজ লিখুন",
-    submitText: "পাঠিয়ে দিন",
-    sendingText: "পাঠানো হচ্ছে...",
-    successText: "✅ আপনার মেসেজ পাঠানো হয়েছে, ধন্যবাদ!",
-    errorText: "❌ দুঃখিত, মেসেজ পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।",
-    notSetupText: "⚠️ ফর্মটি এখনো সেটআপ হয়নি — CONFIG.formEndpoint এ Google Apps Script URL বসাতে হবে।",
-  },
-
-  // ============================================================================
-  // "আমাদের মেসেজ পাঠান" ফর্মটা যেন সাবমিট হলে সরাসরি আপনার Google Sheet-এ চলে যায়,
-  // তার জন্য এখানে আপনার Google Apps Script "Web App" URL বসাতে হবে।
-  // কীভাবে বানাবেন তার ধাপে ধাপে গাইড এই ফাইলের একদম নিচে (কমেন্ট আকারে) দেওয়া আছে।
-  // URL টা এমন দেখতে হবে: https://script.google.com/macros/s/AKfycb.../exec
-  // ============================================================================
-  formEndpoint: "https://script.google.com/macros/s/AKfycbx1QVvoeRpM9DdRA5Iv_PtsUBWZh3thRwhKTa3VqIXVLLooWsQNGfioOr7JS3KK5NrccA/exec",
-};
-
-/* ================= রেন্ডারিং লজিক — এখান থেকে নিচের অংশে হাত না দেওয়াই ভালো ================= */
-
-document.getElementById('brand-logo').src = CONFIG.logoImage;
-document.getElementById('footer-brand').textContent = CONFIG.brand;
-document.getElementById('footer-tagline').textContent = CONFIG.tagline;
-document.getElementById('hero-lead').textContent = CONFIG.heroLead;
-document.getElementById('c-phone').textContent = CONFIG.contact.phone;
-document.getElementById('c-email').textContent = CONFIG.contact.email;
-document.getElementById('c-address').textContent = CONFIG.contact.address;
-document.getElementById('copyright-line').textContent = CONFIG.copyright;
-document.title = CONFIG.brand + " | কোর্স ও ভর্তি তথ্য";
-
-// stats
-document.getElementById('hero-stats').innerHTML = CONFIG.stats.map(s => `
-  <div class="stat-card">
-    <div class="stat-icon-box" style="background:${s.bg}">
-      <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${s.icon}</svg>
-    </div>
-    <div class="stat-text">
-      <b class="stat-number" style="color:${s.color}" data-final="${s.number}">০</b>
-      <span>${s.label}</span>
-    </div>
-  </div>
-`).join('');
-
-// কার্ডগুলো একটার পর একটা (stagger) fade+slide-up হয়ে দেখা দেবে
-document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
-  setTimeout(() => card.classList.add('visible'), 80 + i * 140);
+// মোবাইল নেভবার মেনু খোলা/বন্ধ করা
+document.getElementById('burgerBtn').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('#navLinks a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
 });
 
-// সংখ্যাগুলো ০ থেকে গুনতে গুনতে উঠবে (counting-up animation) — যখন স্ক্রিনে দেখা যাবে তখন একবার চলবে
+// হিরো স্ট্যাটস — কার্ডগুলো একটার পর একটা (stagger) fade+slide-up হয়ে দেখা দেবে,
+// এবং সংখ্যাগুলো ০ থেকে গুনতে গুনতে উঠবে (একবার স্ক্রিনে দেখা গেলে)
 (function(){
+  document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
+    setTimeout(() => card.classList.add('visible'), 80 + i * 140);
+  });
+
   const bnDigits = '০১২৩৪৫৬৭৮৯';
   const enDigits = '0123456789';
   const bn2en = s => s.replace(/[০-৯]/g, d => enDigits[bnDigits.indexOf(d)]);
@@ -1499,15 +1996,15 @@ document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
   const numberEls = document.querySelectorAll('.stat-number');
 
   function animateCount(el){
-    const finalText = el.getAttribute('data-final'); // যেমন: "১০০০০+"
-    const suffix = finalText.replace(/[০-৯]/g, ''); // "+" অংশটুকু আলাদা করে রাখা
+    const finalText = el.getAttribute('data-final');
+    const suffix = finalText.replace(/[০-৯]/g, '');
     const target = parseInt(bn2en(finalText.replace(/[^০-৯]/g, '')), 10);
     const duration = 2400;
     const start = performance.now();
 
     function tick(now){
       const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+      const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(target * eased);
       el.textContent = en2bn(current) + suffix;
       if(progress < 1) requestAnimationFrame(tick);
@@ -1529,22 +2026,10 @@ document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
   }
 })();
 
-// pinboard photos — horizontal auto-scroll carousel (3s interval, infinite recycle)
+// পিনবোর্ড ছবি — অটো-স্ক্রল ক্যারোসেল (৩ সেকেন্ড পরপর, ইনফিনিট লুপ)
 (function(){
   const track = document.getElementById('pinTrack');
-  const slides = CONFIG.pinPhotos.slice(0,5);
-  if(slides.length === 0) return;
-
-  // ১টা ক্লোন (প্রথম ছবির) শেষে যোগ করা হলো, যাতে লুপ সিমলেস (seamless) মনে হয়
-  const renderSlides = [...slides, slides[0]];
-  track.innerHTML = renderSlides.map(p => `
-    <div class="pin-card">
-      <img src="${p.image}" alt="${p.name}">
-      <div class="name">${p.name}</div>
-    </div>
-  `).join('');
-
-  const totalReal = slides.length;
+  const totalReal = track.children.length - 1; // শেষেরটা ক্লোন, তাই ১ বাদ
   let pinIndex = 0;
   const TRANSITION_MS = 700;
 
@@ -1563,186 +2048,64 @@ document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
     }
   }
 
-  if(slides.length > 1){
+  if(totalReal > 1){
     setInterval(goNext, 3000);
   }
 })();
 
-// category pills
-let activeCategory = "সবগুলো";
-function renderPills(){
-  document.getElementById('pillRow').innerHTML = CONFIG.categories.map(c => `
-    <button class="pill ${c === activeCategory ? 'active' : ''}" data-cat="${c}">${c}</button>
-  `).join('');
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeCategory = btn.dataset.cat;
-      renderPills();
-      renderCourses();
-    });
-  });
-}
-
-// course cards
-function renderCourses(){
-  const list = activeCategory === "সবগুলো"
-    ? CONFIG.courses
-    : CONFIG.courses.filter(c => c.category === activeCategory);
-
-  document.getElementById('courseGrid').innerHTML = list.map(c => `
-    <div class="course-card">
-      <img class="course-image" src="${c.image}" alt="${c.title}">
-      <div class="course-top">
-        <span class="eyebrow" style="color:var(--sky)">${c.category}</span>
-        <span class="course-tag">${c.tag}</span>
-      </div>
-      <div class="course-body">
-        <h3>${c.title}</h3>
-        <p>${c.description}</p>
-        <ul class="course-includes">
-          ${c.includes.map(i => `<li>${i}</li>`).join('')}
-        </ul>
-        <div class="course-foot">
-          <div class="price">
-            <div class="price-row">
-              <span class="price-now">৳${c.price}</span>
-              ${c.oldPrice ? `<span class="price-old">৳${c.oldPrice}</span>` : ``}
-            </div>
-            <small>${c.priceNote}</small>
-          </div>
-          <a href="admission.html" class="btn btn-primary admission-trigger">Enroll Now</a>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// why us
-document.getElementById('whyGrid').innerHTML = CONFIG.whyUs.map(w => `
-  <div class="why-card">
-    <img src="${w.icon}" alt="${w.title}">
-  </div>
-`).join('');
-
-// ---- Free YouTube videos section ----
-// যেকোনো ধরনের ইউটিউব লিংক (watch?v=, youtu.be/, embed/, shorts/) থেকে video ID বের করে
-function getYouTubeId(url){
-  if(!url) return null;
-  const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|shorts\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-  const match = url.match(regExp);
-  return match ? match[1] : null;
-}
-
-const videoCategories = Object.keys(CONFIG.freeVideos);
-let activeVideoCategory = videoCategories[0]; // ডিফল্ট হিসেবে প্রথম বিভাগ (SSC) active থাকবে
-
-function renderVideoPills(){
-  document.getElementById('videoPillRow').innerHTML = videoCategories.map(c => `
-    <button class="pill ${c === activeVideoCategory ? 'active' : ''}" data-vcat="${c}">${c}</button>
-  `).join('');
-  document.querySelectorAll('#videoPillRow .pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeVideoCategory = btn.dataset.vcat;
-      renderVideoPills();
-      renderVideos();
-    });
-  });
-}
-
-function renderVideos(){
-  const list = CONFIG.freeVideos[activeVideoCategory] || [];
-  document.getElementById('videoGrid').innerHTML = list.map((v, i) => {
-    const id = getYouTubeId(v.youtubeUrl);
-    const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
-    return `
-      <div class="video-card">
-        <div class="video-thumb" data-yid="${id || ''}">
-          <img src="${thumb}" alt="${v.title}">
-          <div class="video-play-btn">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-        <div class="video-title">${v.title}</div>
-      </div>
-    `;
-  }).join('');
-
-  document.querySelectorAll('.video-thumb').forEach(thumbEl => {
-    thumbEl.addEventListener('click', () => {
-      const id = thumbEl.dataset.yid;
-      if(!id) return;
-      thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-    });
-  });
-}
-
-renderVideoPills();
-renderVideos();
-
-// teachers
-document.getElementById('teacherGrid').innerHTML = CONFIG.teachers.map(t => `
-  <div class="teacher-card">
-    <img class="teacher-photo" src="${t.image}" alt="${t.name}">
-    <div class="teacher-info">
-      <div class="name">${t.name}</div>
-      <div class="subject">${t.subject}</div>
-      <div class="bio">${t.bio}</div>
-    </div>
-  </div>
-`).join('');
-
-// social
-document.getElementById('socialRow').innerHTML = CONFIG.social.map(s => `
-  <a href="${s.url}" title="${s.label}">${s.icon}</a>
-`).join('');
-
-renderPills();
-renderCourses();
-
-// mobile nav toggle
-document.getElementById('burgerBtn').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-
-// nav link click korle mobile menu auto close hobe
-document.querySelectorAll('#navLinks a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.getElementById('navLinks').classList.remove('open');
-  });
-});
-
-// ---- "মেসেজ পাঠান" ফর্ম — CONFIG.messageForm থেকে রেন্ডার হবে, সাবমিট হলে Google Apps Script এর মাধ্যমে Google Sheet এ সেভ হবে ----
+// কোর্স ক্যাটাগরি ফিল্টার ট্যাব — ট্যাবে ক্লিক করলে সেই data-category এর কার্ডই শুধু দেখাবে
 (function(){
-  const mf = CONFIG.messageForm;
+  const pillRow = document.getElementById('pillRow');
+  const cards = document.querySelectorAll('#courseGrid .course-card');
 
-  document.getElementById('messageBox').innerHTML = `
-    <div class="section-head">
-      <span class="eyebrow">${mf.eyebrow}</span>
-      <h2>${mf.heading}</h2>
-      <p>${mf.subtext}</p>
-    </div>
+  function applyFilter(cat){
+    cards.forEach(card => {
+      card.hidden = (cat !== 'সবগুলো' && card.dataset.category !== cat);
+    });
+  }
 
-    <form id="msgForm">
-      <div class="form-row">
-        <label for="msgName">${mf.nameLabel}</label>
-        <input type="text" id="msgName" name="name" required placeholder="${mf.namePlaceholder}">
-      </div>
-      <div class="form-row">
-        <label for="msgClass">${mf.classLabel}</label>
-        <input type="text" id="msgClass" name="class" required placeholder="${mf.classPlaceholder}">
-      </div>
-      <div class="form-row">
-        <label for="msgPhone">${mf.phoneLabel}</label>
-        <input type="tel" id="msgPhone" name="phone" required placeholder="${mf.phonePlaceholder}">
-      </div>
-      <div class="form-row">
-        <label for="msgText">${mf.messageLabel}</label>
-        <textarea id="msgText" name="message" required placeholder="${mf.messagePlaceholder}"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" id="msgSubmitBtn">${mf.submitText}</button>
-      <p class="form-status" id="msgStatus"></p>
-    </form>
-  `;
+  pillRow.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill');
+    if(!btn) return;
+    pillRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter(btn.dataset.cat);
+  });
+})();
+
+// ফ্রি ভিডিও ক্যাটাগরি ফিল্টার ট্যাব — একই পদ্ধতিতে কাজ করে
+(function(){
+  const pillRow = document.getElementById('videoPillRow');
+  const cards = document.querySelectorAll('#videoGrid .video-card');
+
+  function applyFilter(cat){
+    cards.forEach(card => {
+      card.hidden = (card.dataset.vcategory !== cat);
+    });
+  }
+
+  pillRow.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill');
+    if(!btn) return;
+    pillRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter(btn.dataset.vcat);
+  });
+})();
+
+// ভিডিও থাম্বনেইলে ক্লিক করলে ইউটিউব প্লেয়ার এমবেড হয়ে অটোপ্লে হবে
+document.querySelectorAll('.video-thumb').forEach(thumbEl => {
+  thumbEl.addEventListener('click', () => {
+    const id = thumbEl.dataset.yid;
+    if(!id) return;
+    thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  });
+});
+
+// "আমাদের মেসেজ পাঠান" ফর্ম সাবমিট — নিচের URL টাই Google Apps Script "Web App" লিংক,
+// এখানে বদলে দিলেই ফর্মের ডেটা আপনার নিজের Google Sheet এ গিয়ে জমা হবে
+(function(){
+  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbx1QVvoeRpM9DdRA5Iv_PtsUBWZh3thRwhKTa3VqIXVLLooWsQNGfioOr7JS3KK5NrccA/exec";
 
   const form = document.getElementById('msgForm');
   const btn = document.getElementById('msgSubmitBtn');
@@ -1751,39 +2114,39 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   form.addEventListener('submit', function(e){
     e.preventDefault();
 
-    if(!CONFIG.formEndpoint || CONFIG.formEndpoint === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
-      status.textContent = mf.notSetupText;
+    if(!FORM_ENDPOINT || FORM_ENDPOINT === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
+      status.textContent = "⚠️ ফর্মটি এখনো সেটআপ হয়নি — script ট্যাগের ভেতরের FORM_ENDPOINT এ Google Apps Script URL বসাতে হবে।";
       status.className = "form-status show err";
       return;
     }
 
     btn.disabled = true;
-    btn.textContent = mf.sendingText;
+    btn.textContent = "পাঠানো হচ্ছে...";
     status.className = "form-status";
 
     const data = new FormData(form);
 
     // no-cors mode ব্যবহার করা হয়েছে কারণ Google Apps Script সাধারণত CORS হেডার পাঠায় না;
     // এতে রেসপন্স পড়া যায় না, কিন্তু ডেটা ঠিকই শিটে গিয়ে জমা হয়।
-    fetch(CONFIG.formEndpoint, { method: 'POST', mode: 'no-cors', body: data })
+    fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
       .then(() => {
-        status.textContent = mf.successText;
+        status.textContent = "✅ আপনার মেসেজ পাঠানো হয়েছে, ধন্যবাদ!";
         status.className = "form-status show ok";
         form.reset();
       })
       .catch(() => {
-        status.textContent = mf.errorText;
+        status.textContent = "❌ দুঃখিত, মেসেজ পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
         status.className = "form-status show err";
       })
       .finally(() => {
         btn.disabled = false;
-        btn.textContent = mf.submitText;
+        btn.textContent = "পাঠিয়ে দিন";
       });
   });
 })();
 
-// নোট: "ভর্তি হোন" (নেভবার) ও "Enroll Now" (কোর্স কার্ড) বাটনগুলো এখন popup না দেখিয়ে
-// সরাসরি admission.html পেজে নিয়ে যায় (href="admission.html" দিয়ে করা হয়েছে)।
+// নোট: "ভর্তি হোন" (নেভবার) ও "Enroll Now" (কোর্স কার্ড) বাটনগুলো সরাসরি
+// admission.html পেজে নিয়ে যায় (href="admission.html" দিয়ে করা হয়েছে)।
 </script>
 </body>
 </html>
