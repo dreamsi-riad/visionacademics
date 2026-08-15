@@ -571,6 +571,7 @@ section{ padding:52px 0; }
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(270px,1fr));
   gap:24px;
+  scroll-margin-top:82px; /* মোবাইলে ক্যাটাগরি কার্ডে ক্লিক করলে স্টিকি নেভবারের নিচে গিয়ে থামে */
 }
 .course-card{
   background:var(--card);
@@ -2256,8 +2257,10 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 
 // ক্যাটাগরি কুইক-কার্ড — এখন এগুলোই কোর্স ফিল্টার হিসেবে কাজ করে।
 // কার্ডে ক্লিক করলে শুধু সেই ক্যাটাগরির কোর্স দেখাবে, একই কার্ডে আবার ক্লিক করলে সবগুলো কোর্স আবার দেখা যাবে।
+// ক্লিক করার পর পেজ অটো-স্ক্রল করে নিচের আসল কোর্স কার্ডগুলো পর্যন্ত চলে যাবে (বিশেষ করে মোবাইলে দরকারি)।
 (function(){
   const catGrid = document.getElementById('catGrid');
+  const courseGrid = document.getElementById('courseGrid');
   const cards = document.querySelectorAll('#courseGrid .course-card');
   if(!catGrid || !cards.length) return;
 
@@ -2281,20 +2284,26 @@ document.querySelectorAll('#navLinks a').forEach(link => {
       btn.classList.add('active');
       applyFilter(btn.dataset.cat);
     }
+
+    if(courseGrid){
+      courseGrid.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
   });
 })();
 
-// হিরো সেকশনের SSC/HSC/BBA ব্যাজ — ক্লিক করলে কোর্স সেকশনে গিয়ে
-// সেই ক্যাটাগরির cat-card অটো-ক্লিক হয়ে কোর্স ফিল্টার হয়ে যাবে (স্ক্রলটা href="#courses" নিজেই করে দেয়)
+// হিরো সেকশনের SSC/HSC/BBA ব্যাজ — ক্লিক করলে সরাসরি নিচের কোর্স কার্ড পর্যন্ত স্মুথ-স্ক্রল হয়ে
+// সেই ক্যাটাগরির cat-card অটো-ক্লিক হয়ে কোর্স ফিল্টার হয়ে যাবে (নিজেদের ডিফল্ট #courses জাম্প বন্ধ রাখা হয়েছে,
+// যাতে ডাবল-স্ক্রল না হয় — আসল স্ক্রলটা catGrid এর ক্লিক-হ্যান্ডলারই করে দেয়)
 (function(){
   const heroLevels = document.querySelectorAll('.level-card[data-hero-cat]');
   const catGrid = document.getElementById('catGrid');
   if(!heroLevels.length || !catGrid) return;
 
   heroLevels.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
       const targetCard = catGrid.querySelector(`.cat-card[data-cat="${link.dataset.heroCat}"]`);
-      if(targetCard && !targetCard.classList.contains('active')){
+      if(targetCard){
         targetCard.click();
       }
     });
