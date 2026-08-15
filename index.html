@@ -445,6 +445,9 @@ section{ padding:52px 0; }
   transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
 .course-card:hover{ transform:translateY(-9px) scale(1.015); box-shadow:0 26px 46px rgba(30,42,71,.20), 0 0 34px 6px rgba(79,143,255,.45); }
+/* উপরে display:flex থাকার কারণে JS দিয়ে hidden অ্যাট্রিবিউট বসালেও কার্ড লুকাচ্ছিল না —
+   এই রুলটা [hidden] অবস্থায় জোর করে লুকিয়ে দেবে (কোর্স ফিল্টার বাটন কাজ করার জন্য জরুরি) */
+.course-card[hidden]{ display:none; }
 .course-image{
   width:100%;
   aspect-ratio:16/10;
