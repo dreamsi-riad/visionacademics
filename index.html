@@ -33,6 +33,74 @@
 
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
+
+/* ===== ফ্লোটিং WhatsApp আইকন (সব পেজের নিচে ডান কর্নারে ফিক্সড থাকবে) =====
+   নাম্বার বদলাতে চাইলে নিচের HTML অংশে "wa.me/" এর পরের নাম্বারটা বদলান।
+   পিছনের এনিমেশন (ঘোরা ড্যাশড রিং + পালস ইফেক্ট) একদম "যোগাযোগ" সেকশনের
+   কল আইকনের (.call-badge) মতোই করা হয়েছে, শুধু রঙ WhatsApp সবুজ (#25D366)। */
+.whatsapp-badge{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:58px;
+  height:58px;
+  z-index:9999;
+}
+.whatsapp-badge .wa-ring{
+  position:absolute; inset:-8px;
+  border-radius:50%;
+  border:1.5px dashed rgba(37,211,102,.55);
+  animation:spin-slow 14s linear infinite;
+}
+.whatsapp-badge .wa-ring.wa-ring2{
+  inset:-16px;
+  border-color:rgba(37,211,102,.28);
+  animation-duration:20s;
+  animation-direction:reverse;
+}
+.whatsapp-badge .wa-pulse{
+  position:absolute; inset:0;
+  border-radius:50%;
+  background:#25D366;
+  opacity:.55;
+  animation:pulse-ring 2.2s ease-out infinite;
+}
+.whatsapp-float{
+  position:relative;
+  width:58px;
+  height:58px;
+  background:#25D366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 8px 22px rgba(0,0,0,0.25);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.whatsapp-float:hover{
+  transform:scale(1.08);
+  box-shadow:0 10px 26px rgba(0,0,0,0.3);
+}
+.whatsapp-float svg{
+  width:32px;
+  height:32px;
+}
+@media (max-width:480px){
+  .whatsapp-badge{
+    width:52px;
+    height:52px;
+    right:14px;
+    bottom:14px;
+  }
+  .whatsapp-float{
+    width:52px;
+    height:52px;
+  }
+  .whatsapp-float svg{
+    width:28px;
+    height:28px;
+  }
+}
 body{
   margin:0;
   color:var(--ink);
@@ -322,6 +390,12 @@ header.nav{
   align-items:center;
   justify-content:center;
   gap:10px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.level-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 22px rgba(30,42,71,.26);
 }
 .level-card svg{
   width:1em;
@@ -400,20 +474,82 @@ section{ padding:52px 0; }
   font-size:16.5px;
 }
 
+/* ---------- ক্যাটাগরি কুইক-কার্ড (কোর্সসমূহ সেকশনের ফিল্টার হিসেবে ব্যবহৃত) ---------- */
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:22px;
+  margin-bottom:36px;
+}
+.cat-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:#fff;
+  border-radius:16px;
+  padding:22px 22px;
+  border:2px solid transparent;
+  box-shadow:0 8px 22px rgba(30,42,71,0.06);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.cat-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 30px rgba(30,42,71,0.12);
+}
+.cat-card.active{
+  border-color:var(--cat-color, var(--ink));
+  box-shadow:0 14px 30px rgba(30,42,71,0.14);
+}
+.cat-icon{
+  flex:0 0 auto;
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.cat-icon svg{
+  width:30px;
+  height:30px;
+}
+.cat-text{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.cat-text b{
+  font-size:19px;
+  font-weight:700;
+  color:var(--cat-color, var(--ink));
+}
+.cat-text span{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.4;
+}
+@media (max-width:860px){
+  .cat-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+@media (max-width:520px){
+  .cat-grid{ grid-template-columns:1fr; }
+  .cat-card{ padding:18px; }
+}
+
 /* ---------- Program pills (like the original site's category tabs) ---------- */
 .pill-row{
   display:flex;
-  gap:10px;
+  gap:14px;
   flex-wrap:wrap;
   margin-bottom:36px;
 }
 .pill{
-  padding:9px 20px;
+  padding:16px 32px;
   border-radius:999px;
   background:#fff;
   border:1px solid var(--paper-line);
-  font-weight:600;
-  font-size:14.5px;
+  font-weight:700;
+  font-size:18px;
   color:var(--ink-soft);
   transition:.2s ease;
 }
@@ -421,6 +557,12 @@ section{ padding:52px 0; }
   background:var(--ink);
   color:#fff;
   border-color:var(--ink);
+}
+@media (max-width:480px){
+  .pill{
+    padding:12px 22px;
+    font-size:15.5px;
+  }
 }
 
 /* ---------- Course cards ("exam admit card" styling) ---------- */
@@ -1028,20 +1170,21 @@ footer{
       </div>
 
       <div>
-        <!-- হিরোর ডানপাশে ৩টা লেভেল ব্যাজ: SSC / HSC / BBA -->
+        <!-- হিরোর ডানপাশে ৩টা লেভেল ব্যাজ: SSC / HSC / BBA — ক্লিক করলে সরাসরি
+             কোর্স সেকশনে গিয়ে সেই ক্যাটাগরির কোর্স ফিল্টার হয়ে দেখাবে -->
         <div class="hero-levels">
-          <span class="level-card level-ssc">
+          <a href="#courses" class="level-card level-ssc" data-hero-cat="SSC">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             <span>SSC</span>
-          </span>
-          <span class="level-card level-hsc">
+          </a>
+          <a href="#courses" class="level-card level-hsc" data-hero-cat="HSC">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
             <span>HSC</span>
-          </span>
-          <span class="level-card level-bba">
+          </a>
+          <a href="#courses" class="level-card level-bba" data-hero-cat="BBA">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
             <span>BBA</span>
-          </span>
+          </a>
         </div>
 
         <!-- পিনবোর্ড — ৩ সেকেন্ড পরপর ঘুরতে থাকা ৫টা ছবি; ৬ষ্ঠটা (সবার শেষে) সিমলেস লুপ
@@ -1097,20 +1240,85 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন কোর্সের বিস্তারিত ও ফি।</p>
       </div>
 
-      <!-- ফিল্টার ট্যাব (সবগুলো / SSC / HSC / ...) — এখানে নতুন ট্যাব যোগ করলে
-           নিচের কোর্স কার্ডগুলোতেও data-category দিয়ে সেই নাম বসাতে হবে -->
-      <div class="pill-row" id="pillRow">
-        <button class="pill active" data-cat="সবগুলো">সবগুলো</button>
-        <button class="pill" data-cat="SSC">SSC</button>
-        <button class="pill" data-cat="HSC">HSC</button>
-        <button class="pill" data-cat="BBA">BBA</button>
-        <button class="pill" data-cat="MBA">MBA</button>
-        <button class="pill" data-cat="BBS">BBS</button>
-        <button class="pill" data-cat="BBA Professional">BBA Professional</button>
+      <!-- ============================================================
+           ক্যাটাগরি কুইক-কার্ড (ছবির স্টাইলে) — এগুলোই এখন ফিল্টার হিসেবে কাজ করে।
+           কোনো কার্ডে ক্লিক করলে শুধু সেই ক্যাটাগরির কোর্স কার্ডগুলো দেখাবে,
+           আবার একই কার্ডে ক্লিক করলে সবগুলো কোর্স আবার দেখা যাবে।
+           নতুন কার্ড যোগ করতে চাইলে .cat-card ব্লক কপি করে data-cat বদলে দিন
+           (data-cat অবশ্যই নিচের কোর্স কার্ডের data-category এর সাথে মিলতে হবে)
+           ============================================================ -->
+      <div class="cat-grid" id="catGrid">
+
+        <!-- ক্যাটাগরি কার্ড ১: SSC -->
+        <a href="#courses" class="cat-card" data-cat="SSC" style="--cat-color:#2F6FE4">
+          <span class="cat-icon" style="background:#EAF1FE">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2F6FE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>এসএসসি</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
+        <!-- ক্যাটাগরি কার্ড ২: HSC -->
+        <a href="#courses" class="cat-card" data-cat="HSC" style="--cat-color:#2FA86C">
+          <span class="cat-icon" style="background:#E9F8EF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2FA86C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>এইচএসসি</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
+        <!-- ক্যাটাগরি কার্ড ৩: BBA -->
+        <a href="#courses" class="cat-card" data-cat="BBA" style="--cat-color:#C9337A">
+          <span class="cat-icon" style="background:#FBEAF3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9337A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>বিবিএ</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
+        <!-- ক্যাটাগরি কার্ড ৪: MBA -->
+        <a href="#courses" class="cat-card" data-cat="MBA" style="--cat-color:#7B4FE0">
+          <span class="cat-icon" style="background:#F1ECFC">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#7B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>এমবিএ</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
+        <!-- ক্যাটাগরি কার্ড ৫: BBS -->
+        <a href="#courses" class="cat-card" data-cat="BBS" style="--cat-color:#DD7A1F">
+          <span class="cat-icon" style="background:#FDF1E4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#DD7A1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>বিবিএস</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
+        <!-- ক্যাটাগরি কার্ড ৬: BBA Professional -->
+        <a href="#courses" class="cat-card" data-cat="BBA Professional" style="--cat-color:#E0466B">
+          <span class="cat-icon" style="background:#FCEAF0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E0466B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </span>
+          <span class="cat-text">
+            <b>বিবিএ প্রফেশনাল</b>
+            <span>লেকচার ভিডিও, লাইভ ক্লাস, এসাইনমেন্ট</span>
+          </span>
+        </a>
+
       </div>
 
       <!-- কোর্স কার্ডগুলো — প্রতিটা কার্ডের data-category অ্যাট্রিবিউট দিয়ে বোঝা যায়
-           এটা কোন ট্যাবে দেখাবে (উপরের পিলের data-cat এর সাথে মিলে) -->
+           এটা কোন ক্যাটাগরি কার্ডে দেখাবে (উপরের cat-card এর data-cat এর সাথে মিলে) -->
       <div class="course-grid" id="courseGrid">
 
         <!-- ▼▼▼ SSC কোর্স (৪টা কার্ড) ▼▼▼ -->
@@ -2051,25 +2259,53 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   }
 })();
 
-// কোর্স ক্যাটাগরি ফিল্টার ট্যাব — ট্যাবে ক্লিক করলে সেই data-category এর কার্ডই শুধু দেখাবে
+// ক্যাটাগরি কুইক-কার্ড — এখন এগুলোই কোর্স ফিল্টার হিসেবে কাজ করে।
+// কার্ডে ক্লিক করলে শুধু সেই ক্যাটাগরির কোর্স দেখাবে, একই কার্ডে আবার ক্লিক করলে সবগুলো কোর্স আবার দেখা যাবে।
 (function(){
-  const pillRow = document.getElementById('pillRow');
+  const catGrid = document.getElementById('catGrid');
   const cards = document.querySelectorAll('#courseGrid .course-card');
+  if(!catGrid || !cards.length) return;
 
   function applyFilter(cat){
     cards.forEach(card => {
-      card.hidden = (cat !== 'সবগুলো' && card.dataset.category !== cat);
+      card.hidden = (cat !== null && card.dataset.category !== cat);
     });
   }
 
-  pillRow.addEventListener('click', (e) => {
-    const btn = e.target.closest('.pill');
+  catGrid.addEventListener('click', (e) => {
+    e.preventDefault();
+    const btn = e.target.closest('.cat-card');
     if(!btn) return;
-    pillRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilter(btn.dataset.cat);
+
+    const alreadyActive = btn.classList.contains('active');
+    catGrid.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+
+    if(alreadyActive){
+      applyFilter(null); // একই কার্ডে আবার ক্লিক করলে সব কোর্স দেখাবে
+    } else {
+      btn.classList.add('active');
+      applyFilter(btn.dataset.cat);
+    }
   });
 })();
+
+// হিরো সেকশনের SSC/HSC/BBA ব্যাজ — ক্লিক করলে কোর্স সেকশনে গিয়ে
+// সেই ক্যাটাগরির cat-card অটো-ক্লিক হয়ে কোর্স ফিল্টার হয়ে যাবে (স্ক্রলটা href="#courses" নিজেই করে দেয়)
+(function(){
+  const heroLevels = document.querySelectorAll('.level-card[data-hero-cat]');
+  const catGrid = document.getElementById('catGrid');
+  if(!heroLevels.length || !catGrid) return;
+
+  heroLevels.forEach(link => {
+    link.addEventListener('click', () => {
+      const targetCard = catGrid.querySelector(`.cat-card[data-cat="${link.dataset.heroCat}"]`);
+      if(targetCard && !targetCard.classList.contains('active')){
+        targetCard.click();
+      }
+    });
+  });
+})();
+
 
 // ফ্রি ভিডিও ক্যাটাগরি ফিল্টার ট্যাব — একই পদ্ধতিতে কাজ করে
 (function(){
@@ -2146,5 +2382,19 @@ document.querySelectorAll('.video-thumb').forEach(thumbEl => {
 // নোট: "ভর্তি হোন" (নেভবার) ও "Enroll Now" (কোর্স কার্ড) বাটনগুলো সরাসরি
 // admission.html পেজে নিয়ে যায় (href="admission.html" দিয়ে করা হয়েছে)।
 </script>
+
+<!-- ===== ফ্লোটিং WhatsApp বাটন (পিছনে কল-আইকনের মতো ঘোরা রিং + পালস এনিমেশন) =====
+     নাম্বার বদলাতে চাইলে নিচের href এর "8801764859503" অংশটুকু বদলান
+     (দেশের কোডসহ, শুরুতে + বা ০ থাকবে না) -->
+<div class="whatsapp-badge">
+  <span class="wa-ring"></span>
+  <span class="wa-ring wa-ring2"></span>
+  <span class="wa-pulse"></span>
+  <a href="https://wa.me/8801764859503" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp এ মেসেজ করুন">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#FFFFFF" d="M16.004 3C9.377 3 4 8.373 4 15c0 2.362.694 4.564 1.892 6.412L4 29l7.79-1.85A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75a9.71 9.71 0 0 1-4.95-1.354l-.355-.21-4.62 1.098 1.126-4.5-.232-.368A9.71 9.71 0 0 1 6.25 15c0-5.386 4.368-9.75 9.754-9.75 5.386 0 9.75 4.364 9.75 9.75s-4.364 9.75-9.75 9.75zm5.354-7.297c-.293-.147-1.734-.856-2.003-.953-.269-.098-.465-.147-.66.147-.196.293-.758.953-.93 1.148-.171.196-.343.22-.636.073-.293-.147-1.237-.456-2.356-1.454-.87-.776-1.458-1.734-1.629-2.027-.171-.293-.018-.451.129-.598.132-.132.293-.343.44-.514.147-.171.196-.293.293-.489.098-.196.049-.367-.024-.514-.073-.147-.66-1.591-.905-2.179-.238-.572-.481-.494-.66-.503l-.562-.01c-.196 0-.514.073-.783.367-.269.293-1.026 1.003-1.026 2.446 0 1.443 1.05 2.837 1.196 3.033.147.196 2.067 3.156 5.009 4.427.7.302 1.246.483 1.672.618.702.223 1.342.192 1.848.117.564-.084 1.734-.709 1.978-1.394.244-.685.244-1.271.171-1.394-.073-.122-.269-.196-.562-.343z"/>
+    </svg>
+  </a>
+</div>
 </body>
 </html>
