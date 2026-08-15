@@ -426,9 +426,10 @@ footer a:hover{ color:#fff; }
    এখান থেকে নিচে শুধু ফাংশনালিটির কোড। তথ্য/লেখা বদলাতে উপরের HTML অংশ দেখুন, এখানে না।
    ========================================================================================= */
 
-// নিচের URL-টাই Google Apps Script "Web App" লিংক — admission.html / index.html এর
-// সাথে একই লিংক এখানে বসাতে হবে (একই Sheet/Apps Script প্রজেক্ট ব্যবহার হচ্ছে)।
-const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxep-pmY4XIvNaRMQXAWUWHYPylQ7F3cGToYTTnoVdR7p8hDVt53Z7t_ABjKBUV8hC4/exec";
+// নিচের URL-টাই Student Registration/Login এর জন্য আলাদা নতুন Google Apps
+// Script "Web App" লিংক (আলাদা Sheet ব্যবহার করা হচ্ছে, admission/contact
+// ফর্মের Sheet এর সাথে সম্পর্কিত না)।
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxSorq5VDMF9ijUEq1xjAQrhDRsznlOB6kV3WUci3ilpqbx8OGAs0BdObL4XNj-li5W/exec";
 
 /* ---------- ট্যাব সুইচ করার কোড ---------- */
 const tabLoginBtn = document.getElementById('tabLoginBtn');
