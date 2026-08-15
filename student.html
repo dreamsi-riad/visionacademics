@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>স্টুডেন্ট লগইন | VISION Academics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   এই ফাইলে দুইটা ফর্ম আছে — লগইন ও রেজিস্ট্রেশন — একই পেজে,
+   উপরের ২টা ট্যাব বাটন দিয়ে দেখানো/লুকানো হয়। কোনো তথ্য বদলাতে
+   চাইলে সরাসরি নিচের HTML অংশে গিয়ে বদলান।
+   index.html / admission.html এর সাথে একই রঙ/ফন্ট থিম ব্যবহার করা হয়েছে।
+   ========================================================= */
+
+:root{
+  --ink:#1E2A47;
+  --ink-soft:#4A5772;
+  --paper:#FAF7F0;
+  --paper-line:#E7DFCB;
+  --card:#FFFFFF;
+  --accent:#E8A33D;
+  --accent-dark:#C97F1F;
+  --margin:#C84B4B;
+  --sky:#5B8FBF;
+  --green:#4C8C6B;
+  --shadow:0 10px 30px rgba(30,42,71,0.08);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:'Anek Bangla', sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  background:var(--paper);
+}
+h1,h2,h3{
+  font-family:'Anek Bangla', sans-serif;
+  margin:0;
+  color:var(--ink);
+  font-weight:400;
+}
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; cursor:pointer; }
+
+.container{
+  max-width:min(1100px, 100%);
+  margin:0 auto;
+  padding:0 clamp(18px, 2.6vw, 64px);
+}
+
+.eyebrow{
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:13px;
+  color:var(--accent-dark);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before{
+  content:"";
+  width:18px;
+  height:2px;
+  background:var(--accent-dark);
+  display:inline-block;
+}
+
+/* ---------- Navbar ---------- */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,247,240,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--paper-line);
+}
+.nav-inner{
+  max-width:min(2300px, 100%);
+  margin:0 auto;
+  height:64px;
+  padding:0 clamp(18px, 2.6vw, 64px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:22px;
+  line-height:1.15;
+  color:var(--ink);
+}
+.brand .brand-logo{
+  height:64px;
+  max-height:100%;
+  width:auto;
+  aspect-ratio:3.84/1;
+  object-fit:contain;
+  flex:none;
+}
+.back-link{
+  font-weight:600;
+  font-size:15px;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.back-link:hover{ color:var(--ink); }
+
+/* ---------- পেজের উপরের হেডিং অংশ ---------- */
+.page-head{
+  padding:44px 0 10px;
+  text-align:center;
+}
+.page-head h1{
+  font-size:clamp(28px, 4vw, 42px);
+  margin-top:10px;
+}
+.page-head p{
+  margin-top:10px;
+  color:var(--ink-soft);
+  max-width:60ch;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ---------- ট্যাব বাটন (লগইন / রেজিস্ট্রেশন সুইচ) ---------- */
+.tab-wrap{
+  max-width:720px;
+  margin:26px auto 0;
+  padding:0 clamp(18px, 2.6vw, 64px);
+}
+.tab-switch{
+  display:flex;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:999px;
+  padding:5px;
+  box-shadow:var(--shadow);
+}
+.tab-btn{
+  flex:1;
+  border:none;
+  background:transparent;
+  padding:12px 10px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  color:var(--ink-soft);
+  transition:background .18s ease, color .18s ease;
+}
+.tab-btn.active{
+  background:var(--accent);
+  color:var(--ink);
+}
+
+/* ---------- ফর্ম কার্ড ---------- */
+.form-wrap{ padding:22px 0 70px; }
+.form-panel{ display:none; }
+.form-panel.active{ display:block; }
+.form-box{
+  max-width:720px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:34px 30px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 16px;
+}
+.form-grid .full{ grid-column:1 / -1; }
+@media(max-width:640px){
+  .form-grid{ grid-template-columns:1fr; }
+}
+.form-row{ margin-bottom:16px; display:flex; flex-direction:column; gap:6px; }
+.form-row label{ font-weight:600; font-size:14.5px; color:var(--ink); }
+.form-row label .req{ color:var(--margin); }
+.form-row input,
+.form-row select{
+  font-family:inherit;
+  font-size:15px;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1.5px solid var(--paper-line);
+  background:var(--paper);
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s ease;
+  width:100%;
+}
+.form-row input:focus,
+.form-row select:focus{ border-color:var(--accent); }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  border:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.btn-primary{
+  background:var(--accent);
+  color:var(--ink);
+  box-shadow:0 8px 20px rgba(232,163,61,.4);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(232,163,61,.5); }
+.btn-primary{ width:100%; margin-top:6px; }
+.btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
+
+.form-status{
+  margin-top:14px;
+  font-size:14.5px;
+  font-weight:600;
+  text-align:center;
+  display:none;
+}
+.form-status.show{ display:block; }
+.form-status.ok{ color:var(--green); }
+.form-status.err{ color:var(--margin); }
+
+/* ---------- Footer ---------- */
+footer{
+  background:var(--ink);
+  color:#EDEFF5;
+  padding:44px 0 22px;
+  margin-top:0;
+}
+footer .container{ max-width:min(2300px, 100%); }
+footer h4{ color:#fff; font-size:16px; margin-bottom:12px; }
+footer p, footer a{ color:#C9CFDE; font-size:14.5px; display:block; margin-bottom:6px; }
+footer a:hover{ color:#fff; }
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:30px;
+  padding-bottom:26px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+@media(max-width:700px){
+  .footer-grid{ grid-template-columns:1fr; }
+}
+.copyright{
+  margin-top:18px;
+  font-size:13.5px;
+  color:#9AA3BB;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     নেভবার — লোগো ও "হোমে ফিরে যান" লিংক
+     ============================================================ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000" alt="VISION Academics" class="brand-logo">
+    </a>
+    <a href="index.html" class="back-link">← হোমে ফিরে যান</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================
+       পেজের উপরের হেডিং অংশ
+       ============================================================ -->
+  <section class="page-head container">
+    <span class="eyebrow">স্টুডেন্ট পোর্টাল</span>
+    <h1>লগইন অথবা রেজিস্ট্রেশন করুন</h1>
+    <p>নতুন হলে "রেজিস্ট্রেশন" ট্যাবে গিয়ে অ্যাকাউন্ট তৈরি করুন, আগে থেকে অ্যাকাউন্ট থাকলে "লগইন" ট্যাব ব্যবহার করুন।</p>
+  </section>
+
+  <!-- ============================================================
+       ট্যাব বাটন — লগইন / রেজিস্ট্রেশন এর মধ্যে সুইচ করার জন্য
+       ============================================================ -->
+  <div class="tab-wrap">
+    <div class="tab-switch">
+      <button type="button" class="tab-btn active" id="tabLoginBtn">লগইন</button>
+      <button type="button" class="tab-btn" id="tabRegisterBtn">নতুন রেজিস্ট্রেশন</button>
+    </div>
+  </div>
+
+  <section class="form-wrap container">
+
+    <!-- ============================================================
+         লগইন ফর্ম প্যানেল
+         ============================================================ -->
+    <div class="form-panel active" id="loginPanel">
+      <div class="form-box">
+        <form id="loginForm">
+          <div class="form-row full">
+            <label for="login_phone">মোবাইল নম্বর <span class="req">*</span></label>
+            <input type="tel" id="login_phone" name="phone" placeholder="যেমন: 01XXXXXXXXX" required>
+          </div>
+          <div class="form-row full">
+            <label for="login_password">পাসওয়ার্ড <span class="req">*</span></label>
+            <input type="password" id="login_password" name="password" placeholder="আপনার পাসওয়ার্ড দিন" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginBtn">লগইন করুন</button>
+          <p class="form-status" id="loginStatus"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         রেজিস্ট্রেশন ফর্ম প্যানেল
+         নতুন ইনপুট বক্স যোগ করতে <div class="form-row">...</div> কপি
+         করে নিচে বসান। "full" ক্লাস দিলে বক্সটা পুরো সারি জুড়ে দেখাবে।
+         ============================================================ -->
+    <div class="form-panel" id="registerPanel">
+      <div class="form-box">
+        <form id="registerForm">
+          <div class="form-grid">
+
+            <div class="form-row full">
+              <label for="reg_name">শিক্ষার্থীর পূর্ণ নাম <span class="req">*</span></label>
+              <input type="text" id="reg_name" name="name" placeholder="যেমন: রহিম উদ্দিন" required>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_department">ডিপার্টমেন্ট <span class="req">*</span></label>
+              <!-- এখানে নতুন অপশন যোগ করতে <option> লাইন যোগ করুন -->
+              <select id="reg_department" name="department" required>
+                <option value="" disabled selected>নির্বাচন করুন</option>
+                <option value="HSC">HSC</option>
+                <option value="BBA">BBA</option>
+                <option value="MBA">MBA</option>
+                <option value="BBS">BBS</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_session">সেশন <span class="req">*</span></label>
+              <input type="text" id="reg_session" name="session" placeholder="যেমন: ২০২৪-২০২৫" required>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_college">কলেজ/প্রতিষ্ঠানের নাম <span class="req">*</span></label>
+              <input type="text" id="reg_college" name="college" placeholder="যেমন: ঢাকা কলেজ" required>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_phone">মোবাইল নম্বর <span class="req">*</span></label>
+              <input type="tel" id="reg_phone" name="phone" placeholder="যেমন: 01XXXXXXXXX" required>
+            </div>
+
+            <div class="form-row full">
+              <label for="reg_address">ঠিকানা <span class="req">*</span></label>
+              <input type="text" id="reg_address" name="address" placeholder="বর্তমান ঠিকানা লিখুন" required>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_password">পাসওয়ার্ড <span class="req">*</span></label>
+              <input type="password" id="reg_password" name="password" placeholder="একটা পাসওয়ার্ড দিন" required>
+            </div>
+
+            <div class="form-row">
+              <label for="reg_confirmPassword">পাসওয়ার্ড আবার লিখুন <span class="req">*</span></label>
+              <input type="password" id="reg_confirmPassword" name="confirmPassword" placeholder="পাসওয়ার্ড আবার লিখুন" required>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="registerBtn">রেজিস্ট্রেশন করুন</button>
+          <p class="form-status" id="registerStatus"></p>
+        </form>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ============================================================
+     ফুটার
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>VISION Academics</h4>
+        <p>মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p>📞 ০১৬০১-৯২৯২৪৪</p>
+        <p>✉️ info@example.com</p>
+      </div>
+      <div>
+        <h4>শর্টকাট</h4>
+        <a href="index.html#courses">কোর্সসমূহ</a>
+        <a href="index.html#teachers">শিক্ষকবৃন্দ</a>
+        <a href="index.html#contact">যোগাযোগ</a>
+      </div>
+    </div>
+    <p class="copyright">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================================
+   এখান থেকে নিচে শুধু ফাংশনালিটির কোড। তথ্য/লেখা বদলাতে উপরের HTML অংশ দেখুন, এখানে না।
+   ========================================================================================= */
+
+// নিচের URL-টাই Google Apps Script "Web App" লিংক — admission.html / index.html এর
+// সাথে একই লিংক এখানে বসাতে হবে (একই Sheet/Apps Script প্রজেক্ট ব্যবহার হচ্ছে)।
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxep-pmY4XIvNaRMQXAWUWHYPylQ7F3cGToYTTnoVdR7p8hDVt53Z7t_ABjKBUV8hC4/exec";
+
+/* ---------- ট্যাব সুইচ করার কোড ---------- */
+const tabLoginBtn = document.getElementById('tabLoginBtn');
+const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+const loginPanel = document.getElementById('loginPanel');
+const registerPanel = document.getElementById('registerPanel');
+
+tabLoginBtn.addEventListener('click', function(){
+  tabLoginBtn.classList.add('active');
+  tabRegisterBtn.classList.remove('active');
+  loginPanel.classList.add('active');
+  registerPanel.classList.remove('active');
+});
+tabRegisterBtn.addEventListener('click', function(){
+  tabRegisterBtn.classList.add('active');
+  tabLoginBtn.classList.remove('active');
+  registerPanel.classList.add('active');
+  loginPanel.classList.remove('active');
+});
+
+/* ---------- লগইন ফর্ম সাবমিট ---------- */
+(function(){
+  const form = document.getElementById('loginForm');
+  const btn = document.getElementById('loginBtn');
+  const status = document.getElementById('loginStatus');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    btn.disabled = true;
+    btn.textContent = "যাচাই করা হচ্ছে...";
+    status.className = "form-status";
+
+    const data = new FormData(form);
+    data.append('action', 'studentLogin');
+
+    fetch(FORM_ENDPOINT, { method: 'POST', body: data })
+      .then(res => res.json())
+      .then(result => {
+        if(result.success){
+          status.textContent = "✅ লগইন সফল হয়েছে! প্রোফাইলে নিয়ে যাওয়া হচ্ছে...";
+          status.className = "form-status show ok";
+          sessionStorage.setItem('studentProfile', JSON.stringify(result.profile));
+          setTimeout(function(){ window.location.href = 'profile.html'; }, 800);
+        } else {
+          status.textContent = "❌ " + (result.message || "মোবাইল নম্বর অথবা পাসওয়ার্ড ভুল।");
+          status.className = "form-status show err";
+          btn.disabled = false;
+          btn.textContent = "লগইন করুন";
+        }
+      })
+      .catch(() => {
+        status.textContent = "❌ সার্ভারের সাথে সংযোগ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
+        status.className = "form-status show err";
+        btn.disabled = false;
+        btn.textContent = "লগইন করুন";
+      });
+  });
+})();
+
+/* ---------- রেজিস্ট্রেশন ফর্ম সাবমিট ---------- */
+(function(){
+  const form = document.getElementById('registerForm');
+  const btn = document.getElementById('registerBtn');
+  const status = document.getElementById('registerStatus');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const password = document.getElementById('reg_password').value;
+    const confirmPassword = document.getElementById('reg_confirmPassword').value;
+
+    if(password !== confirmPassword){
+      status.textContent = "❌ দুইবার দেওয়া পাসওয়ার্ড মিলছে না।";
+      status.className = "form-status show err";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "রেজিস্ট্রেশন হচ্ছে...";
+    status.className = "form-status";
+
+    const data = new FormData(form);
+    data.append('action', 'studentRegister');
+
+    fetch(FORM_ENDPOINT, { method: 'POST', body: data })
+      .then(res => res.json())
+      .then(result => {
+        if(result.success){
+          status.textContent = "✅ রেজিস্ট্রেশন সফল হয়েছে! প্রোফাইলে নিয়ে যাওয়া হচ্ছে...";
+          status.className = "form-status show ok";
+          sessionStorage.setItem('studentProfile', JSON.stringify(result.profile));
+          setTimeout(function(){ window.location.href = 'profile.html'; }, 800);
+        } else {
+          status.textContent = "❌ " + (result.message || "রেজিস্ট্রেশনে সমস্যা হয়েছে।");
+          status.className = "form-status show err";
+          btn.disabled = false;
+          btn.textContent = "রেজিস্ট্রেশন করুন";
+        }
+      })
+      .catch(() => {
+        status.textContent = "❌ সার্ভারের সাথে সংযোগ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
+        status.className = "form-status show err";
+        btn.disabled = false;
+        btn.textContent = "রেজিস্ট্রেশন করুন";
+      });
+  });
+})();
+</script>
+</body>
+</html>

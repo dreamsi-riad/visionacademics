@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>আমার প্রোফাইল | VISION Academics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* =========================================================
+   এই পেজ শুধু লগইন/রেজিস্ট্রেশনের পর দেখানোর জন্য।
+   ডেটা student.html থেকে sessionStorage হয়ে আসে — এই পেজে
+   কোনো তথ্য সরাসরি লেখা নেই, সবটাই JS দিয়ে বসানো হয়।
+   ========================================================= */
+
+:root{
+  --ink:#1E2A47;
+  --ink-soft:#4A5772;
+  --paper:#FAF7F0;
+  --paper-line:#E7DFCB;
+  --card:#FFFFFF;
+  --accent:#E8A33D;
+  --accent-dark:#C97F1F;
+  --margin:#C84B4B;
+  --sky:#5B8FBF;
+  --green:#4C8C6B;
+  --shadow:0 10px 30px rgba(30,42,71,0.08);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:'Anek Bangla', sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  background:var(--paper);
+}
+h1,h2,h3{
+  font-family:'Anek Bangla', sans-serif;
+  margin:0;
+  color:var(--ink);
+  font-weight:400;
+}
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; cursor:pointer; }
+
+.container{
+  max-width:min(1100px, 100%);
+  margin:0 auto;
+  padding:0 clamp(18px, 2.6vw, 64px);
+}
+
+/* ---------- Navbar ---------- */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,247,240,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--paper-line);
+}
+.nav-inner{
+  max-width:min(2300px, 100%);
+  margin:0 auto;
+  height:64px;
+  padding:0 clamp(18px, 2.6vw, 64px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:22px;
+  line-height:1.15;
+  color:var(--ink);
+}
+.brand .brand-logo{
+  height:64px;
+  max-height:100%;
+  width:auto;
+  aspect-ratio:3.84/1;
+  object-fit:contain;
+  flex:none;
+}
+.back-link{
+  font-weight:600;
+  font-size:15px;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.back-link:hover{ color:var(--ink); }
+
+/* ---------- প্রোফাইল কার্ড ---------- */
+.profile-wrap{ padding:44px 0 70px; }
+.profile-box{
+  max-width:640px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:36px 32px;
+}
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding-bottom:22px;
+  margin-bottom:22px;
+  border-bottom:1px solid var(--paper-line);
+}
+.profile-avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Baloo Da 2', sans-serif;
+  font-weight:800;
+  font-size:26px;
+  flex:none;
+}
+.profile-head h1{
+  font-size:24px;
+  font-weight:700;
+}
+.profile-head p{
+  color:var(--ink-soft);
+  font-size:14.5px;
+  margin-top:4px;
+}
+
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:13px 0;
+  border-bottom:1px solid var(--paper-line);
+  font-size:15px;
+}
+.info-row:last-of-type{ border-bottom:none; }
+.info-row .label{ color:var(--ink-soft); font-weight:600; }
+.info-row .value{ color:var(--ink); font-weight:600; text-align:right; }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  border:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+  width:100%;
+}
+.btn-logout{
+  background:transparent;
+  color:var(--margin);
+  border:1.5px solid var(--margin);
+  margin-top:26px;
+}
+.btn-logout:hover{ background:var(--margin); color:#fff; }
+
+.empty-state{
+  max-width:520px;
+  margin:70px auto;
+  text-align:center;
+  padding:0 20px;
+}
+.empty-state p{ color:var(--ink-soft); margin-top:10px; margin-bottom:22px; }
+.btn-primary{
+  display:inline-flex;
+  background:var(--accent);
+  color:var(--ink);
+  box-shadow:0 8px 20px rgba(232,163,61,.4);
+  padding:14px 26px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+}
+
+/* ---------- Footer ---------- */
+footer{
+  background:var(--ink);
+  color:#EDEFF5;
+  padding:44px 0 22px;
+  margin-top:0;
+}
+footer .container{ max-width:min(2300px, 100%); }
+footer h4{ color:#fff; font-size:16px; margin-bottom:12px; }
+footer p, footer a{ color:#C9CFDE; font-size:14.5px; display:block; margin-bottom:6px; }
+footer a:hover{ color:#fff; }
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:30px;
+  padding-bottom:26px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+@media(max-width:700px){
+  .footer-grid{ grid-template-columns:1fr; }
+}
+.copyright{
+  margin-top:18px;
+  font-size:13.5px;
+  color:#9AA3BB;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     নেভবার
+     ============================================================ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img src="https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000" alt="VISION Academics" class="brand-logo">
+    </a>
+    <a href="index.html" class="back-link">← হোমে ফিরে যান</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================
+       প্রোফাইল দেখানোর অংশ (লগইন করা থাকলে)
+       ============================================================ -->
+  <section class="profile-wrap container">
+    <div class="profile-box" id="profileBox" style="display:none;">
+      <div class="profile-head">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <div>
+          <h1 id="profileName">—</h1>
+          <p id="profileDepartmentLine">—</p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span class="label">সেশন</span>
+        <span class="value" id="profileSession">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">কলেজ/প্রতিষ্ঠান</span>
+        <span class="value" id="profileCollege">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">মোবাইল নম্বর</span>
+        <span class="value" id="profilePhone">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">ঠিকানা</span>
+        <span class="value" id="profileAddress">—</span>
+      </div>
+
+      <button class="btn btn-logout" id="logoutBtn">লগআউট করুন</button>
+    </div>
+
+    <!-- ============================================================
+         লগইন করা না থাকলে এই অংশ দেখানো হবে
+         ============================================================ -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <h1>আপনি লগইন করেননি</h1>
+      <p>প্রোফাইল দেখতে হলে আগে লগইন বা রেজিস্ট্রেশন করতে হবে।</p>
+      <a href="student.html" class="btn-primary">লগইন / রেজিস্ট্রেশন পেজে যান</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     ফুটার
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>VISION Academics</h4>
+        <p>মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p>📞 ০১৬০১-৯২৯২৪৪</p>
+        <p>✉️ info@example.com</p>
+      </div>
+      <div>
+        <h4>শর্টকাট</h4>
+        <a href="index.html#courses">কোর্সসমূহ</a>
+        <a href="index.html#teachers">শিক্ষকবৃন্দ</a>
+        <a href="index.html#contact">যোগাযোগ</a>
+      </div>
+    </div>
+    <p class="copyright">© ২০২৬ VISION Academics — সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================================
+   sessionStorage থেকে প্রোফাইল ডেটা পড়ে পেজে বসানোর কোড।
+   student.html এ লগইন/রেজিস্ট্রেশন সফল হলে এই ডেটা সেভ হয়ে এই পেজে রিডাইরেক্ট হয়।
+   ========================================================================================= */
+(function(){
+  const raw = sessionStorage.getItem('studentProfile');
+  const profileBox = document.getElementById('profileBox');
+  const emptyState = document.getElementById('emptyState');
+
+  if(!raw){
+    emptyState.style.display = 'block';
+    return;
+  }
+
+  let profile;
+  try {
+    profile = JSON.parse(raw);
+  } catch(e){
+    emptyState.style.display = 'block';
+    return;
+  }
+
+  profileBox.style.display = 'block';
+  document.getElementById('profileName').textContent = profile.name || '—';
+  document.getElementById('profileDepartmentLine').textContent = (profile.department || '—') + ' বিভাগের শিক্ষার্থী';
+  document.getElementById('profileSession').textContent = profile.session || '—';
+  document.getElementById('profileCollege').textContent = profile.college || '—';
+  document.getElementById('profilePhone').textContent = profile.phone || '—';
+  document.getElementById('profileAddress').textContent = profile.address || '—';
+  document.getElementById('profileAvatar').textContent = (profile.name || '?').trim().charAt(0);
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    sessionStorage.removeItem('studentProfile');
+    window.location.href = 'student.html';
+  });
+})();
+</script>
+</body>
+</html>
