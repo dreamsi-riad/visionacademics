@@ -181,10 +181,66 @@
         }
         
         @media(max-width: 768px) {
+            .course-detail-section {
+                padding: 28px 0;
+            }
+
+            .course-detail-section > .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
             .course-detail-grid {
                 grid-template-columns: 1fr;
-                padding: 25px;
-                gap: 30px;
+                padding: 16px;
+                gap: 24px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .detail-content {
+                min-width: 0;
+            }
+
+            .detail-title {
+                font-size: clamp(26px, 7vw, 34px);
+            }
+
+            .detail-description {
+                font-size: 16px;
+            }
+
+            .detail-actions {
+                gap: 10px;
+            }
+
+            .detail-actions .btn {
+                flex: 1 1 150px;
+                justify-content: center;
+                padding: 13px 18px;
+                white-space: nowrap;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .course-detail-section {
+                padding: 20px 0;
+            }
+
+            .course-detail-section > .container {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            .course-detail-grid {
+                padding: 12px;
+                gap: 20px;
+                border-radius: 14px;
+            }
+
+            .detail-actions .btn {
+                flex-basis: 100%;
+                width: 100%;
             }
         }
         
@@ -566,7 +622,7 @@
                         <div class="detail-description">${escapeHtml(description).replace(/\n/g,'<br>')}</div>
                         ${featuresHtml}
                         <div class="detail-actions">
-                            <a href="https://wa.me/8801764859503?text=${encodeURIComponent('আমি '+course.name+' কোর্সে ভর্তি হতে চাই।')}" target="_blank" rel="noopener" class="btn btn-primary">এনরোল Now</a>
+                            <a href="https://wa.me/8801764859503?text=${encodeURIComponent('আমি '+course.name+' কোর্সে ভর্তি হতে চাই।')}" target="_blank" rel="noopener" class="btn btn-primary">Enroll Now</a>
                             <a href="index.html#courses" class="btn btn-outline">সব কোর্স দেখুন</a>
                         </div>
                     </div>
