@@ -14,11 +14,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Anek+Bangla:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 
-/* =========================================================
-   VISION Academics - Registration / Login / Dashboard page
-   index.html এর সাথে একই রঙ/ফন্ট থিম ব্যবহার করা হয়েছে।
-   ========================================================= */
-
 :root{
   --ink:#1E2A47;
   --ink-soft:#4A5772;
@@ -60,7 +55,6 @@ button{ font-family:inherit; cursor:pointer; }
   padding:0 clamp(18px, 2.6vw, 64px);
 }
 
-/* ---------- Navbar ---------- */
 header.nav{
   position:sticky; top:0; z-index:50;
   background:rgba(250,247,240,0.92);
@@ -105,7 +99,6 @@ header.nav{
 }
 .back-link:hover{ color:var(--ink); }
 
-/* ---------- পেজের উপরের হেডিং অংশ ---------- */
 .page-head{
   padding:44px 0 10px;
   text-align:center;
@@ -122,10 +115,9 @@ header.nav{
   margin-right:auto;
 }
 
-/* ---------- Auth box + tabs ---------- */
 .auth-wrap{ padding:26px 0 70px; }
 .auth-box{
-  max-width:720px;
+  max-width:640px;
   margin:0 auto;
   background:#fff;
   border:1px solid var(--paper-line);
@@ -175,8 +167,7 @@ header.nav{
 .form-row label{ font-weight:600; font-size:14.5px; color:var(--ink); }
 .form-row label .req{ color:var(--margin); }
 .form-row input,
-.form-row select,
-.form-row textarea{
+.form-row select{
   font-family:inherit;
   font-size:15px;
   padding:12px 14px;
@@ -189,10 +180,7 @@ header.nav{
   width:100%;
 }
 .form-row input:focus,
-.form-row select:focus,
-.form-row textarea:focus{ border-color:var(--accent); }
-.form-row textarea{ resize:vertical; min-height:90px; }
-.form-hint{ font-size:12.5px; color:var(--ink-soft); }
+.form-row select:focus{ border-color:var(--accent); }
 
 .btn{
   display:inline-flex;
@@ -245,7 +233,6 @@ header.nav{
   font-weight:700; text-decoration:underline; padding:0; font-size:14px;
 }
 
-/* ---------- Dashboard ---------- */
 .dash-head{
   display:flex; align-items:center; justify-content:space-between;
   gap:16px; margin-bottom:22px; flex-wrap:wrap;
@@ -277,7 +264,6 @@ header.nav{
 .dash-item .k{ font-size:12.5px; color:var(--ink-soft); font-weight:600; margin-bottom:4px; }
 .dash-item .v{ font-size:15.5px; font-weight:700; color:var(--ink); }
 
-/* ---------- Footer ---------- */
 footer{
   background:var(--ink);
   color:#EDEFF5;
@@ -308,9 +294,6 @@ footer a:hover{ color:#fff; }
 </head>
 <body>
 
-<!-- ============================================================
-     নেভবার
-     ============================================================ -->
 <header class="nav">
   <div class="nav-inner">
     <a href="index.html" class="brand">
@@ -322,9 +305,6 @@ footer a:hover{ color:#fff; }
 
 <main>
 
-  <!-- ============================================================
-       পেজ হেডিং (রেজিস্ট্রেশন/লগইন অবস্থায় দেখাবে)
-       ============================================================ -->
   <section class="page-head" id="authPageHead">
     <h1>স্টুডেন্ট রেজিস্ট্রেশন ও লগইন</h1>
     <p>নতুন হলে রেজিস্ট্রেশন করুন, আগে থেকে অ্যাকাউন্ট থাকলে মোবাইল নম্বর ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
@@ -334,7 +314,6 @@ footer a:hover{ color:#fff; }
     <div class="container">
       <div class="auth-box">
 
-        <!-- ---------- Tabs: Register / Login ---------- -->
         <div class="tab-switch" id="tabSwitch">
           <button type="button" class="tab-btn" id="tabRegisterBtn">রেজিস্ট্রেশন</button>
           <button type="button" class="tab-btn" id="tabLoginBtn">লগইন</button>
@@ -348,13 +327,13 @@ footer a:hover{ color:#fff; }
             <div class="form-grid">
 
               <div class="form-row full">
-                <label for="reg_name">শিক্ষার্থীর পূর্ণ নাম <span class="req">*</span></label>
+                <label for="reg_name">নাম <span class="req">*</span></label>
                 <input type="text" id="reg_name" name="name" placeholder="যেমন: রহিম উদ্দিন" required>
               </div>
 
-              <div class="form-row">
-                <label for="reg_class">শ্রেণি <span class="req">*</span></label>
-                <input type="text" id="reg_class" name="class" placeholder="যেমন: নবম শ্রেণি" required>
+              <div class="form-row full">
+                <label for="reg_courseName">কোর্সের নাম <span class="req">*</span></label>
+                <input type="text" id="reg_courseName" name="courseName" placeholder="যেমন: BBA Admission Preparation" required>
               </div>
 
               <div class="form-row">
@@ -369,19 +348,15 @@ footer a:hover{ color:#fff; }
                 </select>
               </div>
 
-              <div class="form-row full">
-                <label for="reg_courseName">কোন কোর্সে ভর্তি হতে চান <span class="req">*</span></label>
-                <input type="text" id="reg_courseName" name="courseName" placeholder="যেমন: BBA Admission Preparation" required>
-              </div>
-
               <div class="form-row">
-                <label for="reg_year">বর্ষ / সাল</label>
-                <input type="text" id="reg_year" name="year" placeholder="যেমন: ১ম বর্ষ / ২০২৬">
-              </div>
-
-              <div class="form-row">
-                <label for="reg_department">ডিপার্টমেন্ট</label>
-                <input type="text" id="reg_department" name="department" placeholder="যেমন: Accounting">
+                <label for="reg_year">বর্ষ <span class="req">*</span></label>
+                <select id="reg_year" name="year" required>
+                  <option value="" disabled selected>নির্বাচন করুন</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
               </div>
 
               <div class="form-row">
@@ -395,8 +370,8 @@ footer a:hover{ color:#fff; }
               </div>
 
               <div class="form-row">
-                <label for="reg_phone">মোবাইল নম্বর <span class="req">*</span></label>
-                <input type="tel" id="reg_phone" name="phone" placeholder="01XXXXXXXXX" required>
+                <label for="reg_mobile">মোবাইল নম্বর <span class="req">*</span></label>
+                <input type="tel" id="reg_mobile" name="mobile" placeholder="01XXXXXXXXX" required>
               </div>
 
               <div class="form-row">
@@ -409,19 +384,9 @@ footer a:hover{ color:#fff; }
                 <input type="text" id="reg_address" name="address" placeholder="বর্তমান ঠিকানা লিখুন">
               </div>
 
-              <div class="form-row">
-                <label for="reg_password">পাসওয়ার্ড <span class="req">*</span></label>
-                <input type="password" id="reg_password" name="password" placeholder="কমপক্ষে ৬ অক্ষর" minlength="6" required>
-              </div>
-
-              <div class="form-row">
-                <label for="reg_password2">পাসওয়ার্ড আবার লিখুন <span class="req">*</span></label>
-                <input type="password" id="reg_password2" name="password2" placeholder="পাসওয়ার্ড নিশ্চিত করুন" minlength="6" required>
-              </div>
-
               <div class="form-row full">
-                <label for="reg_note">অতিরিক্ত কিছু জানাতে চাইলে</label>
-                <textarea id="reg_note" name="note" placeholder="কোনো প্রশ্ন বা মন্তব্য থাকলে লিখুন (ঐচ্ছিক)"></textarea>
+                <label for="reg_password">পাসওয়ার্ড <span class="req">*</span></label>
+                <input type="password" id="reg_password" name="password" placeholder="আপনার পাসওয়ার্ড দিন" required>
               </div>
 
             </div>
@@ -438,8 +403,8 @@ footer a:hover{ color:#fff; }
         <div class="panel" id="loginPanel">
           <form id="loginForm">
             <div class="form-row full">
-              <label for="login_phone">মোবাইল নম্বর <span class="req">*</span></label>
-              <input type="tel" id="login_phone" name="phone" placeholder="01XXXXXXXXX" required>
+              <label for="login_mobile">মোবাইল নম্বর <span class="req">*</span></label>
+              <input type="tel" id="login_mobile" name="mobile" placeholder="01XXXXXXXXX" required>
             </div>
             <div class="form-row full">
               <label for="login_password">পাসওয়ার্ড <span class="req">*</span></label>
@@ -472,9 +437,7 @@ footer a:hover{ color:#fff; }
         <div class="dash-grid">
           <div class="dash-item"><span class="k">কোর্স</span><span class="v" id="dashCourse">—</span></div>
           <div class="dash-item"><span class="k">লেভেল</span><span class="v" id="dashLevel">—</span></div>
-          <div class="dash-item"><span class="k">শ্রেণি</span><span class="v" id="dashClass">—</span></div>
-          <div class="dash-item"><span class="k">বর্ষ / সাল</span><span class="v" id="dashYear">—</span></div>
-          <div class="dash-item"><span class="k">ডিপার্টমেন্ট</span><span class="v" id="dashDepartment">—</span></div>
+          <div class="dash-item"><span class="k">বর্ষ</span><span class="v" id="dashYear">—</span></div>
           <div class="dash-item"><span class="k">সেশন</span><span class="v" id="dashSession">—</span></div>
           <div class="dash-item"><span class="k">প্রতিষ্ঠান</span><span class="v" id="dashInstitute">—</span></div>
           <div class="dash-item"><span class="k">মোবাইল</span><span class="v" id="dashMobile">—</span></div>
@@ -487,9 +450,6 @@ footer a:hover{ color:#fff; }
 
 </main>
 
-<!-- ============================================================
-     ফুটার
-     ============================================================ -->
 <footer>
   <div class="container">
     <div class="footer-grid">
@@ -514,20 +474,13 @@ footer a:hover{ color:#fff; }
 </footer>
 
 <script>
-/* =========================================================================================
-   VISION Academics — Registration / Login / Dashboard লজিক
-
-   FORM_ENDPOINT এর জায়গায় Google Apps Script Web App URL বসানো আছে।
-   ========================================================================================= */
 (function(){
-  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzZP0nykBLbR6bA-8J3cz176OBvZGTqn7Uu1WOSv4W_nWuV8crV_Jve8uXxjmzYvso/exec";
+  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyzDu8Jh3XttRYzyWhnRG45HiG2WWiK4c9gUo2qOtF8BwceaEOFOyVAbnJP39kKYkFf/exec";
 
-  const LS_USER_KEY = "va_user";               // logged-in user-er dashboard data
-  const LS_REGISTERED_KEY = "va_registered";    // ei device-e age registration hoyeche kina
+  const LS_USER_KEY = "va_user";
+  const LS_REGISTERED_KEY = "va_registered";
 
-  // ---------- Elements ----------
   const authPageHead = document.getElementById('authPageHead');
-  const tabSwitch = document.getElementById('tabSwitch');
   const tabRegisterBtn = document.getElementById('tabRegisterBtn');
   const tabLoginBtn = document.getElementById('tabLoginBtn');
   const registerPanel = document.getElementById('registerPanel');
@@ -547,7 +500,6 @@ footer a:hover{ color:#fff; }
   const goRegisterLink = document.getElementById('goRegisterLink');
   const logoutBtn = document.getElementById('logoutBtn');
 
-  // ---------- Tab switching ----------
   function showRegister(){
     registerPanel.classList.add('active');
     loginPanel.classList.remove('active');
@@ -565,14 +517,11 @@ footer a:hover{ color:#fff; }
   goLoginLink.addEventListener('click', showLogin);
   goRegisterLink.addEventListener('click', showRegister);
 
-  // ---------- Dashboard render ----------
   function renderDashboard(data){
     document.getElementById('dashName').textContent = data.name || '—';
     document.getElementById('dashCourse').textContent = data.courseName || '—';
     document.getElementById('dashLevel').textContent = data.level || '—';
-    document.getElementById('dashClass').textContent = data.class || '—';
     document.getElementById('dashYear').textContent = data.year || '—';
-    document.getElementById('dashDepartment').textContent = data.department || '—';
     document.getElementById('dashSession').textContent = data.session || '—';
     document.getElementById('dashInstitute').textContent = data.institute || '—';
     document.getElementById('dashMobile').textContent = data.mobile || '—';
@@ -596,7 +545,6 @@ footer a:hover{ color:#fff; }
     dashboardSection.style.display = 'none';
   }
 
-  // ---------- On page load: dashboard / login / register — kon ta dekhabe ----------
   const cachedUser = localStorage.getItem(LS_USER_KEY);
   if(cachedUser){
     try{
@@ -611,49 +559,38 @@ footer a:hover{ color:#fff; }
     localStorage.getItem(LS_REGISTERED_KEY) ? showLogin() : showRegister();
   }
 
-  // ---------- API call helper ----------
   function callApi(payload){
     return fetch(FORM_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // preflight avoid korar jonno text/plain
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     }).then(res => res.json());
   }
 
-  // ---------- Registration submit ----------
   regForm.addEventListener('submit', function(e){
     e.preventDefault();
     regStatus.className = 'form-status';
 
-    const password = document.getElementById('reg_password').value;
-    const password2 = document.getElementById('reg_password2').value;
-    if(password !== password2){
-      regStatus.textContent = '❌ দুইটি পাসওয়ার্ড মিলছে না।';
-      regStatus.className = 'form-status show err';
-      return;
-    }
-
-    const phone = document.getElementById('reg_phone').value.trim();
-    if(!/^01[0-9]{9}$/.test(phone)){
+    const mobile = document.getElementById('reg_mobile').value.trim();
+    if(!/^01[0-9]{9}$/.test(mobile)){
       regStatus.textContent = '❌ সঠিক মোবাইল নম্বর দিন (যেমন: 01XXXXXXXXX)।';
       regStatus.className = 'form-status show err';
       return;
     }
 
+    const password = document.getElementById('reg_password').value;
+
     const payload = {
       action: 'register',
       name: document.getElementById('reg_name').value.trim(),
-      class: document.getElementById('reg_class').value.trim(),
-      level: document.getElementById('reg_level').value,
       courseName: document.getElementById('reg_courseName').value.trim(),
-      year: document.getElementById('reg_year').value.trim(),
-      department: document.getElementById('reg_department').value.trim(),
+      level: document.getElementById('reg_level').value,
+      year: document.getElementById('reg_year').value,
       session: document.getElementById('reg_session').value.trim(),
       institute: document.getElementById('reg_institute').value.trim(),
-      phone: phone,
+      mobile: mobile,
       email: document.getElementById('reg_email').value.trim(),
       address: document.getElementById('reg_address').value.trim(),
-      note: document.getElementById('reg_note').value.trim(),
       password: password
     };
 
@@ -666,9 +603,7 @@ footer a:hover{ color:#fff; }
           regStatus.textContent = '✅ রেজিস্ট্রেশন সফল হয়েছে! আপনাকে লগইন করানো হচ্ছে...';
           regStatus.className = 'form-status show ok';
           localStorage.setItem(LS_REGISTERED_KEY, '1');
-
-          // registration er por sathe sathe login kore dashboard dekhano
-          return callApi({ action: 'login', phone: phone, password: password });
+          return callApi({ action: 'login', mobile: mobile, password: password });
         } else {
           throw new Error(result.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।');
         }
@@ -690,18 +625,17 @@ footer a:hover{ color:#fff; }
       });
   });
 
-  // ---------- Login submit ----------
   loginForm.addEventListener('submit', function(e){
     e.preventDefault();
     loginStatus.className = 'form-status';
 
-    const phone = document.getElementById('login_phone').value.trim();
+    const mobile = document.getElementById('login_mobile').value.trim();
     const password = document.getElementById('login_password').value;
 
     loginSubmitBtn.disabled = true;
     loginSubmitBtn.textContent = 'লগইন হচ্ছে...';
 
-    callApi({ action: 'login', phone: phone, password: password })
+    callApi({ action: 'login', mobile: mobile, password: password })
       .then(function(result){
         if(result.status === 'ok'){
           localStorage.setItem(LS_USER_KEY, JSON.stringify(result.data));
@@ -723,7 +657,6 @@ footer a:hover{ color:#fff; }
       });
   });
 
-  // ---------- Logout ----------
   logoutBtn.addEventListener('click', function(){
     localStorage.removeItem(LS_USER_KEY);
     showAuthUI();
