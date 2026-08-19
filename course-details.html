@@ -274,6 +274,23 @@
             text-decoration: line-through;
             text-decoration-thickness: 1.5px;
         }
+        .price-note {
+            width: 100%;
+            font-size: 14px;
+            color: var(--green);
+            font-weight: 600;
+            margin-top: -4px;
+        }
+        .sheet-error {
+            text-align:center;
+            padding:70px 24px;
+            background:var(--card);
+            border-radius:var(--radius);
+            border:1px solid #F0C7C7;
+        }
+        .sheet-error h2 { margin-bottom:8px; }
+        .sheet-error p { color:var(--ink-soft); margin-bottom:20px; }
+
         
         .detail-description {
             font-size: 17px;
@@ -476,102 +493,98 @@
 
     <script>
         // ============================================================
-        // ১. ইউআরএল থেকে course স্লাগ পড়া
+        // Google Sheet course details loader
         // ============================================================
-        function getCourseSlug() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get('course');
+        const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
+        const SHEET_TABS = ['SSC','HSC','BBA','MBA','BBS','BBA Professional'];
+        const SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+        const bnDigits='০১২৩৪৫৬৭৮৯', enDigits='0123456789';
+        const clean=v=>String(v??'').trim();
+        const escapeHtml=v=>clean(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const toBn=v=>String(v??'').replace(/[0-9]/g,d=>bnDigits[enDigits.indexOf(d)]);
+        const normalizeImageUrl=v=>{const x=clean(v),f=x.match(/drive\.google\.com\/file\/d\/([^/]+)/i),i=x.match(/[?&]id=([^&]+)/i);if(f)return `https://drive.google.com/thumbnail?id=${f[1]}&sz=w1000`;if(x.includes('drive.google.com')&&i)return `https://drive.google.com/thumbnail?id=${i[1]}&sz=w1000`;return x};
+        const slugify=v=>clean(v).toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9\u0980-\u09ff]+/g,'-').replace(/^-+|-+$/g,'')||'course';
+        function uniqueSlug(name,cat,used){const base=slugify(name),cp=slugify(cat);let slug=base;if(used.has(slug))slug=`${cp}-${base}`;let n=2;while(used.has(slug))slug=`${cp}-${base}-${n++}`;used.add(slug);return slug}
+        const parseFeatures=v=>clean(v).split(/[,،]/).map(clean).filter(Boolean);
+        const formatPrice=v=>{const x=clean(v);if(!x)return '';return /[৳$€£]/.test(x)?toBn(x):`৳${toBn(x)}`};
+        function parseGviz(text){const a=text.indexOf('{'),b=text.lastIndexOf('}');if(a<0||b<0)throw Error('Invalid Google Sheets response');return JSON.parse(text.slice(a,b+1));}
+        function getCourseSlug(){return new URLSearchParams(window.location.search).get('course');}
+        async function fetchTab(tab){
+            const response=await fetch(SHEET_URL(tab),{cache:'no-store'});
+            if(!response.ok)throw Error(`${tab}: HTTP ${response.status}`);
+            const json=parseGviz(await response.text());
+            return (json.table?.rows||[]).map(row=>{
+                const c=row.c||[];
+                const v=Array.from({length:9},(_,i)=>clean(c[i]?.v??c[i]?.f??''));
+                const [name,tag,image,shortDescription,longDescription,price,oldPrice,priceNote,featureText]=v;
+                if(!name)return null;
+                return {name,tag,image:normalizeImageUrl(image),shortDescription,longDescription,price:formatPrice(price),oldPrice:formatPrice(oldPrice),priceNote,features:parseFeatures(featureText),category:tab,slug:slugify(name)};
+            }).filter(Boolean);
+        }
+        async function getAllCourses(){
+            const used=new Set();
+            const results=await Promise.all(SHEET_TABS.map(fetchTab));
+            return results.flat().map(c=>({...c,slug:uniqueSlug(c.name,c.category,used)}));
         }
 
-        // ============================================================
-        // ২. লোকাল ডেটা (ডেমো)
-        // ============================================================
-        const COURSES_DATA = {
-            'ssc-accounting-batch': {
-                name: 'SSC Accounting Batch',
-                category: 'SSC',
-                tag: 'নতুন ব্যাচ',
-                price: '৳২০০০',
-                oldPrice: '৳২৭০০',
-                image: 'https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000',
-                description: `<p><strong>SSC Accounting Batch</strong> — এসএসসি পরীক্ষার্থীদের জন্য হিসাববিজ্ঞানের সম্পূর্ণ প্রস্তুতি।</p>`,
-                features: ['নিয়মিত লাইভ ক্লাস', 'পিডিএফ নোট', 'সাপ্তাহিক মডেল টেস্ট']
-            },
-            'bba-1st-year-full-course': {
-                name: 'BBA 1st Year Full Course',
-                category: 'BBA',
-                tag: 'চলমান',
-                price: '৳৮০০০',
-                oldPrice: '৳১০৮০০',
-                image: 'https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000',
-                description: `<p><strong>BBA 1st Year Full Course</strong> — বিবিএ ১ম বর্ষের সম্পূর্ণ কোর্স।</p>`,
-                features: ['লাইভ ক্লাস', 'পিডিএফ নোট', 'সাপ্তাহিক পরীক্ষা', 'ব্যক্তিগত গাইডেন্স']
-            }
-            // ... বাকি কোর্সগুলো এখানে যোগ করুন
-        };
-
-        // ============================================================
-        // ৩. কোর্স রেন্ডার করা
-        // ============================================================
-        function renderCourse() {
-            const slug = getCourseSlug();
-            const loadingState = document.getElementById('loadingState');
-            const content = document.getElementById('courseContent');
-
-            loadingState.style.display = 'none';
-
-            if (!slug || !COURSES_DATA[slug]) {
-                content.innerHTML = `
-                    <div class="not-found">
-                        <h2>😕 কোর্সটি খুঁজে পাওয়া যায়নি</h2>
-                        <p>আপনি যে কোর্সটি খুঁজছেন, সেটি আমাদের ডাটাবেসে নেই।</p>
-                        <a href="index.html#courses" class="btn btn-primary">সব কোর্স দেখুন</a>
-                    </div>
-                `;
-                content.style.display = 'block';
+        function renderCourse(course){
+            const loadingState=document.getElementById('loadingState');
+            const content=document.getElementById('courseContent');
+            loadingState.style.display='none';
+            if(!course){
+                content.innerHTML=`<div class="not-found"><h2>😕 কোর্সটি খুঁজে পাওয়া যায়নি</h2><p>আপনি যে কোর্সটি খুঁজছেন, সেটি Google Sheet-এর কোনো tab-এ পাওয়া যায়নি।</p><a href="index.html#courses" class="btn btn-primary">সব কোর্স দেখুন</a></div>`;
+                content.style.display='block';
                 return;
             }
-
-            const course = COURSES_DATA[slug];
-            
-            let featuresHtml = '';
-            if (course.features && course.features.length > 0) {
-                featuresHtml = `<ul class="detail-features">`;
-                course.features.forEach(f => {
-                    featuresHtml += `<li>${f}</li>`;
-                });
-                featuresHtml += `</ul>`;
-            }
-
-            content.innerHTML = `
+            document.title=`${course.name} | VISION Academics`;
+            const description=course.longDescription || course.shortDescription || 'এই কোর্সের বিস্তারিত তথ্য শীঘ্রই আপডেট করা হবে।';
+            const featuresHtml=course.features.length?`<ul class="detail-features">${course.features.map(f=>`<li>${escapeHtml(f)}</li>`).join('')}</ul>`:'';
+            const image=course.image||'';
+            content.innerHTML=`
                 <div class="course-detail-grid">
-                    <div class="detail-image">
-                        <img src="${course.image}" alt="${course.name}">
-                    </div>
+                    <div class="detail-image">${image?`<img src="${escapeHtml(image)}" alt="${escapeHtml(course.name)}">`:'<div style="aspect-ratio:16/10;background:#eee;display:flex;align-items:center;justify-content:center;color:#777">Course Image</div>'}</div>
                     <div class="detail-content">
-                        <span class="detail-category">${course.category}</span>
-                        <h1 class="detail-title">${course.name}</h1>
-                        <span class="detail-tag">${course.tag}</span>
+                        <span class="detail-category">${escapeHtml(course.category)}</span>
+                        <h1 class="detail-title">${escapeHtml(course.name)}</h1>
+                        ${course.tag?`<span class="detail-tag">${escapeHtml(course.tag)}</span>`:''}
                         <div class="detail-price">
-                            <span class="price-now">${course.price}</span>
-                            <span class="price-old">${course.oldPrice}</span>
+                            ${course.price?`<span class="price-now">${escapeHtml(course.price)}</span>`:''}
+                            ${course.oldPrice?`<span class="price-old">${escapeHtml(course.oldPrice)}</span>`:''}
+                            ${course.priceNote?`<span class="price-note">${escapeHtml(course.priceNote)}</span>`:''}
                         </div>
-                        <div class="detail-description">${course.description}</div>
+                        <div class="detail-description">${escapeHtml(description).replace(/\n/g,'<br>')}</div>
                         ${featuresHtml}
                         <div class="detail-actions">
-                            <a href="#" class="btn btn-primary">এনরোল Now</a>
+                            <a href="https://wa.me/8801764859503?text=${encodeURIComponent('আমি '+course.name+' কোর্সে ভর্তি হতে চাই।')}" target="_blank" rel="noopener" class="btn btn-primary">এনরোল Now</a>
                             <a href="index.html#courses" class="btn btn-outline">সব কোর্স দেখুন</a>
                         </div>
                     </div>
-                </div>
-            `;
-            content.style.display = 'block';
+                </div>`;
+            content.style.display='block';
         }
 
-        // ============================================================
-        // ৪. পেজ লোড হলে রেন্ডার করা
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', renderCourse);
+        async function loadCourseDetails(){
+            const content=document.getElementById('courseContent');
+            const slug=getCourseSlug();
+            try{
+                const courses=await getAllCourses();
+                const course=courses.find(c=>c.slug===slug);
+                renderCourse(course);
+            }catch(error){
+                console.error('Course details loading failed:',error);
+                document.getElementById('loadingState').style.display='none';
+                content.innerHTML=`<div class="sheet-error"><h2>কোর্সের তথ্য লোড করা যায়নি</h2><p>Google Sheet access বা internet connection চেক করে আবার চেষ্টা করুন।</p><button class="btn btn-primary" onclick="location.reload()">আবার চেষ্টা করুন</button></div>`;
+                content.style.display='block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded',()=>{
+            const burger=document.getElementById('burgerBtn');
+            const nav=document.getElementById('navLinks');
+            if(burger&&nav) burger.addEventListener('click',()=>nav.classList.toggle('open'));
+            if(nav) nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+            loadCourseDetails();
+        });
     </script>
 </body>
 </html>
