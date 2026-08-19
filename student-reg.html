@@ -733,6 +733,7 @@ footer a:hover{ color:#fff; }
     if(loadingOverlay) loadingOverlay.classList.remove('show');
   }
 
+  hideLoading();
 
   function showRegister(){
     registerPanel.classList.add('active');
@@ -900,7 +901,18 @@ footer a:hover{ color:#fff; }
   }
 
   function callApi(payload){
-    return fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(res=>res.json());
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort(), 20000);
+    return fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:controller.signal})
+      .then(res=>{
+        if(!res.ok) throw new Error('সার্ভার থেকে তথ্য পাওয়া যায়নি।');
+        return res.json();
+      })
+      .catch(err=>{
+        if(err.name === 'AbortError') throw new Error('সার্ভারে সাড়া পেতে বেশি সময় লাগছে। Apps Script deployment/access চেক করুন।');
+        throw err;
+      })
+      .finally(()=>clearTimeout(timeout));
   }
 
   async function enrollCourse(courseName){
@@ -962,7 +974,7 @@ footer a:hover{ color:#fff; }
           regForm.reset();
           if(enrollParam){
             try { const enrolled = await enrollCourse(enrollParam); if(enrolled) window.history.replaceState({},document.title,'student-reg.html'); }
-            catch(err){ regStatus.textContent='❌ '+err.message; regStatus.className='form-status show err'; }
+            catch(err){ regStatus.textContent='❌ '+err.message; regStatus.className='form-status show err'; throw err; }
           } else { renderDashboard(loginResult.data); hideLoading(); }
         }
       })
@@ -972,6 +984,7 @@ footer a:hover{ color:#fff; }
         regStatus.className = 'form-status show err';
       })
       .finally(function(){
+        hideLoading();
         regSubmitBtn.disabled = false;
         regSubmitBtn.textContent = 'রেজিস্ট্রেশন করুন';
       });
@@ -1019,6 +1032,7 @@ footer a:hover{ color:#fff; }
         loginStatus.className = 'form-status show err';
       })
       .finally(function(){
+        hideLoading();
         loginSubmitBtn.disabled = false;
         loginSubmitBtn.textContent = 'লগইন করুন';
       });
