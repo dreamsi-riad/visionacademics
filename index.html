@@ -9,7 +9,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.visionacademics.online/">
 
-<!-- Open Graph tags -->
+<!-- Open Graph tags: Facebook/WhatsApp e link share korle preview dekhabe -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="BBA VISION | VISION Plus - HSC, BBA, MBA, BBS Coaching | VISION Academics">
 <meta property="og:description" content="BBA VISION ও VISION Plus - বাংলাদেশের সেরা HSC, BBA, MBA, BBS admission coaching প্লাটফর্ম। লাইভ ক্লাস, নোট, মডেল টেস্ট সহ সম্পূর্ণ কোর্স।">
@@ -28,7 +28,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<!-- Structured Data -->
+<!-- Structured Data: Google ke bujhay je eta ekta educational institution -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -60,6 +60,9 @@
 /* =========================================================
    এই ফাইলে কোনো আলাদা CONFIG অবজেক্ট বা এক্সট্রা আইডি নেই।
    প্রতিটা তথ্য (লেখা, ছবি, দাম, লিংক) সরাসরি নিচের HTML অংশে বসানো আছে।
+   যেই তথ্য বদলাতে চান, শুধু Ctrl+F দিয়ে সেই লেখাটুকু (বা কমেন্টের বিষয়) খুঁজে
+   সরাসরি HTML-এ গিয়ে বদলে দিন — কোনো JS/CONFIG এর দরকার নেই।
+   প্রতিটা ব্লকের ঠিক উপরে বাংলায় কমেন্ট লেখা আছে সেটা কোন অংশ তা বোঝানোর জন্য।
    ========================================================= */
 
 :root{
@@ -80,7 +83,11 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 
-/* ===== ফ্লোটিং WhatsApp আইকন ===== */
+/* ===== ফ্লোটিং WhatsApp আইকন (সব পেজের নিচে ডান কর্নারে ফিক্সড থাকবে) =====
+   নাম্বার বদলাতে চাইলে নিচের HTML অংশে "wa.me/" এর পরের নাম্বারটা বদলান।
+   পিছনের এনিমেশন (ঘোরা ড্যাশড রিং + পালস ইফেক্ট) একদম "যোগাযোগ" সেকশনের
+   কল আইকনের (.call-badge) মতোই করা হয়েছে, শুধু রঙ WhatsApp সবুজ (#25D366)।
+   এছাড়া লাল নোটিফিকেশন ডট ও হোভারে টেক্সট লেবেল স্লাইড-আউট যোগ করা হয়েছে। */
 .wa-fab{
   position:fixed;
   right:22px;
@@ -163,19 +170,11 @@ html{scroll-behavior:smooth;}
   0%{ transform:scale(1); opacity:.7; }
   100%{ transform:scale(2.4); opacity:0; }
 }
-@keyframes pulse-ring{
-  0%{ transform:scale(1); opacity:.5; }
-  100%{ transform:scale(1.7); opacity:0; }
-}
-@keyframes spin-slow{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
-}
 @media (max-width:600px){
   .wa-fab{ right:16px; bottom:16px; }
   .wa-fab .core{ width:52px; height:52px; }
   .wa-fab svg{ width:25px; height:25px; }
-  .wa-fab .wa-label{ display:none; }
+  .wa-fab .wa-label{ display:none; } /* মোবাইলে হোভার নেই বলে লেবেল বাদ, শুধু আইকন */
 }
 body{
   margin:0;
@@ -325,6 +324,7 @@ header.nav{
 @media(max-width:720px){
   .hero{ padding:10px 0 24px; }
 }
+/* হিরোর ঠিক পরের সেকশনের উপরের ফাঁকা জায়গা কমানো (শুধু হিরোর সাথে লাগোয়া সেকশনের জন্য) */
 .hero + section{ padding-top:36px; }
 @media(max-width:720px){
   .hero + section{ padding-top:26px; }
@@ -444,7 +444,7 @@ header.nav{
   .stat-text span{ font-size:clamp(8.5px,2.4vw,10.5px); }
 }
 
-/* level badges */
+/* level badges — SSC / HSC / BBA highlighted cards, equal width, no rotation */
 .hero-levels{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -494,7 +494,7 @@ header.nav{
   .level-card{ font-size:clamp(20px, 6vw, 26px); padding:10.5px 8px; }
 }
 
-/* teacher photo carousel */
+/* teacher photo — horizontal auto-scroll carousel (feature photos, ratio 3840x2160) */
 .pinboard{
   position:relative;
   border-radius:var(--radius);
@@ -549,7 +549,7 @@ section{ padding:52px 0; }
   font-size:16.5px;
 }
 
-/* ---------- ক্যাটাগরি কুইক-কার্ড ---------- */
+/* ---------- ক্যাটাগরি কুইক-কার্ড (কোর্সসমূহ সেকশনের ফিল্টার হিসেবে ব্যবহৃত) ---------- */
 .cat-grid{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -612,7 +612,7 @@ section{ padding:52px 0; }
   .cat-text b{ font-size:21px; }
 }
 
-/* ---------- Program pills ---------- */
+/* ---------- Program pills (like the original site's category tabs) ---------- */
 .pill-row{
   display:flex;
   gap:14px;
@@ -641,12 +641,12 @@ section{ padding:52px 0; }
   }
 }
 
-/* ---------- Course cards ---------- */
+/* ---------- Course cards ("exam admit card" styling) ---------- */
 .course-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(270px,1fr));
   gap:24px;
-  scroll-margin-top:82px;
+  scroll-margin-top:82px; /* মোবাইলে ক্যাটাগরি কার্ডে ক্লিক করলে স্টিকি নেভবারের নিচে গিয়ে থামে */
 }
 .course-card{
   background:var(--card);
@@ -659,6 +659,8 @@ section{ padding:52px 0; }
   transition:transform .38s cubic-bezier(.22,1,.36,1), box-shadow .38s cubic-bezier(.22,1,.36,1);
 }
 .course-card:hover{ transform:translateY(-9px) scale(1.015); box-shadow:0 26px 46px rgba(30,42,71,.20), 0 0 34px 6px rgba(79,143,255,.45); }
+/* উপরে display:flex থাকার কারণে JS দিয়ে hidden অ্যাট্রিবিউট বসালেও কার্ড লুকাচ্ছিল না —
+   এই রুলটা [hidden] অবস্থায় জোর করে লুকিয়ে দেবে (কোর্স ফিল্টার বাটন কাজ করার জন্য জরুরি) */
 .course-card[hidden]{ display:none; }
 .course-image{
   width:100%;
@@ -736,6 +738,7 @@ section{ padding:52px 0; }
 }
 .course-foot .btn{ padding:10px 18px; font-size:13.5px; }
 
+/* মোবাইলে কোর্স কার্ড গ্রিডের বদলে পাশাপাশি (horizontal) স্ক্রল হবে */
 @media(max-width:760px){
   .course-grid{
     display:flex;
@@ -880,6 +883,7 @@ section{ padding:52px 0; }
   margin-top:8px;
 }
 
+/* মোবাইলে শিক্ষক কার্ড গ্রিডের বদলে পাশাপাশি (horizontal) স্ক্রল হবে */
 @media(max-width:760px){
   .teacher-grid{
     display:flex;
@@ -940,7 +944,7 @@ section{ padding:52px 0; }
 .form-status.ok{ color:var(--green); }
 .form-status.err{ color:var(--margin); }
 
-/* ---------- CTA band ---------- */
+/* ---------- CTA band : "admission ticket" style call card ---------- */
 .cta-band{
   position:relative;
   background:
@@ -970,6 +974,7 @@ section{ padding:52px 0; }
 .cta-band h2{ color:#fff; font-size:clamp(23px,2.6vw,30px); font-weight:700; line-height:1.3; }
 .cta-band p{ color:#C7CEE0; margin-top:4px; font-size:15.5px; max-width:52ch; }
 
+/* dashed "ticket" divider with punched notches, only between the two halves */
 .cta-divider{
   position:relative;
   flex:0 0 auto;
@@ -1039,6 +1044,14 @@ section{ padding:52px 0; }
   box-shadow:0 8px 18px rgba(232,163,61,.4);
 }
 .call-badge svg{ width:26px; height:26px; stroke:var(--ink); }
+@keyframes pulse-ring{
+  0%{ transform:scale(1); opacity:.5; }
+  100%{ transform:scale(1.7); opacity:0; }
+}
+@keyframes spin-slow{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
 .cta-phone .tap-label{
   font-size:12.5px;
   font-weight:700;
@@ -1117,7 +1130,9 @@ footer{
   .container{ padding:0 18px; }
 }
 
-/* ---------- Large screens ---------- */
+/* ---------- Large screens: TV / smartboard / large monitors ----------
+   ছোট স্ক্রিনের জন্য উপরে যেমন স্কেল-ডাউন করা আছে, বড় স্ক্রিন (TV/স্মার্টবোর্ড) দূর থেকে
+   দেখা হয় বলে টেক্সট ও এলিমেন্ট আনুপাতিকভাবে একটু বড় করে দেওয়া হলো, যাতে দূর থেকেও স্পষ্ট পড়া যায় */
 @media(min-width:1440px){
   body{ font-size:18px; }
   .brand{ font-size:24px; }
@@ -1151,8 +1166,11 @@ footer{
 <header class="nav">
   <div class="nav-inner">
     <a href="#top" class="brand">
+      <!-- নেভবারের লোগো — এই একটা ছবিতেই লোগো + প্রতিষ্ঠানের নাম দুটোই আছে
+           (ছবির রেশিও প্রায় 3840x1000 ≈ 3.84:1 রাখলে সবচেয়ে ভালো ফিট হবে, বিকৃত হবে না) -->
       <img src="https://drive.google.com/thumbnail?id=1qdX7gUF-pWOJNXO7HAEMrfwDWqDAqpsl&sz=w1000" alt="VISION Academics" class="brand-logo">
     </a>
+    <!-- নেভবার মেনু লিংক (উপরের সারির লেখাগুলো) -->
     <nav class="nav-links" id="navLinks">
       <a href="#courses">কোর্সসমূহ</a>
       <a href="#why">কেন আমরা</a>
@@ -1160,6 +1178,7 @@ footer{
       <a href="#videos">ফ্রি ক্লাস</a>
       <a href="#contact">যোগাযোগ</a>
     </nav>
+    <!-- নেভবারের ডানপাশের "ভর্তি হোন" বাটন — ক্লিক করলে সরাসরি student-reg.html পেজে যাবে -->
     <a href="student-reg.html" class="nav-cta">লগইন</a>
     <button class="burger" id="burgerBtn">☰</button>
   </div>
@@ -1167,14 +1186,21 @@ footer{
 
 <main id="top">
 
-  <!-- ===== HERO SECTION ===== -->
+  <!-- ============================================================
+       হিরো সেকশন — পেজের সবচেয়ে উপরের বড় অংশ
+       ============================================================ -->
   <section class="hero">
     <div class="container hero-grid">
       <div>
+        <!-- বড় হেডিং — দ্বিতীয় অংশ (span-এর ভেতরেরটুকু) রঙিন করে দেখানো হয় -->
         <h1>নিজের প্রস্তুতি হোক <span>সঠিক পথে</span></h1>
+        <!-- হেডিং-এর নিচে বড় প্যারাগ্রাফ (lead টেক্সট) -->
         <p class="lead">অভিজ্ঞ শিক্ষকদের হাত ধরে, সাজানো নোট আর নিয়মিত পরীক্ষার মাধ্যমে গড়ে তুলুন প্রকৃত দক্ষতা — ক্লাসরুমে হোক বা অনলাইনে।</p>
 
+        <!-- হিরো স্ট্যাটস — ৩টা সংখ্যা কার্ড (স্ক্রিনে আসলে ০ থেকে গুনে গুনে সংখ্যাটায় উঠবে) -->
         <div class="hero-stats" id="hero-stats">
+
+          <!-- স্ট্যাটস কার্ড ১ — অভিজ্ঞ শিক্ষক -->
           <div class="stat-card">
             <div class="stat-icon-box" style="background:#EAF1FB">
               <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
@@ -1184,6 +1210,8 @@ footer{
               <span>অভিজ্ঞ শিক্ষক</span>
             </div>
           </div>
+
+          <!-- স্ট্যাটস কার্ড ২ — শিক্ষার্থী -->
           <div class="stat-card">
             <div class="stat-icon-box" style="background:#FDECEA">
               <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#C82333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -1193,6 +1221,8 @@ footer{
               <span>শিক্ষার্থী</span>
             </div>
           </div>
+
+          <!-- স্ট্যাটস কার্ড ৩ — কোর্সের সংখ্যা -->
           <div class="stat-card">
             <div class="stat-icon-box" style="background:#E8F5EC">
               <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#0F5132" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -1202,10 +1232,13 @@ footer{
               <span>কোর্সের সংখ্যা</span>
             </div>
           </div>
+
         </div>
       </div>
 
       <div>
+        <!-- হিরোর ডানপাশে ৩টা লেভেল ব্যাজ: SSC / HSC / BBA — ক্লিক করলে সরাসরি
+             কোর্স সেকশনে গিয়ে সেই ক্যাটাগরির কোর্স ফিল্টার হয়ে দেখাবে -->
         <div class="hero-levels">
           <a href="#courses" class="level-card level-ssc" data-hero-cat="SSC">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -1221,39 +1254,51 @@ footer{
           </a>
         </div>
 
+        <!-- পিনবোর্ড — ৩ সেকেন্ড পরপর ঘুরতে থাকা ৫টা ছবি; ৬ষ্ঠটা (সবার শেষে) সিমলেস লুপ
+             তৈরির জন্য ১ম ছবিরই একটা ক্লোন — ১ম ছবি বদলালে এই ক্লোনটাও বদলে দিতে হবে -->
         <div class="pinboard">
           <div class="pin-track" id="pinTrack">
+
+            <!-- পিনবোর্ড ছবি ১ -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="শিক্ষক ১">
               <div class="name">শিক্ষক ১</div>
             </div>
+            <!-- পিনবোর্ড ছবি ২ -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=10RBYtYJ6QLCXIWk9RzYCRv7jJE0IC32c&sz=w1000" alt="শিক্ষক ২">
               <div class="name">শিক্ষক ২</div>
             </div>
+            <!-- পিনবোর্ড ছবি ৩ -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=1vKpuNjA6-sdRXEVsz0bRbBKDiDYpe1HZ&sz=w1000" alt="শিক্ষক ৩">
               <div class="name">শিক্ষক ৩</div>
             </div>
+            <!-- পিনবোর্ড ছবি ৪ -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=1OJRuJiIo4YmQudchH2fNBwsEkDUjTvMk&sz=w1000" alt="শিক্ষক ৪">
               <div class="name">শিক্ষক ৪</div>
             </div>
+            <!-- পিনবোর্ড ছবি ৫ -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=1FvjNQ_wFDhC46_bdxf2jbF4miMWK733v&sz=w1000" alt="শিক্ষক ৫">
               <div class="name">শিক্ষক ৫</div>
             </div>
+            <!-- ক্লোন (ছবি ১ এর সিমলেস-লুপ ক্লোন — হাত দেওয়ার দরকার নেই, ছবি ১ বদলালে এটাও বদলান) -->
             <div class="pin-card">
               <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="শিক্ষক ১">
               <div class="name">শিক্ষক ১</div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== COURSES SECTION ===== -->
+  <!-- ============================================================
+       কোর্সসমূহ সেকশন
+       ============================================================ -->
   <section id="courses">
     <div class="container">
       <div class="section-head">
@@ -1262,47 +1307,84 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন কোর্সের বিস্তারিত ও ফি।</p>
       </div>
 
+      <!-- ============================================================
+           ক্যাটাগরি কুইক-কার্ড (ছবির স্টাইলে) — এগুলোই এখন ফিল্টার হিসেবে কাজ করে।
+           কোনো কার্ডে ক্লিক করলে শুধু সেই ক্যাটাগরির কোর্স কার্ডগুলো দেখাবে,
+           আবার একই কার্ডে ক্লিক করলে সবগুলো কোর্স আবার দেখা যাবে।
+           নতুন কার্ড যোগ করতে চাইলে .cat-card ব্লক কপি করে data-cat বদলে দিন
+           (data-cat অবশ্যই নিচের কোর্স কার্ডের data-category এর সাথে মিলতে হবে)
+           ============================================================ -->
       <div class="cat-grid" id="catGrid">
+
+        <!-- ক্যাটাগরি কার্ড ১: SSC -->
         <a href="#courses" class="cat-card" data-cat="SSC" style="--cat-color:#2F6FE4">
           <span class="cat-icon" style="background:#EAF1FE">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2F6FE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
           </span>
-          <span class="cat-text"><b>SSC</b></span>
+          <span class="cat-text">
+            <b>SSC</b>
+          </span>
         </a>
+
+        <!-- ক্যাটাগরি কার্ড ২: HSC -->
         <a href="#courses" class="cat-card" data-cat="HSC" style="--cat-color:#2FA86C">
           <span class="cat-icon" style="background:#E9F8EF">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2FA86C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
           </span>
-          <span class="cat-text"><b>HSC</b></span>
+          <span class="cat-text">
+            <b>HSC</b>
+          </span>
         </a>
+
+        <!-- ক্যাটাগরি কার্ড ৩: BBA -->
         <a href="#courses" class="cat-card" data-cat="BBA" style="--cat-color:#C9337A">
           <span class="cat-icon" style="background:#FBEAF3">
             <svg viewBox="0 0 24 24" fill="none" stroke="#C9337A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           </span>
-          <span class="cat-text"><b>BBA</b></span>
+          <span class="cat-text">
+            <b>BBA</b>
+          </span>
         </a>
+
+        <!-- ক্যাটাগরি কার্ড ৪: MBA -->
         <a href="#courses" class="cat-card" data-cat="MBA" style="--cat-color:#7B4FE0">
           <span class="cat-icon" style="background:#F1ECFC">
             <svg viewBox="0 0 24 24" fill="none" stroke="#7B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/></svg>
           </span>
-          <span class="cat-text"><b>MBA</b></span>
+          <span class="cat-text">
+            <b>MBA</b>
+          </span>
         </a>
+
+        <!-- ক্যাটাগরি কার্ড ৫: BBS -->
         <a href="#courses" class="cat-card" data-cat="BBS" style="--cat-color:#DD7A1F">
           <span class="cat-icon" style="background:#FDF1E4">
             <svg viewBox="0 0 24 24" fill="none" stroke="#DD7A1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
           </span>
-          <span class="cat-text"><b>BBS</b></span>
+          <span class="cat-text">
+            <b>BBS</b>
+          </span>
         </a>
+
+        <!-- ক্যাটাগরি কার্ড ৬: BBA Professional -->
         <a href="#courses" class="cat-card" data-cat="BBA Professional" style="--cat-color:#E0466B">
           <span class="cat-icon" style="background:#FCEAF0">
             <svg viewBox="0 0 24 24" fill="none" stroke="#E0466B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </span>
-          <span class="cat-text"><b>BBA Professional</b></span>
+          <span class="cat-text">
+            <b>BBA Professional</b>
+          </span>
         </a>
+
       </div>
 
+      <!-- কোর্স কার্ডগুলো — প্রতিটা কার্ডের data-category অ্যাট্রিবিউট দিয়ে বোঝা যায়
+           এটা কোন ক্যাটাগরি কার্ডে দেখাবে (উপরের cat-card এর data-cat এর সাথে মিলে) -->
       <div class="course-grid" id="courseGrid">
-        <!-- SSC Accounting Batch -->
+
+        <!-- ▼▼▼ SSC কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- SSC — ১ম কার্ড: SSC Accounting Batch -->
         <div class="course-card" data-category="SSC">
           <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Accounting Batch">
           <div class="course-top">
@@ -1320,35 +1402,106 @@ footer{
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=ssc-accounting-batch" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=ssc-accounting-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
 
-        <!-- BBA 1st Year Full Course -->
-        <div class="course-card" data-category="BBA">
-          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA 1st Year Full Course">
+        <!-- SSC — ২য় কার্ড: SSC Math Special Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Math Special Batch">
           <div class="course-top">
-            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
             <span class="course-tag">চলমান</span>
           </div>
           <div class="course-body">
-            <h3>BBA 1st Year Full Course</h3>
-            <p>লেনদেন থেকে শুরু করে ফাইনাল অ্যাকাউন্টস পর্যন্ত ধাপে ধাপে বিশ্লেষণ।</p>
+            <h3>SSC Math Special Batch</h3>
+            <p>সহজ পদ্ধতিতে গণিতের বেসিক থেকে অ্যাডভান্সড—সব টপিক কভার করা হবে।</p>
             <div class="course-foot">
               <div class="price">
                 <div class="price-row">
-                  <span class="price-now">৳৮০০০</span>
-                  <span class="price-old">৳১০৮০০</span>
+                  <span class="price-now">৳২০০০</span>
+                  <span class="price-old">৳২৭০০</span>
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=bba-1st-year-full-course" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=ssc-math-special-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
 
-        <!-- HSC Accounting Batch -->
+        <!-- SSC — ৩য় কার্ড: SSC Higher Math Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC Higher Math Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC Higher Math Batch</h3>
+            <p>উচ্চতর গণিতের কঠিন অধ্যায়গুলো সহজভাবে বুঝিয়ে দেওয়া হয় ধাপে ধাপে।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২২০০</span>
+                  <span class="price-old">৳৩০০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=ssc-higher-math-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSC — ৪র্থ কার্ড: SSC English Batch -->
+        <div class="course-card" data-category="SSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="SSC English Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">SSC</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>SSC English Batch</h3>
+            <p>গ্রামার থেকে রাইটিং পর্যন্ত—পরীক্ষায় ভালো করার জন্য সম্পূর্ণ প্রস্তুতি।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳১৮০০</span>
+                  <span class="price-old">৳২৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=ssc-english-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ HSC কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- HSC — ১ম কার্ড: Special HSC Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="Special HSC Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>Special HSC Batch</h3>
+            <p>নিয়মিত ক্লাস, লেকচার শিট ও মডেল টেস্টসহ HSC পরীক্ষার সম্পূর্ণ প্রস্তুতি।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৯০০</span>
+                  <span class="price-old">৳৩৯০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=special-hsc-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC — ২য় কার্ড: HSC Accounting Batch -->
         <div class="course-card" data-category="HSC">
           <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Accounting Batch">
           <div class="course-top">
@@ -1366,12 +1519,154 @@ footer{
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=hsc-accounting-batch" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=hsc-accounting-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
 
-        <!-- MBA Full Course -->
+        <!-- HSC — ৩য় কার্ড: HSC Business Organization Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Business Organization Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>HSC Business Organization Batch</h3>
+            <p>ব্যবসায় সংগঠন ও ব্যবস্থাপনার প্রতিটি টপিক সহজভাবে শেখানো হয়।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৮০০</span>
+                  <span class="price-old">৳৩৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=hsc-business-organization-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC — ৪র্থ কার্ড: HSC Finance & Banking Batch -->
+        <div class="course-card" data-category="HSC">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=17fkkAF57K6-o9ycb0QE34cB-6ahV6_YX&sz=w1000" alt="HSC Finance & Banking Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">HSC</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>HSC Finance & Banking Batch</h3>
+            <p>ফাইন্যান্স ও ব্যাংকিং বিষয়ে পরীক্ষার সম্পূর্ণ প্রস্তুতি একসাথে।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳২৮০০</span>
+                  <span class="price-old">৳৩৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=hsc-finance-banking-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ BBA কোর্স (৪টা কার্ড) ▼▼▼ -->
+
+        <!-- BBA — ১ম কার্ড: BBA 1st Year Full Course -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA 1st Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA 1st Year Full Course</h3>
+            <p>লেনদেন থেকে শুরু করে ফাইনাল অ্যাকাউন্টস পর্যন্ত ধাপে ধাপে বিশ্লেষণ।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৮০০০</span>
+                  <span class="price-old">৳১০৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bba-1st-year-full-course" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ২য় কার্ড: BBA 2nd Year Full Course -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA 2nd Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">নতুন ব্যাচ</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA 2nd Year Full Course</h3>
+            <p>মার্কেটিং, ফাইন্যান্স ও ম্যানেজমেন্টের মূল বিষয়গুলো নিয়ে সাজানো কোর্স।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৮০০০</span>
+                  <span class="price-old">৳১০৮০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bba-2nd-year-full-course" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ৩য় কার্ড: BBA Admission Preparation -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Admission Preparation">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA Admission Preparation</h3>
+            <p>দেশের সেরা বিশ্ববিদ্যালয়ে BBA ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও মডেল টেস্ট।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৭০০০</span>
+                  <span class="price-old">৳৯৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bba-admission-preparation" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBA — ৪র্থ কার্ড: BBA Statistics Batch -->
+        <div class="course-card" data-category="BBA">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Statistics Batch">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBA</span>
+            <span class="course-tag">নতুন</span>
+          </div>
+          <div class="course-body">
+            <h3>BBA Statistics Batch</h3>
+            <p>পরিসংখ্যানের ধারণা থেকে প্রয়োগ পর্যন্ত সহজ পদ্ধতিতে শেখানো হয়।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৭৫০০</span>
+                  <span class="price-old">৳১০১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bba-statistics-batch" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ MBA কোর্স (১টা কার্ড) ▼▼▼ -->
+
+        <!-- MBA — ১ম কার্ড: MBA Full Course -->
         <div class="course-card" data-category="MBA">
           <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="MBA Full Course">
           <div class="course-top">
@@ -1389,12 +1684,14 @@ footer{
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=mba-full-course" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=mba-full-course" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
 
-        <!-- BBS 1st Year Full Course -->
+        <!-- ▼▼▼ BBS কোর্স (৩টা কার্ড) ▼▼▼ -->
+
+        <!-- BBS — ১ম কার্ড: BBS 1st Year Full Course -->
         <div class="course-card" data-category="BBS">
           <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS 1st Year Full Course">
           <div class="course-top">
@@ -1412,12 +1709,60 @@ footer{
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=bbs-1st-year-full-course" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=bbs-1st-year-full-course" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
 
-        <!-- BBA Professional Masterclass -->
+        <!-- BBS — ২য় কার্ড: BBS 2nd Year Full Course -->
+        <div class="course-card" data-category="BBS">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS 2nd Year Full Course">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBS</span>
+            <span class="course-tag">চলমান</span>
+          </div>
+          <div class="course-body">
+            <h3>BBS 2nd Year Full Course</h3>
+            <p>ফাইন্যান্স ও মার্কেটিং বিষয়ে সম্পূর্ণ প্রস্তুতি একসাথে দেওয়া হয়।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৬০০০</span>
+                  <span class="price-old">৳৮১০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bbs-2nd-year-full-course" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BBS — ৩য় কার্ড: BBS Honours Admission Prep -->
+        <div class="course-card" data-category="BBS">
+          <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBS Honours Admission Prep">
+          <div class="course-top">
+            <span class="eyebrow" style="color:var(--sky)">BBS</span>
+            <span class="course-tag">জনপ্রিয়</span>
+          </div>
+          <div class="course-body">
+            <h3>BBS Honours Admission Prep</h3>
+            <p>অনার্স ভর্তির জন্য বিষয়ভিত্তিক ক্লাস ও নিয়মিত মডেল টেস্ট।</p>
+            <div class="course-foot">
+              <div class="price">
+                <div class="price-row">
+                  <span class="price-now">৳৫৫০০</span>
+                  <span class="price-old">৳৭৪০০</span>
+                </div>
+                <small>সম্পূর্ণ কোর্স</small>
+              </div>
+              <a href="course-details.html?course=bbs-honours-admission-prep" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ▼▼▼ BBA Professional কোর্স (১টা কার্ড) ▼▼▼ -->
+
+        <!-- BBA Professional — ১ম কার্ড: BBA Professional | মাস্টারক্লাস -->
         <div class="course-card" data-category="BBA Professional">
           <img class="course-image" src="https://drive.google.com/thumbnail?id=1k9-NtpMEfi75UVwjWugzDDUJZ7lLk103&sz=w1000" alt="BBA Professional | মাস্টারক্লাস">
           <div class="course-top">
@@ -1435,15 +1780,18 @@ footer{
                 </div>
                 <small>সম্পূর্ণ কোর্স</small>
               </div>
-              <a href="course-details.html?course=bba-professional-masterclass" class="btn btn-primary">বিস্তারিত</a>
+              <a href="course-details.html?course=bba-professional-masterclass" class="btn btn-primary course-details-trigger">বিস্তারিত</a>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ===== WHY US ===== -->
+  <!-- ============================================================
+       কেন আমরা সেকশন — ৩টা কার্ড, শুধু ছবি দেখায় (ছবির মধ্যেই লেখা আছে)
+       ============================================================ -->
   <section id="why">
     <div class="container">
       <div class="section-head">
@@ -1451,12 +1799,15 @@ footer{
         <h2>কেন শিক্ষার্থীরা আমাদের বেছে নেয়</h2>
       </div>
       <div class="why-grid">
+        <!-- কার্ড ১ — অভিজ্ঞ শিক্ষক -->
         <div class="why-card">
           <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="অভিজ্ঞ শিক্ষক">
         </div>
+        <!-- কার্ড ২ — মানসম্পন্ন কনটেন্ট -->
         <div class="why-card">
           <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="মানসম্পন্ন কনটেন্ট">
         </div>
+        <!-- কার্ড ৩ — সাশ্রয়ী ফি -->
         <div class="why-card">
           <img src="https://drive.google.com/thumbnail?id=1EBhp2WQxX67bHg-n3IfBHcTUHVnJGl5J&sz=w1000" alt="সাশ্রয়ী ফি">
         </div>
@@ -1464,7 +1815,11 @@ footer{
     </div>
   </section>
 
-  <!-- ===== VIDEOS ===== -->
+  <!-- ============================================================
+       ফ্রি ভিডিও লেকচার সেকশন
+       প্রতিটা ভিডিও কার্ডে data-yid অ্যাট্রিবিউটে ইউটিউব ভিডিওর ১১-ডিজিটের আইডি বসাতে হয়
+       (যেমন youtube.com/watch?v=এইটুকু অংশ) — ক্লিক করলে অটো প্লে হয়ে যাবে
+       ============================================================ -->
   <section id="videos">
     <div class="container">
       <div class="section-head">
@@ -1473,6 +1828,7 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন সেই বিভাগের ফ্রি ভিডিও লেকচারগুলো।</p>
       </div>
 
+      <!-- ভিডিও বিভাগ ট্যাব -->
       <div class="pill-row" id="videoPillRow">
         <button class="pill active" data-vcat="SSC">SSC</button>
         <button class="pill" data-vcat="HSC">HSC</button>
@@ -1482,18 +1838,164 @@ footer{
       </div>
 
       <div class="video-grid" id="videoGrid">
+
+        <!-- ▼▼▼ SSC ভিডিও (৪টা) — ডিফল্টভাবে এগুলোই প্রথমে দেখা যাবে ▼▼▼ -->
         <div class="video-card" data-vcategory="SSC">
           <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC Accounting">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি">
             <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
           </div>
           <div class="video-title">SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি</div>
         </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC গণিত — বীজগণিত বেসিক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC গণিত — বীজগণিত বেসিক</div>
+        </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি</div>
+        </div>
+        <div class="video-card" data-vcategory="SSC">
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC ইংরেজি — গ্রামার বেসিক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">SSC ইংরেজি — গ্রামার বেসিক</div>
+        </div>
+
+        <!-- ▼▼▼ HSC ভিডিও (৪টা) — প্রথমে লুকানো (hidden), HSC ট্যাব ক্লিক করলে দেখা যাবে ▼▼▼ -->
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ফাইন্যান্স — মৌলিক ধারণা">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC ফাইন্যান্স — মৌলিক ধারণা</div>
+        </div>
+        <div class="video-card" data-vcategory="HSC" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC পরিসংখ্যান — গড় ও মধ্যক">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">HSC পরিসংখ্যান — গড় ও মধ্যক</div>
+        </div>
+
+        <!-- ▼▼▼ BBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA মার্কেটিং — বেসিক কনসেপ্ট">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA মার্কেটিং — বেসিক কনসেপ্ট</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল</div>
+        </div>
+        <div class="video-card" data-vcategory="BBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA পরিসংখ্যান — সমস্যা সমাধান">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBA পরিসংখ্যান — সমস্যা সমাধান</div>
+        </div>
+
+        <!-- ▼▼▼ MBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="MBA ভর্তি প্রস্তুতি — গণিত সেশন">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA ভর্তি প্রস্তুতি — গণিত সেশন</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA ইংরেজি — Vocabulary Booster">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA ইংরেজি — Vocabulary Booster</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA অ্যানালিটিক্যাল — Reasoning Tips">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA অ্যানালিটিক্যাল — Reasoning Tips</div>
+        </div>
+        <div class="video-card" data-vcategory="MBA" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA মেন্টরশিপ সেশন — পরিচিতি">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">MBA মেন্টরশিপ সেশন — পরিচিতি</div>
+        </div>
+
+        <!-- ▼▼▼ BBS ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="lHkQDNbXyEE">
+            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ফাইন্যান্স — মৌলিক ধারণা">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS ফাইন্যান্স — মৌলিক ধারণা</div>
+        </div>
+        <div class="video-card" data-vcategory="BBS" hidden>
+          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS অনার্স ভর্তি প্রস্তুতি — টিপস">
+            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+          <div class="video-title">BBS অনার্স ভর্তি প্রস্তুতি — টিপস</div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ===== TEACHERS ===== -->
+  <!-- ============================================================
+       শিক্ষকবৃন্দ সেকশন — ৪ জন শিক্ষক
+       ============================================================ -->
   <section id="teachers">
     <div class="container">
       <div class="section-head">
@@ -1502,6 +2004,7 @@ footer{
         <p>যারা প্রতিদিন ক্লাসে থেকে আপনার প্রস্তুতিকে এগিয়ে নেবেন।</p>
       </div>
       <div class="teacher-grid">
+        <!-- শিক্ষক ১ -->
         <div class="teacher-card">
           <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1aoT4KkproYMlPNbnuvKZyxsESD3Lh352&sz=w1000" alt="Tanvir Sir">
           <div class="teacher-info">
@@ -1510,6 +2013,7 @@ footer{
             <div class="bio">Director & Teacher</div>
           </div>
         </div>
+        <!-- শিক্ষক ২ -->
         <div class="teacher-card">
           <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1ZXpiJTvVPEwU47tsZ8bpDYUfVgNCTxeU&sz=w1000" alt="Farhad Sir">
           <div class="teacher-info">
@@ -1518,6 +2022,7 @@ footer{
             <div class="bio">Director & Teacher</div>
           </div>
         </div>
+        <!-- শিক্ষক ৩ -->
         <div class="teacher-card">
           <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1zw1Jr0R5kuZovGiBAVMU3fH2nWlhYQRN&sz=w1000" alt="Saiful Sir">
           <div class="teacher-info">
@@ -1526,6 +2031,7 @@ footer{
             <div class="bio">Senior Teacher</div>
           </div>
         </div>
+        <!-- শিক্ষক ৪ -->
         <div class="teacher-card">
           <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=14720XIcOoC9zhL3F9Frc7PUCHQenXegw&sz=w1000" alt="RIAD">
           <div class="teacher-info">
@@ -1538,7 +2044,12 @@ footer{
     </div>
   </section>
 
-  <!-- ===== MESSAGE FORM ===== -->
+  <!-- ============================================================
+       "আমাদের মেসেজ পাঠান" ফর্ম সেকশন
+       ফর্মটা সাবমিট হলে নিচের script অংশের FORM_ENDPOINT (Cloudflare Worker প্রক্সি)
+       এর মাধ্যমে সার্ভার-টু-সার্ভার Google Sheet এ গিয়ে সেভ হয় — আসল Apps Script
+       লিংক এখন আর ব্রাউজারে/Inspect করে দেখা যায় না
+       ============================================================ -->
   <section id="message">
     <div class="container">
       <div class="message-box">
@@ -1572,7 +2083,11 @@ footer{
     </div>
   </section>
 
-  <!-- ===== CTA ===== -->
+  <!-- ============================================================
+       সরাসরি কল করুন (CTA ব্যান্ড) সেকশন
+       ফোন নম্বর ২ জায়গায় আছে: বাটনে দেখানো নম্বর (ctaPhoneNumber এর জায়গা) ও
+       tel: লিংকের আসল ডায়াল নম্বর (দেশের কোডসহ) — দুটোই বদলাতে ভুলবেন না
+       ============================================================ -->
   <section>
     <div class="cta-band">
       <div class="cta-left">
@@ -1600,13 +2115,16 @@ footer{
 
 </main>
 
-<!-- ===== FOOTER ===== -->
+<!-- ============================================================
+     ফুটার / যোগাযোগ (পেজের একদম নিচের অংশ)
+     ============================================================ -->
 <footer id="contact">
   <div class="container">
     <div class="footer-grid">
       <div>
         <h4 style="font-family:'Baloo Da 2', sans-serif; font-weight:800; font-size:22px; color:var(--ink); margin-bottom:6px;">VISION Academics</h4>
         <p>মানসম্পন্ন শিক্ষা, সবার নাগালে।</p>
+        <!-- সোশ্যাল মিডিয়া আইকন — Facebook, YouTube, Instagram -->
         <div class="social-row">
           <a href="https://www.facebook.com/BBAcoaching" title="Facebook">f</a>
           <a href="https://www.youtube.com/@bbavisioncoaching" title="YouTube">▶</a>
@@ -1630,20 +2148,13 @@ footer{
   </div>
 </footer>
 
-<!-- ===== WHATSAPP FAB ===== -->
-<a href="https://wa.me/8801764859503" target="_blank" rel="noopener" class="wa-fab" aria-label="WhatsApp এ চ্যাট করুন">
-  <span class="wa-label">এখনই চ্যাট করুন</span>
-  <span class="core">
-    <span class="ring"></span>
-    <span class="ring ring2"></span>
-    <span class="pulse"></span>
-    <span class="badge"></span>
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.892c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a11.85 11.85 0 0 0 5.683 1.448h.005c9.435 0 14.834-11.023 8.512-18.35a11.86 11.86 0 0 0-.015-.017zM12.023 21.674h-.004a9.85 9.85 0 0 1-5.023-1.376l-.36-.214-3.741.981.999-3.648-.235-.374a9.85 9.85 0 0 1-1.51-5.24c.004-5.45 4.436-9.882 9.887-9.882 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.436 9.861-9.894 9.861z"/></svg>
-  </span>
-</a>
-
 <script>
-// Mobile menu toggle
+/* =========================================================================================
+   এখান থেকে নিচে শুধু ইন্টার‌অ্যাকশনের (ক্লিক/অ্যানিমেশন) কোড — কোনো তথ্য/লেখা এখানে নেই।
+   সব তথ্য উপরের HTML অংশেই সরাসরি বসানো আছে। তথ্য বদলাতে উপরের HTML দেখুন, এখানে না।
+   ========================================================================================= */
+
+// মোবাইল নেভবার মেনু খোলা/বন্ধ করা
 document.getElementById('burgerBtn').addEventListener('click', () => {
   document.getElementById('navLinks').classList.toggle('open');
 });
@@ -1653,15 +2164,55 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   });
 });
 
-// Hero stats animation
-document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
-  setTimeout(() => card.classList.add('visible'), 80 + i * 140);
-});
+// হিরো স্ট্যাটস — কার্ডগুলো একটার পর একটা (stagger) fade+slide-up হয়ে দেখা দেবে,
+// এবং সংখ্যাগুলো ০ থেকে গুনতে গুনতে উঠবে (একবার স্ক্রিনে দেখা গেলে)
+(function(){
+  document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
+    setTimeout(() => card.classList.add('visible'), 80 + i * 140);
+  });
 
-// Pinboard carousel
+  const bnDigits = '০১২৩৪৫৬৭৮৯';
+  const enDigits = '0123456789';
+  const bn2en = s => s.replace(/[০-৯]/g, d => enDigits[bnDigits.indexOf(d)]);
+  const en2bn = n => String(n).replace(/[0-9]/g, d => bnDigits[enDigits.indexOf(d)]);
+
+  const numberEls = document.querySelectorAll('.stat-number');
+
+  function animateCount(el){
+    const finalText = el.getAttribute('data-final');
+    const suffix = finalText.replace(/[০-৯]/g, '');
+    const target = parseInt(bn2en(finalText.replace(/[^০-৯]/g, '')), 10);
+    const duration = 2400;
+    const start = performance.now();
+
+    function tick(now){
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      el.textContent = en2bn(current) + suffix;
+      if(progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statsBox = document.getElementById('hero-stats');
+  if(statsBox && numberEls.length){
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          numberEls.forEach(animateCount);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(statsBox);
+  }
+})();
+
+// পিনবোর্ড ছবি — অটো-স্ক্রল ক্যারোসেল (৩ সেকেন্ড পরপর, ইনফিনিট লুপ)
 (function(){
   const track = document.getElementById('pinTrack');
-  const totalReal = track.children.length - 1;
+  const totalReal = track.children.length - 1; // শেষেরটা ক্লোন, তাই ১ বাদ
   let pinIndex = 0;
   const TRANSITION_MS = 700;
 
@@ -1669,21 +2220,30 @@ document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
     pinIndex++;
     track.style.transition = `transform ${TRANSITION_MS}ms ease`;
     track.style.transform = `translateX(-${pinIndex * 100}%)`;
+
     if(pinIndex === totalReal){
+      // শেষ (ক্লোন করা) স্লাইডে পৌঁছে গেলে, ট্রানজিশন শেষ হবার পর নিঃশব্দে শুরুতে ফিরিয়ে আনা হয়
       setTimeout(() => {
         track.style.transition = 'none';
         pinIndex = 0;
-        track.style.transform = 'translateX(0%)';
+        track.style.transform = `translateX(0%)`;
       }, TRANSITION_MS);
     }
   }
-  if(totalReal > 1) setInterval(goNext, 3000);
+
+  if(totalReal > 1){
+    setInterval(goNext, 3000);
+  }
 })();
 
-// Category filter
+// ক্যাটাগরি কুইক-কার্ড — এখন এগুলোই কোর্স ফিল্টার হিসেবে কাজ করে।
+// কার্ডে ক্লিক করলে শুধু সেই ক্যাটাগরির কোর্স দেখাবে, একই কার্ডে আবার ক্লিক করলে সবগুলো কোর্স আবার দেখা যাবে।
+// ক্লিক করার পর পেজ অটো-স্ক্রল করে নিচের আসল কোর্স কার্ডগুলো পর্যন্ত চলে যাবে (বিশেষ করে মোবাইলে দরকারি)।
 (function(){
   const catGrid = document.getElementById('catGrid');
+  const courseGrid = document.getElementById('courseGrid');
   const cards = document.querySelectorAll('#courseGrid .course-card');
+  if(!catGrid || !cards.length) return;
 
   function applyFilter(cat){
     cards.forEach(card => {
@@ -1695,28 +2255,44 @@ document.querySelectorAll('#hero-stats .stat-card').forEach((card, i) => {
     e.preventDefault();
     const btn = e.target.closest('.cat-card');
     if(!btn) return;
+
     const alreadyActive = btn.classList.contains('active');
     catGrid.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+
     if(alreadyActive){
-      applyFilter(null);
+      applyFilter(null); // একই কার্ডে আবার ক্লিক করলে সব কোর্স দেখাবে
     } else {
       btn.classList.add('active');
       applyFilter(btn.dataset.cat);
     }
-    document.getElementById('courseGrid').scrollIntoView({ behavior:'smooth', block:'start' });
+
+    if(courseGrid){
+      courseGrid.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
   });
 })();
 
-// Hero level badges
-document.querySelectorAll('.level-card[data-hero-cat]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetCard = document.querySelector(`.cat-card[data-cat="${link.dataset.heroCat}"]`);
-    if(targetCard) targetCard.click();
-  });
-});
+// হিরো সেকশনের SSC/HSC/BBA ব্যাজ — ক্লিক করলে সরাসরি নিচের কোর্স কার্ড পর্যন্ত স্মুথ-স্ক্রল হয়ে
+// সেই ক্যাটাগরির cat-card অটো-ক্লিক হয়ে কোর্স ফিল্টার হয়ে যাবে (নিজেদের ডিফল্ট #courses জাম্প বন্ধ রাখা হয়েছে,
+// যাতে ডাবল-স্ক্রল না হয় — আসল স্ক্রলটা catGrid এর ক্লিক-হ্যান্ডলারই করে দেয়)
+(function(){
+  const heroLevels = document.querySelectorAll('.level-card[data-hero-cat]');
+  const catGrid = document.getElementById('catGrid');
+  if(!heroLevels.length || !catGrid) return;
 
-// Video category filter
+  heroLevels.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetCard = catGrid.querySelector(`.cat-card[data-cat="${link.dataset.heroCat}"]`);
+      if(targetCard){
+        targetCard.click();
+      }
+    });
+  });
+})();
+
+
+// ফ্রি ভিডিও ক্যাটাগরি ফিল্টার ট্যাব — একই পদ্ধতিতে কাজ করে
 (function(){
   const pillRow = document.getElementById('videoPillRow');
   const cards = document.querySelectorAll('#videoGrid .video-card');
@@ -1736,7 +2312,7 @@ document.querySelectorAll('.level-card[data-hero-cat]').forEach(link => {
   });
 })();
 
-// Video thumbnails - click to play
+// ভিডিও থাম্বনেইলে ক্লিক করলে ইউটিউব প্লেয়ার এমবেড হয়ে অটোপ্লে হবে
 document.querySelectorAll('.video-thumb').forEach(thumbEl => {
   thumbEl.addEventListener('click', () => {
     const id = thumbEl.dataset.yid;
@@ -1745,28 +2321,42 @@ document.querySelectorAll('.video-thumb').forEach(thumbEl => {
   });
 });
 
-// Message form submission
+// "আমাদের মেসেজ পাঠান" ফর্ম সাবমিট — এখন ফর্মের ডেটা প্রথমে আমাদের নিজের Cloudflare Worker
+// (late-forest-4748.dreamsicreation.workers.dev) এ যায়, সেখান থেকে সার্ভার-টু-সার্ভার
+// Google Sheet এ ফরওয়ার্ড হয়। এতে আসল Google Apps Script লিংকটা ব্রাউজারে/Inspect করে
+// কখনো দেখা যায় না।
 (function(){
   const FORM_ENDPOINT = "https://late-forest-4748.dreamsicreation.workers.dev";
+
   const form = document.getElementById('msgForm');
   const btn = document.getElementById('msgSubmitBtn');
   const status = document.getElementById('msgStatus');
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
+
+    if(!FORM_ENDPOINT || FORM_ENDPOINT === "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"){
+      status.textContent = "⚠️ ফর্মটি এখনো সেটআপ হয়নি — script ট্যাগের ভেতরের FORM_ENDPOINT এ Google Apps Script URL বসাতে হবে।";
+      status.className = "form-status show err";
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = "পাঠানো হচ্ছে...";
     status.className = "form-status";
 
     const data = new FormData(form);
+
+    // no-cors mode ব্যবহার করা হয়েছে কারণ Google Apps Script সাধারণত CORS হেডার পাঠায় না;
+    // এতে রেসপন্স পড়া যায় না, কিন্তু ডেটা ঠিকই শিটে গিয়ে জমা হয়।
     fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
       .then(() => {
-        status.textContent = "✅ মেসেজ পাঠানো হয়েছে!";
+        status.textContent = "✅ মেসেজ পাঠানো হয়েছে,আমাদের টিম খুব দ্রুত আপনার সাথে যোগাযোগ করবে,ধন্যবাদ!";
         status.className = "form-status show ok";
         form.reset();
       })
       .catch(() => {
-        status.textContent = "❌ সমস্যা হয়েছে, আবার চেষ্টা করুন।";
+        status.textContent = "❌ দুঃখিত, মেসেজ পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।";
         status.className = "form-status show err";
       })
       .finally(() => {
@@ -1775,7 +2365,26 @@ document.querySelectorAll('.video-thumb').forEach(thumbEl => {
       });
   });
 })();
+
+// নোট: নেভবারের "লগইন" বাটন সরাসরি student-reg.html পেজে নিয়ে যায়।
+// প্রতিটা কোর্স কার্ডের "বিস্তারিত" বাটন সব কোর্সের জন্য একই course-details.html
+// পেজে নিয়ে যায়, শুধু URL এর শেষে ?course=স্লাগ অংশটা আলাদা আলাদা হয়
+// (যেমন ?course=ssc-accounting-batch)। course-details.html পেজে সেই স্লাগ পড়ে
+// সেই অনুযায়ী কোর্সের তথ্য (নাম, বিবরণ, দাম, ফিচার লিস্ট ইত্যাদি) দেখানো হবে।
 </script>
 
+<!-- ===== ফ্লোটিং WhatsApp বাটন (স্থির কোর + ঘোরা রিং/পালস এনিমেশন + লাল নোটিফিকেশন ডট + হোভারে টেক্সট লেবেল) =====
+     নাম্বার বদলাতে চাইলে নিচের href এর "8801764859503" অংশটুকু বদলান
+     (দেশের কোডসহ, শুরুতে + বা ০ থাকবে না) -->
+<a href="https://wa.me/8801764859503" target="_blank" rel="noopener" class="wa-fab" aria-label="WhatsApp এ চ্যাট করুন">
+  <span class="wa-label">এখনই চ্যাট করুন</span>
+  <span class="core">
+    <span class="ring"></span>
+    <span class="ring ring2"></span>
+    <span class="pulse"></span>
+    <span class="badge"></span>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M20.52 3.449C12.831-3.984.106 1.407.101 11.892c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a11.85 11.85 0 0 0 5.683 1.448h.005c9.435 0 14.834-11.023 8.512-18.35a11.86 11.86 0 0 0-.015-.017zM12.023 21.674h-.004a9.85 9.85 0 0 1-5.023-1.376l-.36-.214-3.741.981.999-3.648-.235-.374a9.85 9.85 0 0 1-1.51-5.24c.004-5.45 4.436-9.882 9.887-9.882 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.436 9.861-9.894 9.861z"/></svg>
+  </span>
+</a>
 </body>
 </html>
