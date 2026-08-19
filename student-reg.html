@@ -794,7 +794,21 @@ footer a:hover{ color:#fff; }
   const cachedUser = localStorage.getItem(LS_USER_KEY);
   if(cachedUser){
     try{
-      renderDashboard(JSON.parse(cachedUser));
+      const cachedData = JSON.parse(cachedUser);
+      if(enrollParam && cachedData && cachedData.mobile){
+        showAuthUI();
+        enrollCourse(enrollParam)
+          .then(function(){
+            window.history.replaceState({}, document.title, 'student-reg.html');
+          })
+          .catch(function(err){
+            renderDashboard(cachedData);
+            loginStatus.textContent = '❌ ' + (err.message || 'Course enrollment failed.');
+            loginStatus.className = 'form-status show err';
+          });
+      } else {
+        renderDashboard(cachedData);
+      }
     }catch(e){
       localStorage.removeItem(LS_USER_KEY);
       showAuthUI();
@@ -892,12 +906,23 @@ footer a:hover{ color:#fff; }
     loginSubmitBtn.textContent = 'লগইন হচ্ছে...';
 
     callApi({ action: 'login', mobile: mobile, password: password })
-      .then(function(result){
+      .then(async function(result){
         if(result.status === 'ok'){
           localStorage.setItem(LS_USER_KEY, JSON.stringify(result.data));
           localStorage.setItem(LS_REGISTERED_KEY, '1');
           loginForm.reset();
-          renderDashboard(result.data);
+
+          if(enrollParam){
+            try{
+              await enrollCourse(enrollParam);
+              window.history.replaceState({}, document.title, 'student-reg.html');
+            }catch(err){
+              renderDashboard(result.data);
+              throw err;
+            }
+          } else {
+            renderDashboard(result.data);
+          }
         } else {
           loginStatus.textContent = '❌ ' + (result.message || 'লগইন ব্যর্থ হয়েছে।');
           loginStatus.className = 'form-status show err';
