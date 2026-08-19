@@ -169,8 +169,10 @@
         
         .course-detail-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            /* বাম পাশের image card-এর ratio/index.html-এর course-image-এর ratio-এর সাথে একই থাকবে */
+            grid-template-columns: 1.18fr .82fr;
             gap: 50px;
+            align-items: start;
             background: var(--card);
             border-radius: var(--radius);
             padding: 40px;
@@ -189,17 +191,26 @@
         /* ===== বাম পাশ: ছবি ===== */
         .detail-image {
             width: 100%;
+            aspect-ratio: 16 / 10;
+            height: auto;
+            align-self: start;
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: 0 8px 24px rgba(30,42,71,0.12);
+            background: #eee;
         }
-        
+
+        /*
+         * IMPORTANT:
+         * Details page-এর লেখা যত বড়/লম্বা হোক, image কখনো vertically stretch হবে না।
+         * Index page-এর .course-image-এর 16:10 ratio-ই এখানে exact রাখা হয়েছে।
+         */
         .detail-image img {
             width: 100%;
             height: 100%;
+            aspect-ratio: 16 / 10;
             object-fit: cover;
             display: block;
-            aspect-ratio: 16/10;
         }
         
         /* ===== ডান পাশ: তথ্য ===== */
