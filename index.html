@@ -883,6 +883,16 @@ section{ padding:52px 0; }
   font-size:13.5px;
   margin-top:8px;
 }
+ .teacher-data-state{
+   grid-column:1 / -1;
+   text-align:center;
+   padding:28px 20px;
+   color:var(--ink-soft);
+   background:#fff;
+   border:1px solid var(--paper-line);
+   border-radius:var(--radius);
+   box-shadow:var(--shadow);
+ }
 
 /* মোবাইলে শিক্ষক কার্ড গ্রিডের বদলে পাশাপাশি (horizontal) স্ক্রল হবে */
 @media(max-width:760px){
@@ -1548,43 +1558,8 @@ footer{
         <h2>শিক্ষকবৃন্দের সাথে পরিচিত হোন</h2>
         <p>যারা প্রতিদিন ক্লাসে থেকে আপনার প্রস্তুতিকে এগিয়ে নেবেন।</p>
       </div>
-      <div class="teacher-grid">
-        <!-- শিক্ষক ১ -->
-        <div class="teacher-card">
-          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1aoT4KkproYMlPNbnuvKZyxsESD3Lh352&sz=w1000" alt="Tanvir Sir">
-          <div class="teacher-info">
-            <div class="name">Tanvir Sir</div>
-            <div class="subject">Accounting</div>
-            <div class="bio">Director & Teacher</div>
-          </div>
-        </div>
-        <!-- শিক্ষক ২ -->
-        <div class="teacher-card">
-          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1ZXpiJTvVPEwU47tsZ8bpDYUfVgNCTxeU&sz=w1000" alt="Farhad Sir">
-          <div class="teacher-info">
-            <div class="name">Farhad Sir</div>
-            <div class="subject">Statistics</div>
-            <div class="bio">Director & Teacher</div>
-          </div>
-        </div>
-        <!-- শিক্ষক ৩ -->
-        <div class="teacher-card">
-          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=1zw1Jr0R5kuZovGiBAVMU3fH2nWlhYQRN&sz=w1000" alt="Saiful Sir">
-          <div class="teacher-info">
-            <div class="name">Saiful Sir</div>
-            <div class="subject">Taxation in Bangladesh</div>
-            <div class="bio">Senior Teacher</div>
-          </div>
-        </div>
-        <!-- শিক্ষক ৪ -->
-        <div class="teacher-card">
-          <img class="teacher-photo" src="https://drive.google.com/thumbnail?id=14720XIcOoC9zhL3F9Frc7PUCHQenXegw&sz=w1000" alt="RIAD">
-          <div class="teacher-info">
-            <div class="name">RIAD</div>
-            <div class="subject">Editor & Designer</div>
-            <div class="bio">Advisor</div>
-          </div>
-        </div>
+      <div class="teacher-grid" id="teacherGrid" aria-live="polite">
+        <div class="teacher-data-state">Google Sheet থেকে শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>
       </div>
     </div>
   </section>
@@ -1779,6 +1754,69 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   if(totalReal > 1){
     setInterval(goNext, 3000);
   }
+})();
+
+// ============================================================
+// Google Sheet → Dynamic Teachers
+// Teachers tab columns: A Name, B Photo URL, C Subject, D Designation
+// ============================================================
+(function(){
+  const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
+  const TEACHERS_TAB = 'Teachers';
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(TEACHERS_TAB)}`;
+  const teacherGrid = document.getElementById('teacherGrid');
+  if(!teacherGrid) return;
+
+  const clean = v => String(v ?? '').trim();
+  const esc = v => clean(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function imageUrl(v){
+    const x=clean(v);
+    const f=x.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+    const i=x.match(/[?&]id=([^&]+)/i);
+    if(f) return `https://drive.google.com/thumbnail?id=${f[1]}&sz=w1000`;
+    if(x.includes('drive.google.com')&&i) return `https://drive.google.com/thumbnail?id=${i[1]}&sz=w1000`;
+    return x;
+  }
+  function parseGviz(t){
+    const a=t.indexOf('{'),b=t.lastIndexOf('}');
+    if(a<0||b<0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(t.slice(a,b+1));
+  }
+  async function loadTeachers(){
+    teacherGrid.innerHTML='<div class="teacher-data-state">Google Sheet থেকে শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>';
+    try{
+      const r=await fetch(SHEET_URL,{cache:'no-store'});
+      if(!r.ok) throw Error(`Teachers: HTTP ${r.status}`);
+      const j=parseGviz(await r.text());
+      const teachers=(j.table?.rows||[]).map(row=>{
+        const c=row.c||[];
+        const v=Array.from({length:4},(_,i)=>clean(c[i]?.v??c[i]?.f??''));
+        const [name,photo,subject,designation]=v;
+        if(!name || name.toLowerCase()==='teacher name') return null;
+        return {name,photo:imageUrl(photo),subject,designation};
+      }).filter(Boolean);
+
+      if(!teachers.length){
+        teacherGrid.innerHTML='<div class="teacher-data-state">Google Sheet-এ এখনো কোনো শিক্ষক তথ্য পাওয়া যায়নি।</div>';
+        return;
+      }
+
+      teacherGrid.innerHTML=teachers.map(t=>`
+        <div class="teacher-card">
+          <img class="teacher-photo" src="${esc(t.photo)}" alt="${esc(t.name)}" loading="lazy">
+          <div class="teacher-info">
+            <div class="name">${esc(t.name)}</div>
+            <div class="subject">${esc(t.subject)}</div>
+            <div class="bio">${esc(t.designation)}</div>
+          </div>
+        </div>
+      `).join('');
+    }catch(e){
+      console.error(e);
+      teacherGrid.innerHTML='<div class="teacher-data-state">শিক্ষকদের তথ্য লোড করা যায়নি। Google Sheet-এর access এবং internet connection চেক করুন।</div>';
+    }
+  }
+  loadTeachers();
 })();
 
 // ============================================================
