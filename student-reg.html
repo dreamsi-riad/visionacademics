@@ -299,6 +299,102 @@ header.nav{
 .dash-item .k{ font-size:12.5px; color:var(--ink-soft); font-weight:600; margin-bottom:4px; }
 .dash-item .v{ font-size:15.5px; font-weight:700; color:var(--ink); }
 
+/* ---------- Enrolled course / class dashboard ---------- */
+.learning-area{
+  margin-top:28px;
+  padding-top:26px;
+  border-top:1px solid var(--paper-line);
+}
+.learning-head{ margin-bottom:18px; }
+.learning-head h3{ font-size:21px; font-weight:700; }
+.learning-head p{ margin-top:4px; color:var(--ink-soft); font-size:14px; }
+.enrolled-course-list{ display:grid; gap:10px; margin-bottom:20px; }
+.enrolled-course-btn{
+  width:100%;
+  text-align:left;
+  border:1px solid var(--paper-line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:10px;
+  padding:12px 14px;
+  font:700 15px/1.4 'Anek Bangla',sans-serif;
+  cursor:pointer;
+  transition:.15s ease;
+}
+.enrolled-course-btn:hover,
+.enrolled-course-btn.active{ border-color:var(--accent); box-shadow:0 6px 16px rgba(232,163,61,.16); }
+.subject-row{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:3px 2px 10px;
+  scrollbar-width:thin;
+}
+.subject-btn{
+  flex:0 0 auto;
+  border:1px solid var(--paper-line);
+  background:#fff;
+  color:var(--ink-soft);
+  border-radius:999px;
+  padding:9px 15px;
+  font:700 14px/1.2 'Anek Bangla',sans-serif;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:.15s ease;
+}
+.subject-btn:hover,.subject-btn.active{ background:var(--accent); color:var(--ink); border-color:var(--accent); box-shadow:0 6px 16px rgba(232,163,61,.25); }
+.class-player-wrap{
+  margin:6px 0 18px;
+  background:#111827;
+  border-radius:12px;
+  overflow:hidden;
+  aspect-ratio:16/9;
+  box-shadow:var(--shadow);
+}
+.class-player-wrap iframe{ width:100%; height:100%; border:0; display:block; }
+.class-list{ display:grid; gap:9px; }
+.class-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  border:1px solid var(--paper-line);
+  background:#fff;
+  border-radius:10px;
+  padding:12px 14px;
+  text-align:left;
+  color:var(--ink);
+  cursor:pointer;
+  transition:.15s ease;
+}
+.class-item:hover{ border-color:var(--accent); transform:translateY(-1px); box-shadow:0 6px 16px rgba(30,42,71,.08); }
+.class-play{
+  flex:none;
+  width:36px; height:36px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--accent);
+  color:var(--ink);
+  font-weight:800;
+}
+.class-meta{ min-width:0; }
+.class-title{ font-weight:700; font-size:15px; }
+.class-chapter{ margin-top:2px; color:var(--ink-soft); font-size:13px; }
+.learning-empty{
+  padding:16px;
+  border:1px dashed var(--paper-line);
+  border-radius:10px;
+  color:var(--ink-soft);
+  text-align:center;
+  background:var(--paper);
+}
+@media(max-width:640px){
+  .learning-area{ margin-top:22px; padding-top:22px; }
+  .learning-head h3{ font-size:19px; }
+  .class-item{ padding:11px 12px; }
+  .class-play{ width:34px; height:34px; }
+}
+
 footer{
   background:var(--ink);
   color:#EDEFF5;
@@ -481,6 +577,20 @@ footer a:hover{ color:#fff; }
           <div class="dash-item"><span class="k">মোবাইল</span><span class="v" id="dashMobile">—</span></div>
         </div>
 
+        <div class="learning-area" id="learningArea">
+          <div class="learning-head">
+            <h3>আমার কোর্স</h3>
+            <p>আপনার enrolled course থেকে subject বেছে নিয়ে class দেখুন।</p>
+          </div>
+          <div class="enrolled-course-list" id="enrolledCourseList"></div>
+          <div id="courseLearningPanel" style="display:none;">
+            <div class="subject-row" id="subjectRow"></div>
+            <div class="class-player-wrap" id="classPlayer" style="display:none;"></div>
+            <div class="class-list" id="classList"></div>
+          </div>
+          <div class="learning-empty" id="learningEmpty">এখনো কোনো course enrolled নেই।</div>
+        </div>
+
         <button type="button" class="btn btn-outline" id="logoutBtn">লগআউট করুন</button>
       </div>
     </div>
@@ -517,6 +627,11 @@ footer a:hover{ color:#fff; }
 
   const LS_USER_KEY = "va_user";
   const LS_REGISTERED_KEY = "va_registered";
+  const LS_ENROLL_PREFIX = "va_enrolled_courses_";
+  const CLASS_SHEET_ID = "1ubgMyTh8rJl48Bm2PAeucVlW6gFZ88GVBKbbj-OdTVY";
+  const CLASS_SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${CLASS_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  const enrollParam = new URLSearchParams(window.location.search).get('enroll');
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   const authPageHead = document.getElementById('authPageHead');
   const tabRegisterBtn = document.getElementById('tabRegisterBtn');
@@ -537,6 +652,12 @@ footer a:hover{ color:#fff; }
   const goLoginLink = document.getElementById('goLoginLink');
   const goRegisterLink = document.getElementById('goRegisterLink');
   const logoutBtn = document.getElementById('logoutBtn');
+  const enrolledCourseList = document.getElementById('enrolledCourseList');
+  const courseLearningPanel = document.getElementById('courseLearningPanel');
+  const learningEmpty = document.getElementById('learningEmpty');
+  const subjectRow = document.getElementById('subjectRow');
+  const classPlayer = document.getElementById('classPlayer');
+  const classList = document.getElementById('classList');
 
   function showRegister(){
     registerPanel.classList.add('active');
@@ -555,6 +676,130 @@ footer a:hover{ color:#fff; }
   goLoginLink.addEventListener('click', showLogin);
   goRegisterLink.addEventListener('click', showRegister);
 
+  function enrolledKey(mobile){ return LS_ENROLL_PREFIX + String(mobile || '').trim(); }
+  function getEnrolledCourses(mobile){
+    try{
+      const value=JSON.parse(localStorage.getItem(enrolledKey(mobile)) || '[]');
+      return Array.isArray(value) ? value : [];
+    }catch(e){ return []; }
+  }
+  function saveEnrolledCourse(mobile, courseName){
+    const name=String(courseName || '').trim();
+    if(!name || !mobile) return;
+    const list=getEnrolledCourses(mobile);
+    if(!list.some(x=>x.toLowerCase()===name.toLowerCase())) list.push(name);
+    localStorage.setItem(enrolledKey(mobile), JSON.stringify(list));
+  }
+  function youtubeId(url){
+    const value=String(url || '').trim();
+    if(!value) return '';
+    try{
+      const u=new URL(value);
+      if(u.hostname.includes('youtu.be')) return u.pathname.split('/').filter(Boolean)[0] || '';
+      if(u.hostname.includes('youtube.com')){
+        if(u.searchParams.get('v')) return u.searchParams.get('v');
+        const parts=u.pathname.split('/').filter(Boolean);
+        const i=parts.indexOf('embed');
+        if(i>=0) return parts[i+1] || '';
+        const s=parts.indexOf('shorts');
+        if(s>=0) return parts[s+1] || '';
+        const l=parts.indexOf('live');
+        if(l>=0) return parts[l+1] || '';
+      }
+    }catch(e){}
+    const m=value.match(/[?&]v=([^&]+)/i);
+    return m ? m[1] : '';
+  }
+  function parseGvizText(text){
+    const a=text.indexOf('{'), b=text.lastIndexOf('}');
+    if(a<0 || b<0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(text.slice(a,b+1));
+  }
+  async function loadCourseClasses(courseName){
+    classLearningReset();
+    if(!courseName) return;
+    try{
+      const response=await fetch(CLASS_SHEET_URL(courseName),{cache:'no-store'});
+      if(!response.ok) throw Error(`HTTP ${response.status}`);
+      const json=parseGvizText(await response.text());
+      const rows=(json.table?.rows || []).map(row=>{
+        const c=row.c || [];
+        return {
+          subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),
+          chapter:String(c[1]?.v ?? c[1]?.f ?? '').trim(),
+          className:String(c[2]?.v ?? c[2]?.f ?? '').trim(),
+          url:String(c[3]?.v ?? c[3]?.f ?? '').trim()
+        };
+      }).filter(x=>x.subject && x.url);
+      if(!rows.length){
+        courseLearningPanel.style.display='block';
+        subjectRow.innerHTML='';
+        classList.innerHTML='<div class="learning-empty">এই course-এর কোনো class এখনো পাওয়া যায়নি।</div>';
+        return;
+      }
+      const subjects=[...new Set(rows.map(x=>x.subject))];
+      courseLearningPanel.style.display='block';
+      subjectRow.innerHTML=subjects.map((subject,i)=>`<button type="button" class="subject-btn${i===0?' active':''}" data-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`).join('');
+      const showSubject=(subject)=>{
+        subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.subject===subject));
+        classPlayer.style.display='none';
+        classPlayer.innerHTML='';
+        const filtered=rows.filter(x=>x.subject===subject);
+        classList.innerHTML=filtered.map((item,index)=>`<button type="button" class="class-item" data-video="${escapeHtml(item.url)}"><span class="class-play">▶</span><span class="class-meta"><span class="class-title">${escapeHtml(item.className || `Class ${index+1}`)}</span><span class="class-chapter">${escapeHtml(item.chapter || '')}</span></span></button>`).join('');
+        classList.querySelectorAll('.class-item').forEach(item=>item.addEventListener('click',()=>{
+          const id=youtubeId(item.dataset.video);
+          if(!id) return;
+          classPlayer.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0" title="Class video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          classPlayer.style.display='block';
+          classPlayer.scrollIntoView({behavior:'smooth',block:'nearest'});
+        }));
+      };
+      subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.addEventListener('click',()=>showSubject(btn.dataset.subject)));
+      showSubject(subjects[0]);
+    }catch(error){
+      console.error('Course class loading failed:',error);
+      courseLearningPanel.style.display='block';
+      subjectRow.innerHTML='';
+      classList.innerHTML='<div class="learning-empty">এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।</div>';
+    }
+  }
+  function classLearningReset(){
+    if(!courseLearningPanel) return;
+    courseLearningPanel.style.display='none';
+    subjectRow.innerHTML='';
+    classPlayer.innerHTML='';
+    classPlayer.style.display='none';
+    classList.innerHTML='';
+  }
+  function renderEnrolledCourses(data){
+    const mobile=data?.mobile || '';
+    const courses=getEnrolledCourses(mobile);
+    enrolledCourseList.innerHTML='';
+    classLearningReset();
+    if(!courses.length){
+      enrolledCourseList.innerHTML='';
+      learningEmpty.style.display='block';
+      return;
+    }
+    learningEmpty.style.display='none';
+    enrolledCourseList.innerHTML=courses.map((name,i)=>`<button type="button" class="enrolled-course-btn${i===0?' active':''}" data-course="${escapeHtml(name)}">${escapeHtml(name)}</button>`).join('');
+    const selectCourse=(name)=>{
+      enrolledCourseList.querySelectorAll('.enrolled-course-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.course===name));
+      loadCourseClasses(name);
+    };
+    enrolledCourseList.querySelectorAll('.enrolled-course-btn').forEach(btn=>btn.addEventListener('click',()=>selectCourse(btn.dataset.course)));
+    selectCourse(courses[0]);
+  }
+  function processPendingEnrollment(data){
+    const pending=localStorage.getItem('va_pending_enroll') || enrollParam || '';
+    if(pending && data?.mobile){
+      saveEnrolledCourse(data.mobile,pending);
+      localStorage.removeItem('va_pending_enroll');
+      if(enrollParam) window.history.replaceState({},document.title,'student-reg.html');
+    }
+    renderEnrolledCourses(data);
+  }
+
   function renderDashboard(data){
     document.getElementById('dashName').textContent = data.name || '—';
     document.getElementById('dashLevel').textContent = data.level || '—';
@@ -571,6 +816,7 @@ footer a:hover{ color:#fff; }
       status.toLowerCase() === 'pending' ? 'pending' : 'other'
     );
 
+    processPendingEnrollment(data);
     authPageHead.style.display = 'none';
     authWrapSection.style.display = 'none';
     dashboardSection.style.display = 'block';
@@ -695,6 +941,9 @@ footer a:hover{ color:#fff; }
 
   logoutBtn.addEventListener('click', function(){
     localStorage.removeItem(LS_USER_KEY);
+    classLearningReset();
+    enrolledCourseList.innerHTML='';
+    learningEmpty.style.display='block';
     showAuthUI();
     showLogin();
   });
