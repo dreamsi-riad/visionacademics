@@ -960,22 +960,15 @@ footer a:hover{ color:#fff; }
     callApi(payload)
       .then(function(result){
         if(result.status === 'ok'){
-          regStatus.textContent = '✅ রেজিস্ট্রেশন সফল হয়েছে! আপনাকে লগইন করানো হচ্ছে...';
-          regStatus.className = 'form-status show ok';
           localStorage.setItem(LS_REGISTERED_KEY, '1');
-          return callApi({ action: 'login', mobile: mobile, password: password });
+          regForm.reset();
+          hideLoading();
+          showLogin();
+          loginStatus.textContent = '✅ রেজিস্ট্রেশন সফল হয়েছে। এখন লগইন করুন।';
+          loginStatus.className = 'form-status show ok';
+          document.getElementById('login_mobile').value = mobile;
         } else {
           throw new Error(result.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।');
-        }
-      })
-      .then(async function(loginResult){
-        if(loginResult && loginResult.status === 'ok'){
-          localStorage.setItem(LS_USER_KEY, JSON.stringify(loginResult.data));
-          regForm.reset();
-          if(enrollParam){
-            try { const enrolled = await enrollCourse(enrollParam); if(enrolled) window.history.replaceState({},document.title,'student-reg.html'); }
-            catch(err){ regStatus.textContent='❌ '+err.message; regStatus.className='form-status show err'; throw err; }
-          } else { renderDashboard(loginResult.data); hideLoading(); }
         }
       })
       .catch(function(err){
