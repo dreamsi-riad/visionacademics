@@ -650,7 +650,6 @@
             if(!btn) return;
             const courseName=btn.getAttribute('data-enroll-course') || '';
             if(!courseName) return;
-            localStorage.setItem('va_pending_enroll',courseName);
         });
 
         document.addEventListener('DOMContentLoaded',()=>{
