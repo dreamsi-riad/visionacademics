@@ -281,6 +281,8 @@ header.nav{
 .status-pill.pending{ background:#FBEBD3; color:var(--accent-dark); }
 .status-pill.approved{ background:#DCEEE3; color:var(--green); }
 .status-pill.other{ background:#F1E4E4; color:var(--margin); }
+.enrollment-dates{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; font-size:13px; line-height:1.35; color:var(--ink-soft); white-space:nowrap; }
+.enrollment-dates strong{ color:var(--ink); font-weight:700; }
 
 .dash-grid{
   display:grid;
@@ -566,7 +568,7 @@ footer a:hover{ color:#fff; }
               <p class="role-tag">🎓 স্টুডেন্ট প্রোফাইল</p>
             </div>
           </div>
-          <span class="status-pill pending" id="dashStatusPill">—</span>
+          <div class="enrollment-dates" id="enrollmentDates">—</div>
         </div>
 
         <div class="dash-grid">
@@ -623,11 +625,9 @@ footer a:hover{ color:#fff; }
 
 <script>
 (function(){
-  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyzDu8Jh3XttRYzyWhnRG45HiG2WWiK4c9gUo2qOtF8BwceaEOFOyVAbnJP39kKYkFf/exec";
-
+  const FORM_ENDPOINT = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
   const LS_USER_KEY = "va_user";
   const LS_REGISTERED_KEY = "va_registered";
-  const LS_ENROLL_PREFIX = "va_enrolled_courses_";
   const CLASS_SHEET_ID = "1ubgMyTh8rJl48Bm2PAeucVlW6gFZ88GVBKbbj-OdTVY";
   const CLASS_SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${CLASS_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
   const enrollParam = new URLSearchParams(window.location.search).get('enroll');
@@ -676,20 +676,17 @@ footer a:hover{ color:#fff; }
   goLoginLink.addEventListener('click', showLogin);
   goRegisterLink.addEventListener('click', showRegister);
 
-  function enrolledKey(mobile){ return LS_ENROLL_PREFIX + String(mobile || '').trim(); }
-  function getEnrolledCourses(mobile){
-    try{
-      const value=JSON.parse(localStorage.getItem(enrolledKey(mobile)) || '[]');
-      return Array.isArray(value) ? value : [];
-    }catch(e){ return []; }
+  function formatDate(value){
+    if(!value) return '—';
+    const d=new Date(value);
+    if(Number.isNaN(d.getTime())) return String(value);
+    return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(d);
   }
-  function saveEnrolledCourse(mobile, courseName){
-    const name=String(courseName || '').trim();
-    if(!name || !mobile) return;
-    const list=getEnrolledCourses(mobile);
-    if(!list.some(x=>x.toLowerCase()===name.toLowerCase())) list.push(name);
-    localStorage.setItem(enrolledKey(mobile), JSON.stringify(list));
+
+  function getEnrolledCourses(data){
+    return Array.isArray(data?.courses) ? data.courses : [];
   }
+
   function youtubeId(url){
     const value=String(url || '').trim();
     if(!value) return '';
@@ -699,22 +696,21 @@ footer a:hover{ color:#fff; }
       if(u.hostname.includes('youtube.com')){
         if(u.searchParams.get('v')) return u.searchParams.get('v');
         const parts=u.pathname.split('/').filter(Boolean);
-        const i=parts.indexOf('embed');
-        if(i>=0) return parts[i+1] || '';
-        const s=parts.indexOf('shorts');
-        if(s>=0) return parts[s+1] || '';
-        const l=parts.indexOf('live');
-        if(l>=0) return parts[l+1] || '';
+        const i=parts.indexOf('embed'); if(i>=0) return parts[i+1] || '';
+        const ss=parts.indexOf('shorts'); if(ss>=0) return parts[ss+1] || '';
+        const l=parts.indexOf('live'); if(l>=0) return parts[l+1] || '';
       }
     }catch(e){}
     const m=value.match(/[?&]v=([^&]+)/i);
     return m ? m[1] : '';
   }
+
   function parseGvizText(text){
     const a=text.indexOf('{'), b=text.lastIndexOf('}');
     if(a<0 || b<0) throw Error('Invalid Google Sheets response');
     return JSON.parse(text.slice(a,b+1));
   }
+
   async function loadCourseClasses(courseName){
     classLearningReset();
     if(!courseName) return;
@@ -724,80 +720,49 @@ footer a:hover{ color:#fff; }
       const json=parseGvizText(await response.text());
       const rows=(json.table?.rows || []).map(row=>{
         const c=row.c || [];
-        return {
-          subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),
-          chapter:String(c[1]?.v ?? c[1]?.f ?? '').trim(),
-          className:String(c[2]?.v ?? c[2]?.f ?? '').trim(),
-          url:String(c[3]?.v ?? c[3]?.f ?? '').trim()
-        };
+        return {subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),chapter:String(c[1]?.v ?? c[1]?.f ?? '').trim(),className:String(c[2]?.v ?? c[2]?.f ?? '').trim(),url:String(c[3]?.v ?? c[3]?.f ?? '').trim()};
       }).filter(x=>x.subject && x.url);
       if(!rows.length){
-        courseLearningPanel.style.display='block';
-        subjectRow.innerHTML='';
-        classList.innerHTML='<div class="learning-empty">এই course-এর কোনো class এখনো পাওয়া যায়নি।</div>';
-        return;
+        courseLearningPanel.style.display='block'; subjectRow.innerHTML=''; classList.innerHTML='<div class="learning-empty">এই course-এর কোনো class এখনো পাওয়া যায়নি।</div>'; return;
       }
       const subjects=[...new Set(rows.map(x=>x.subject))];
       courseLearningPanel.style.display='block';
       subjectRow.innerHTML=subjects.map((subject,i)=>`<button type="button" class="subject-btn${i===0?' active':''}" data-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`).join('');
       const showSubject=(subject)=>{
         subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.subject===subject));
-        classPlayer.style.display='none';
-        classPlayer.innerHTML='';
+        classPlayer.style.display='none'; classPlayer.innerHTML='';
         const filtered=rows.filter(x=>x.subject===subject);
         classList.innerHTML=filtered.map((item,index)=>`<button type="button" class="class-item" data-video="${escapeHtml(item.url)}"><span class="class-play">▶</span><span class="class-meta"><span class="class-title">${escapeHtml(item.className || `Class ${index+1}`)}</span><span class="class-chapter">${escapeHtml(item.chapter || '')}</span></span></button>`).join('');
         classList.querySelectorAll('.class-item').forEach(item=>item.addEventListener('click',()=>{
-          const id=youtubeId(item.dataset.video);
-          if(!id) return;
+          const id=youtubeId(item.dataset.video); if(!id) return;
           classPlayer.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0" title="Class video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-          classPlayer.style.display='block';
-          classPlayer.scrollIntoView({behavior:'smooth',block:'nearest'});
+          classPlayer.style.display='block'; classPlayer.scrollIntoView({behavior:'smooth',block:'nearest'});
         }));
       };
       subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.addEventListener('click',()=>showSubject(btn.dataset.subject)));
       showSubject(subjects[0]);
     }catch(error){
-      console.error('Course class loading failed:',error);
-      courseLearningPanel.style.display='block';
-      subjectRow.innerHTML='';
-      classList.innerHTML='<div class="learning-empty">এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।</div>';
+      console.error('Course class loading failed:',error); courseLearningPanel.style.display='block'; subjectRow.innerHTML=''; classList.innerHTML='<div class="learning-empty">এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।</div>';
     }
   }
+
   function classLearningReset(){
     if(!courseLearningPanel) return;
-    courseLearningPanel.style.display='none';
-    subjectRow.innerHTML='';
-    classPlayer.innerHTML='';
-    classPlayer.style.display='none';
-    classList.innerHTML='';
+    courseLearningPanel.style.display='none'; subjectRow.innerHTML=''; classPlayer.innerHTML=''; classPlayer.style.display='none'; classList.innerHTML='';
   }
+
   function renderEnrolledCourses(data){
-    const mobile=data?.mobile || '';
-    const courses=getEnrolledCourses(mobile);
-    enrolledCourseList.innerHTML='';
-    classLearningReset();
-    if(!courses.length){
-      enrolledCourseList.innerHTML='';
-      learningEmpty.style.display='block';
-      return;
-    }
+    const courses=getEnrolledCourses(data);
+    enrolledCourseList.innerHTML=''; classLearningReset();
+    if(!courses.length){ learningEmpty.style.display='block'; return; }
     learningEmpty.style.display='none';
-    enrolledCourseList.innerHTML=courses.map((name,i)=>`<button type="button" class="enrolled-course-btn${i===0?' active':''}" data-course="${escapeHtml(name)}">${escapeHtml(name)}</button>`).join('');
-    const selectCourse=(name)=>{
+    enrolledCourseList.innerHTML=courses.map((course,i)=>`<button type="button" class="enrolled-course-btn${i===0?' active':''}" data-course="${escapeHtml(course.name)}">${escapeHtml(course.name)}<small>Enrolled: ${escapeHtml(formatDate(course.enrolledAt))}</small></button>`).join('');
+    const selectCourse=name=>{
       enrolledCourseList.querySelectorAll('.enrolled-course-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.course===name));
       loadCourseClasses(name);
     };
     enrolledCourseList.querySelectorAll('.enrolled-course-btn').forEach(btn=>btn.addEventListener('click',()=>selectCourse(btn.dataset.course)));
-    selectCourse(courses[0]);
-  }
-  function processPendingEnrollment(data){
-    const pending=localStorage.getItem('va_pending_enroll') || enrollParam || '';
-    if(pending && data?.mobile){
-      saveEnrolledCourse(data.mobile,pending);
-      localStorage.removeItem('va_pending_enroll');
-      if(enrollParam) window.history.replaceState({},document.title,'student-reg.html');
-    }
-    renderEnrolledCourses(data);
+    selectCourse(courses[0].name);
   }
 
   function renderDashboard(data){
@@ -808,15 +773,13 @@ footer a:hover{ color:#fff; }
     document.getElementById('dashInstitute').textContent = data.institute || '—';
     document.getElementById('dashMobile').textContent = data.mobile || '—';
 
-    const pill = document.getElementById('dashStatusPill');
-    const status = (data.status || 'Pending').trim();
-    pill.textContent = status;
-    pill.className = 'status-pill ' + (
-      status.toLowerCase() === 'approved' ? 'approved' :
-      status.toLowerCase() === 'pending' ? 'pending' : 'other'
-    );
-
-    processPendingEnrollment(data);
+    renderEnrolledCourses(data);
+    const enrollmentDates=document.getElementById('enrollmentDates');
+    const enrolledCourses=getEnrolledCourses(data);
+    if(enrollmentDates && enrolledCourses.length){
+      const latest=enrolledCourses[enrolledCourses.length-1];
+      enrollmentDates.innerHTML=`Enrolled: <strong>${escapeHtml(formatDate(latest.enrolledAt))}</strong>`;
+    } else if(enrollmentDates){ enrollmentDates.textContent='—'; }
     authPageHead.style.display = 'none';
     authWrapSection.style.display = 'none';
     dashboardSection.style.display = 'block';
@@ -843,11 +806,19 @@ footer a:hover{ color:#fff; }
   }
 
   function callApi(payload){
-    return fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    }).then(res => res.json());
+    return fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(res=>res.json());
+  }
+
+  async function enrollCourse(courseName){
+    const user=JSON.parse(localStorage.getItem(LS_USER_KEY) || 'null');
+    if(!user || !user.mobile) return false;
+    const result=await callApi({action:'enroll',mobile:user.mobile,course:courseName});
+    if(result.status !== 'ok') throw new Error(result.message || 'Course enrollment failed.');
+    if(result.data){
+      localStorage.setItem(LS_USER_KEY,JSON.stringify(result.data));
+      renderDashboard(result.data);
+    }
+    return true;
   }
 
   regForm.addEventListener('submit', function(e){
@@ -890,11 +861,14 @@ footer a:hover{ color:#fff; }
           throw new Error(result.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।');
         }
       })
-      .then(function(loginResult){
+      .then(async function(loginResult){
         if(loginResult && loginResult.status === 'ok'){
           localStorage.setItem(LS_USER_KEY, JSON.stringify(loginResult.data));
           regForm.reset();
-          renderDashboard(loginResult.data);
+          if(enrollParam){
+            try { const enrolled = await enrollCourse(enrollParam); if(enrolled) window.history.replaceState({},document.title,'student-reg.html'); }
+            catch(err){ regStatus.textContent='❌ '+err.message; regStatus.className='form-status show err'; }
+          } else { renderDashboard(loginResult.data); }
         }
       })
       .catch(function(err){
