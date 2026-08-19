@@ -845,6 +845,8 @@ section{ padding:52px 0; }
   color:var(--ink);
 }
 
+.video-data-loading,.video-data-state{width:100%;padding:18px;text-align:center;color:var(--ink-soft);font-family:'Hind Siliguri',sans-serif}.pill-row .video-data-loading,.pill-row .video-data-state{padding:8px 12px}.video-thumb{cursor:pointer}.video-thumb:focus{outline:3px solid rgba(79,143,255,.35);outline-offset:2px}
+
 /* ---------- Teachers ---------- */
 .teacher-grid{
   display:grid;
@@ -1383,167 +1385,13 @@ footer{
         <p>নিচে থেকে বিভাগ বেছে নিয়ে দেখে নিন সেই বিভাগের ফ্রি ভিডিও লেকচারগুলো।</p>
       </div>
 
-      <!-- ভিডিও বিভাগ ট্যাব -->
+      <!-- ভিডিও বিভাগ ট্যাব — Google Sheet-এর "Free Classes" tab থেকে automatically তৈরি হবে -->
       <div class="pill-row" id="videoPillRow">
-        <button class="pill active" data-vcat="SSC">SSC</button>
-        <button class="pill" data-vcat="HSC">HSC</button>
-        <button class="pill" data-vcat="BBA">BBA</button>
-        <button class="pill" data-vcat="MBA">MBA</button>
-        <button class="pill" data-vcat="BBS">BBS</button>
+        <div class="video-data-loading">ভিডিও বিভাগ লোড হচ্ছে...</div>
       </div>
 
       <div class="video-grid" id="videoGrid">
-
-        <!-- ▼▼▼ SSC ভিডিও (৪টা) — ডিফল্টভাবে এগুলোই প্রথমে দেখা যাবে ▼▼▼ -->
-        <div class="video-card" data-vcategory="SSC">
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">SSC হিসাববিজ্ঞান — অধ্যায় ১ পরিচিতি</div>
-        </div>
-        <div class="video-card" data-vcategory="SSC">
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC গণিত — বীজগণিত বেসিক">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">SSC গণিত — বীজগণিত বেসিক</div>
-        </div>
-        <div class="video-card" data-vcategory="SSC">
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">SSC উচ্চতর গণিত — ম্যাট্রিক্স পরিচিতি</div>
-        </div>
-        <div class="video-card" data-vcategory="SSC">
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="SSC ইংরেজি — গ্রামার বেসিক">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">SSC ইংরেজি — গ্রামার বেসিক</div>
-        </div>
-
-        <!-- ▼▼▼ HSC ভিডিও (৪টা) — প্রথমে লুকানো (hidden), HSC ট্যাব ক্লিক করলে দেখা যাবে ▼▼▼ -->
-        <div class="video-card" data-vcategory="HSC" hidden>
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">HSC হিসাববিজ্ঞান — জাবেদা প্রস্তুতি</div>
-        </div>
-        <div class="video-card" data-vcategory="HSC" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">HSC ব্যবসায় সংগঠন — পরিচিতি ক্লাস</div>
-        </div>
-        <div class="video-card" data-vcategory="HSC" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC ফাইন্যান্স — মৌলিক ধারণা">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">HSC ফাইন্যান্স — মৌলিক ধারণা</div>
-        </div>
-        <div class="video-card" data-vcategory="HSC" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="HSC পরিসংখ্যান — গড় ও মধ্যক">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">HSC পরিসংখ্যান — গড় ও মধ্যক</div>
-        </div>
-
-        <!-- ▼▼▼ BBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
-        <div class="video-card" data-vcategory="BBA" hidden>
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBA হিসাববিজ্ঞান — ফাইনাল অ্যাকাউন্টস</div>
-        </div>
-        <div class="video-card" data-vcategory="BBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA মার্কেটিং — বেসিক কনসেপ্ট">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBA মার্কেটিং — বেসিক কনসেপ্ট</div>
-        </div>
-        <div class="video-card" data-vcategory="BBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBA ভর্তি প্রস্তুতি — অ্যানালিটিক্যাল</div>
-        </div>
-        <div class="video-card" data-vcategory="BBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBA পরিসংখ্যান — সমস্যা সমাধান">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBA পরিসংখ্যান — সমস্যা সমাধান</div>
-        </div>
-
-        <!-- ▼▼▼ MBA ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
-        <div class="video-card" data-vcategory="MBA" hidden>
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="MBA ভর্তি প্রস্তুতি — গণিত সেশন">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">MBA ভর্তি প্রস্তুতি — গণিত সেশন</div>
-        </div>
-        <div class="video-card" data-vcategory="MBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA ইংরেজি — Vocabulary Booster">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">MBA ইংরেজি — Vocabulary Booster</div>
-        </div>
-        <div class="video-card" data-vcategory="MBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA অ্যানালিটিক্যাল — Reasoning Tips">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">MBA অ্যানালিটিক্যাল — Reasoning Tips</div>
-        </div>
-        <div class="video-card" data-vcategory="MBA" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="MBA মেন্টরশিপ সেশন — পরিচিতি">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">MBA মেন্টরশিপ সেশন — পরিচিতি</div>
-        </div>
-
-        <!-- ▼▼▼ BBS ভিডিও (৪টা) — প্রথমে লুকানো ▼▼▼ -->
-        <div class="video-card" data-vcategory="BBS" hidden>
-          <div class="video-thumb" data-yid="lHkQDNbXyEE">
-            <img src="https://img.youtube.com/vi/lHkQDNbXyEE/hqdefault.jpg" alt="BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBS হিসাববিজ্ঞান — পরিচিতি ক্লাস</div>
-        </div>
-        <div class="video-card" data-vcategory="BBS" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBS ব্যবস্থাপনা — বেসিক কনসেপ্ট</div>
-        </div>
-        <div class="video-card" data-vcategory="BBS" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS ফাইন্যান্স — মৌলিক ধারণা">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBS ফাইন্যান্স — মৌলিক ধারণা</div>
-        </div>
-        <div class="video-card" data-vcategory="BBS" hidden>
-          <div class="video-thumb" data-yid="dQw4w9WgXcQ">
-            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="BBS অনার্স ভর্তি প্রস্তুতি — টিপস">
-            <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          </div>
-          <div class="video-title">BBS অনার্স ভর্তি প্রস্তুতি — টিপস</div>
-        </div>
-
+        <div class="video-data-loading">Google Sheet থেকে ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>
       </div>
     </div>
   </section>
@@ -1876,34 +1724,130 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 })();
 
 
-// ফ্রি ভিডিও ক্যাটাগরি ফিল্টার ট্যাব — একই পদ্ধতিতে কাজ করে
+// ============================================================
+// Google Sheet → Dynamic Free Classes
+// Free Classes tab columns: A Category, B Video Title, C YouTube URL
+// যত data row → তত video card
+// ============================================================
 (function(){
+  const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
+  const VIDEO_TAB = 'Free Classes';
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(VIDEO_TAB)}`;
   const pillRow = document.getElementById('videoPillRow');
-  const cards = document.querySelectorAll('#videoGrid .video-card');
+  const videoGrid = document.getElementById('videoGrid');
+  let videos = [];
+  let activeCategory = '';
 
-  function applyFilter(cat){
-    cards.forEach(card => {
-      card.hidden = (card.dataset.vcategory !== cat);
+  const clean = v => String(v ?? '').trim();
+  const esc = v => clean(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function parseGviz(text){
+    const a = text.indexOf('{'), b = text.lastIndexOf('}');
+    if(a < 0 || b < 0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(text.slice(a, b + 1));
+  }
+
+  function youtubeId(url){
+    const x = clean(url);
+    if(!x) return '';
+    const patterns = [
+      /[?&]v=([A-Za-z0-9_-]{11})/i,
+      /youtu\.be\/([A-Za-z0-9_-]{11})/i,
+      /youtube(?:-nocookie)?\.com\/embed\/([A-Za-z0-9_-]{11})/i,
+      /youtube(?:-nocookie)?\.com\/shorts\/([A-Za-z0-9_-]{11})/i,
+      /youtube(?:-nocookie)?\.com\/live\/([A-Za-z0-9_-]{11})/i
+    ];
+    for(const re of patterns){
+      const m = x.match(re);
+      if(m) return m[1];
+    }
+    // যদি সরাসরি 11-character YouTube ID দেওয়া হয়, সেটাও গ্রহণ করবে
+    return /^[A-Za-z0-9_-]{11}$/.test(x) ? x : '';
+  }
+
+  async function fetchVideos(){
+    const r = await fetch(SHEET_URL, {cache:'no-store'});
+    if(!r.ok) throw Error(`Free Classes: HTTP ${r.status}`);
+    const j = parseGviz(await r.text());
+    return (j.table?.rows || []).map(row => {
+      const c = row.c || [];
+      const category = clean(c[0]?.v ?? c[0]?.f ?? '');
+      const title = clean(c[1]?.v ?? c[1]?.f ?? '');
+      const url = clean(c[2]?.v ?? c[2]?.f ?? '');
+      const id = youtubeId(url);
+      if(!category || !title || !id) return null;
+      return {category, title, url, id};
+    }).filter(Boolean);
+  }
+
+  function renderPills(){
+    const categories = [...new Set(videos.map(v => v.category))];
+    if(!categories.length){
+      pillRow.innerHTML = '<div class="video-data-state">Google Sheet-এ এখনো কোনো Free Class data নেই।</div>';
+      return;
+    }
+    if(!activeCategory || !categories.includes(activeCategory)) activeCategory = categories[0];
+    pillRow.innerHTML = categories.map((cat, i) =>
+      `<button class="pill${cat === activeCategory ? ' active' : ''}" data-vcat="${esc(cat)}">${esc(cat)}</button>`
+    ).join('');
+  }
+
+  function cardHtml(v){
+    return `<div class="video-card" data-vcategory="${esc(v.category)}">
+      <div class="video-thumb" data-yid="${esc(v.id)}" role="button" tabindex="0" aria-label="${esc(v.title)} ভিডিও চালান">
+        <img src="https://img.youtube.com/vi/${encodeURIComponent(v.id)}/hqdefault.jpg" alt="${esc(v.title)}" loading="lazy">
+        <div class="video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="video-title">${esc(v.title)}</div>
+    </div>`;
+  }
+
+  function bindVideoPlayers(){
+    videoGrid.querySelectorAll('.video-thumb').forEach(thumbEl => {
+      const play = () => {
+        const id = thumbEl.dataset.yid;
+        if(!id || thumbEl.querySelector('iframe')) return;
+        thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      };
+      thumbEl.addEventListener('click', play);
+      thumbEl.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); play(); }
+      });
     });
   }
 
-  pillRow.addEventListener('click', (e) => {
+  function renderVideos(){
+    const list = videos.filter(v => v.category === activeCategory);
+    videoGrid.innerHTML = list.length
+      ? list.map(cardHtml).join('')
+      : '<div class="video-data-state">এই বিভাগে এখনো কোনো Free Class নেই।</div>';
+    bindVideoPlayers();
+  }
+
+  pillRow.addEventListener('click', e => {
     const btn = e.target.closest('.pill');
     if(!btn) return;
-    pillRow.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilter(btn.dataset.vcat);
+    activeCategory = btn.dataset.vcat;
+    pillRow.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p === btn));
+    renderVideos();
   });
-})();
 
-// ভিডিও থাম্বনেইলে ক্লিক করলে ইউটিউব প্লেয়ার এমবেড হয়ে অটোপ্লে হবে
-document.querySelectorAll('.video-thumb').forEach(thumbEl => {
-  thumbEl.addEventListener('click', () => {
-    const id = thumbEl.dataset.yid;
-    if(!id) return;
-    thumbEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-  });
-});
+  async function loadFreeClasses(){
+    pillRow.innerHTML = '<div class="video-data-loading">ভিডিও বিভাগ লোড হচ্ছে...</div>';
+    videoGrid.innerHTML = '<div class="video-data-loading">Google Sheet থেকে ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>';
+    try{
+      videos = await fetchVideos();
+      renderPills();
+      renderVideos();
+    }catch(e){
+      console.error(e);
+      pillRow.innerHTML = '<div class="video-data-state">ভিডিও বিভাগ লোড করা যায়নি।</div>';
+      videoGrid.innerHTML = '<div class="video-data-state">Google Sheet-এর access এবং internet connection চেক করুন।</div>';
+    }
+  }
+
+  loadFreeClasses();
+})();
 
 // "আমাদের মেসেজ পাঠান" ফর্ম সাবমিট — এখন ফর্মের ডেটা প্রথমে আমাদের নিজের Cloudflare Worker
 // (late-forest-4748.dreamsicreation.workers.dev) এ যায়, সেখান থেকে সার্ভার-টু-সার্ভার
