@@ -595,7 +595,7 @@ footer a:hover{ color:#fff; }
           <form id="loginForm">
             <div class="form-row full">
               <label for="login_mobile">মোবাইল নম্বর <span class="req">*</span></label>
-              <input type="tel" id="login_mobile" name="mobile" placeholder="01XXXXXXXXX" required>
+              <input type="tel" id="login_mobile" name="mobile" value="01852633272" placeholder="01XXXXXXXXX" required>
             </div>
             <div class="form-row full">
               <label for="login_password">পাসওয়ার্ড <span class="req">*</span></label>
@@ -901,6 +901,11 @@ footer a:hover{ color:#fff; }
     localStorage.getItem(LS_REGISTERED_KEY) ? showLogin() : showRegister();
   }
 
+  function normalizeMobileForMatch(mobile){
+    const value = String(mobile || '').trim();
+    return value.startsWith('0') ? value.slice(1) : value;
+  }
+
   function callApi(payload){
     const controller = new AbortController();
     const timeout = setTimeout(()=>controller.abort(), 20000);
@@ -919,9 +924,16 @@ footer a:hover{ color:#fff; }
   async function enrollCourse(courseName){
     const user=JSON.parse(localStorage.getItem(LS_USER_KEY) || 'null');
     if(!user || !user.mobile) return false;
-    const result=await callApi({action:'enroll',mobile:user.mobile,course:courseName});
+    const fullMobile = String(user.mobile).trim();
+    const result=await callApi({
+      action:'enroll',
+      mobile:normalizeMobileForMatch(fullMobile),
+      displayMobile:fullMobile,
+      course:courseName
+    });
     if(result.status !== 'ok') throw new Error(result.message || 'Course enrollment failed.');
     if(result.data){
+      result.data.mobile = fullMobile;
       localStorage.setItem(LS_USER_KEY,JSON.stringify(result.data));
       renderDashboard(result.data);
     }
@@ -989,14 +1001,21 @@ footer a:hover{ color:#fff; }
     loginStatus.className = 'form-status';
 
     const mobile = document.getElementById('login_mobile').value.trim();
+    const mobileForMatch = normalizeMobileForMatch(mobile);
     const password = document.getElementById('login_password').value;
 
     loginSubmitBtn.disabled = true;
     loginSubmitBtn.textContent = 'লগইন হচ্ছে...';
 
-    callApi({ action: 'login', mobile: mobile, password: password })
+    callApi({
+      action: 'login',
+      mobile: mobileForMatch,
+      displayMobile: mobile,
+      password: password
+    })
       .then(async function(result){
         if(result.status === 'ok'){
+          result.data.mobile = mobile;
           localStorage.setItem(LS_USER_KEY, JSON.stringify(result.data));
           localStorage.setItem(LS_REGISTERED_KEY, '1');
           loginForm.reset();
