@@ -366,11 +366,6 @@ footer a:hover{ color:#fff; }
                 <input type="text" id="reg_name" name="name" placeholder="যেমন: রহিম উদ্দিন" required>
               </div>
 
-              <div class="form-row full">
-                <label for="reg_courseName">কোর্সের নাম <span class="req">*</span></label>
-                <input type="text" id="reg_courseName" name="courseName" placeholder="যেমন: BBA Admission Preparation" required>
-              </div>
-
               <div class="form-row">
                 <label for="reg_level">লেভেল <span class="req">*</span></label>
                 <select id="reg_level" name="level" required>
@@ -479,7 +474,6 @@ footer a:hover{ color:#fff; }
         </div>
 
         <div class="dash-grid">
-          <div class="dash-item"><span class="k">কোর্স</span><span class="v" id="dashCourse">—</span></div>
           <div class="dash-item"><span class="k">লেভেল</span><span class="v" id="dashLevel">—</span></div>
           <div class="dash-item"><span class="k">বর্ষ</span><span class="v" id="dashYear">—</span></div>
           <div class="dash-item"><span class="k">সেশন</span><span class="v" id="dashSession">—</span></div>
@@ -563,7 +557,6 @@ footer a:hover{ color:#fff; }
 
   function renderDashboard(data){
     document.getElementById('dashName').textContent = data.name || '—';
-    document.getElementById('dashCourse').textContent = data.courseName || '—';
     document.getElementById('dashLevel').textContent = data.level || '—';
     document.getElementById('dashYear').textContent = data.year || '—';
     document.getElementById('dashSession').textContent = data.session || '—';
@@ -627,7 +620,6 @@ footer a:hover{ color:#fff; }
     const payload = {
       action: 'register',
       name: document.getElementById('reg_name').value.trim(),
-      courseName: document.getElementById('reg_courseName').value.trim(),
       level: document.getElementById('reg_level').value,
       year: document.getElementById('reg_year').value,
       session: document.getElementById('reg_session').value.trim(),
