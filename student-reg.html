@@ -841,6 +841,8 @@ footer a:hover{ color:#fff; }
   }
 
   function renderDashboard(data){
+    // Dashboard is ready: close the loading overlay before showing it.
+    hideLoading();
     document.getElementById('dashName').textContent = data.name || '—';
     document.getElementById('dashLevel').textContent = data.level || '—';
     document.getElementById('dashYear').textContent = data.year || '—';
@@ -961,7 +963,7 @@ footer a:hover{ color:#fff; }
           if(enrollParam){
             try { const enrolled = await enrollCourse(enrollParam); if(enrolled) window.history.replaceState({},document.title,'student-reg.html'); }
             catch(err){ regStatus.textContent='❌ '+err.message; regStatus.className='form-status show err'; }
-          } else { renderDashboard(loginResult.data); }
+          } else { renderDashboard(loginResult.data); hideLoading(); }
         }
       })
       .catch(function(err){
@@ -997,6 +999,7 @@ footer a:hover{ color:#fff; }
             try{
               await enrollCourse(enrollParam);
               window.history.replaceState({}, document.title, 'student-reg.html');
+              hideLoading();
             }catch(err){
               renderDashboard(result.data);
               hideLoading();
