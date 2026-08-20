@@ -1933,7 +1933,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   if (!btn) return;
 
   try {
-    const loggedIn = !!localStorage.getItem('vision_student_user');
+    const loggedIn = !!localStorage.getItem('va_user');
     btn.textContent = loggedIn ? 'প্রোফাইল' : 'লগইন';
   } catch(e) {}
 })();
