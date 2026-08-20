@@ -737,15 +737,29 @@ footer a:hover{ color:#fff; }
   const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyFknLx2VIXNoV9M_XL8kQUNwrjCmUpz9MJpnhT9L4Pk--ADSbjUhacMtAFHKkmoEEs/exec";
   const LS_USER_KEY = "va_user";
   const LS_REGISTERED_KEY = "va_registered";
-  // আগে এখানে gviz/tq পাবলিক API ব্যবহার হতো, কিন্তু সেটা tab name না মিললেও
-  // silently প্রথম Tab-এর ডেটা রিটার্ন করত (Google Sheets-এর নিজস্ব bug/quirk)।
-  // তাই এখন একটা Apps Script Web App ব্যবহার করা হচ্ছে, যেটা
-  // SpreadsheetApp.getSheetByName() দিয়ে reliably tab match করে —
-  // tab না থাকলে সরাসরি error রিটার্ন করে, কোনো fallback নেই।
-  const CLASS_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbyuEZgpm-tVyo7Xjxy5CQKLlvrffeMkJVinPjtpEQJ4h9_7fOuHjHi-OwgiCdo54fTbPg/exec";
+  // ক্লাস ডেটা এখন সরাসরি "vision web-Courses Link" Google Sheet থেকে gviz/tq
+  // পাবলিক API দিয়ে লোড হয় (কোনো Apps Script/সার্ভার নেই)। প্রতিটা কোর্সের
+  // ক্লাস তথ্য সেই Sheet-এ একটা আলাদা Tab-এ থাকে, আর Tab-এর নাম অবশ্যই
+  // কোর্সের নামের (Course Card Sheet-এর "কোর্সের নাম" কলাম) সাথে হুবহু মিলতে হবে।
+  //
+  // ⚠️ সতর্কতা: gviz-এর একটা পুরনো quirk আছে — sheet= প্যারামিটারে ভুল/না-থাকা
+  // Tab নাম দিলে মাঝেমধ্যে চুপচাপ ভুল Tab-এর ডেটা রিটার্ন করতে পারে। নিচের কোড
+  // gviz রেসপন্সে status:"error" চেক করে ব্লক করে, কিন্তু এই silent-fallback
+  // সম্পূর্ণ প্রতিরোধ করা সম্ভব নয় শুধু client-side gviz দিয়ে। তাই নতুন কোর্স
+  // যোগ করলে অবশ্যই টেস্ট করে দেখবেন — ভুল/টাইপো করা কোর্সের নামে enroll করার
+  // চেষ্টা করলে ঠিক "কোনো materials নেই" মেসেজ আসছে কিনা, ভুল কোর্সের ক্লাস
+  // দেখাচ্ছে না তো।
+  const CLASS_SHEET_ID = "1ubgMyTh8rJl48Bm2PAeucVlW6gFZ88GVBKbbj-OdTVY";
+  const CLASS_SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${CLASS_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
   const classDataCache = new Map();
   const enrollParam = new URLSearchParams(window.location.search).get('enroll');
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const clean = value => String(value ?? '').trim();
+  const escapeHtml = value => clean(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function parseGvizClass(text){
+    const a = text.indexOf('{'), b = text.lastIndexOf('}');
+    if(a < 0 || b < 0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(text.slice(a, b + 1));
+  }
 
   const authPageHead = document.getElementById('authPageHead');
   const tabRegisterBtn = document.getElementById('tabRegisterBtn');
@@ -833,33 +847,40 @@ footer a:hover{ color:#fff; }
     return m ? m[1] : '';
   }
 
-  // Apps Script Class Data API কল করে — কোর্সের নামে Tab আছে কিনা reliably
-  // চেক করে (Tab না থাকলে gviz-এর মতো fallback করে না, সরাসরি error দেয়)।
-  // একই কোর্সের জন্য বারবার fetch এড়াতে ছোট একটা cache রাখা হয়েছে
-  // (enroll-time চেক আর dashboard-এ class load — দুই জায়গাতেই ব্যবহার হয়)।
+  // "vision web-Courses Link" Sheet থেকে সরাসরি gviz দিয়ে কোর্সের নামে
+  // Tab খুঁজে class data আনে। Tab না থাকলে gviz status:"error" রিটার্ন করে,
+  // সেটাকে "materials নেই" হিসেবে ধরে enroll ব্লক করা হয়। একই কোর্সের জন্য
+  // বারবার fetch এড়াতে ছোট একটা cache রাখা হয়েছে (enroll-time চেক আর
+  // dashboard-এ class load — দুই জায়গাতেই ব্যবহার হয়)।
   async function fetchClassData(courseName){
     if(classDataCache.has(courseName)) return classDataCache.get(courseName);
+    const notFound = {status:'error', message:'এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।'};
     const controller = new AbortController();
     const timeout = setTimeout(()=>controller.abort(), 20000);
     try{
-      const response = await fetch(CLASS_API_ENDPOINT, {
-        method:'POST',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({action:'getClassData', course:courseName}),
-        signal:controller.signal
-      });
-      if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      const json = await response.json();
-      classDataCache.set(courseName, json);
-      return json;
+      const response = await fetch(CLASS_SHEET_URL(courseName), {cache:'no-store', signal:controller.signal});
+      if(!response.ok){ classDataCache.set(courseName, notFound); return notFound; }
+      const text = await response.text();
+      const json = parseGvizClass(text);
+      if(json.status === 'error'){ classDataCache.set(courseName, notFound); return notFound; }
+      const rows = (json.table?.rows || []).map(row=>{
+        const c = row.c || [];
+        const subject = clean(c[0]?.v ?? c[0]?.f ?? '');
+        const chapter = clean(c[1]?.v ?? c[1]?.f ?? '');
+        const className = clean(c[2]?.v ?? c[2]?.f ?? '');
+        const url = clean(c[3]?.v ?? c[3]?.f ?? '');
+        if(!subject || !url) return null;
+        return {subject, chapter, className, url};
+      }).filter(Boolean);
+      const result = rows.length ? {status:'ok', data:rows} : {status:'error', message:'এই course-এর জন্য এখনো কোনো class পাওয়া যায়নি।'};
+      classDataCache.set(courseName, result);
+      return result;
     }catch(error){
       console.error('Class data fetch failed:', error);
-      return {
-        status:'error',
-        message: error.name === 'AbortError'
-          ? 'সার্ভারে সাড়া পেতে বেশি সময় লাগছে। Apps Script deployment/access চেক করুন।'
-          : 'এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।'
-      };
+      const result = error.name === 'AbortError'
+        ? {status:'error', message:'সার্ভারে সাড়া পেতে বেশি সময় লাগছে। ইন্টারনেট সংযোগ চেক করুন।'}
+        : notFound;
+      return result;
     }finally{
       clearTimeout(timeout);
     }
