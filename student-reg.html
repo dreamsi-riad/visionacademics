@@ -1022,8 +1022,8 @@ footer a:hover{ color:#fff; }
     const user=JSON.parse(localStorage.getItem(LS_USER_KEY) || 'null');
     if(!user || !user.mobile) return false;
 
-    // Enroll করার আগেই Class Sheet-এ (Apps Script দিয়ে reliably) কোর্সের নামে
-    // Tab আছে কিনা এবং তাতে অন্তত একটা class row আছে কিনা চেক করা হয়।
+    // Enroll করার আগেই Course Link Sheet-এ (gviz + marker check দিয়ে reliably)
+    // কোর্সের নামে Tab আছে কিনা এবং তাতে অন্তত একটা class row আছে কিনা চেক করা হয়।
     // না থাকলে enroll-ই হতে দেওয়া হয় না।
     showLoading('কোর্সের class materials যাচাই করা হচ্ছে...');
     const classCheck = await fetchClassData(courseName);
