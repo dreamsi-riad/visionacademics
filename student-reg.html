@@ -931,8 +931,7 @@ footer a:hover{ color:#fff; }
           .catch(function(err){
             renderDashboard(cachedData);
             hideLoading();
-            loginStatus.textContent = '❌ ' + (err.message || 'Course enrollment failed.');
-            loginStatus.className = 'form-status show err';
+            alert('❌ ' + (err.message || 'Course enrollment failed.'));
           });
       } else {
         renderDashboard(cachedData);
@@ -967,9 +966,39 @@ footer a:hover{ color:#fff; }
       .finally(()=>clearTimeout(timeout));
   }
 
+  // Class Sheet-এ (CLASS_SHEET_ID) কোর্সের নামে একটা tab আছে কিনা, এবং সেই tab-এ
+  // অন্তত একটা বৈধ class row (subject + video url) আছে কিনা — সেটা যাচাই করে।
+  // tab না থাকলে বা খালি থাকলে false রিটার্ন করে, তখন enroll হতে দেওয়া হবে না।
+  async function classTabHasContent(courseName){
+    try{
+      const response=await fetch(CLASS_SHEET_URL(courseName),{cache:'no-store'});
+      if(!response.ok) return false;
+      const json=parseGvizText(await response.text());
+      if(json.status === 'error') return false;
+      const rows=(json.table?.rows || []).map(row=>{
+        const c=row.c || [];
+        return {
+          subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),
+          url:String(c[3]?.v ?? c[3]?.f ?? '').trim()
+        };
+      }).filter(x=>x.subject && x.url);
+      return rows.length > 0;
+    }catch(e){
+      return false;
+    }
+  }
+
   async function enrollCourse(courseName){
     const user=JSON.parse(localStorage.getItem(LS_USER_KEY) || 'null');
     if(!user || !user.mobile) return false;
+
+    showLoading('কোর্সের class materials যাচাই করা হচ্ছে...');
+    const hasMaterials = await classTabHasContent(courseName);
+    if(!hasMaterials){
+      throw new Error('এই কোর্সের জন্য এখনো কোনো course materials পাওয়া যায়নি। তাই এখন enroll করা সম্ভব হচ্ছে না, দয়া করে পরে আবার চেষ্টা করুন।');
+    }
+
+    showLoading('কোর্সের তথ্য লোড হচ্ছে...');
     const fullMobile = String(user.mobile).trim();
     const result=await callApi({
       action:'enroll',
@@ -1076,7 +1105,7 @@ footer a:hover{ color:#fff; }
             }catch(err){
               renderDashboard(result.data);
               hideLoading();
-              throw err;
+              alert('❌ ' + (err.message || 'Course enrollment failed.'));
             }
           } else {
             renderDashboard(result.data);
