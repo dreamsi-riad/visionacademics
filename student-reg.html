@@ -847,69 +847,50 @@ footer a:hover{ color:#fff; }
     return m ? m[1] : '';
   }
 
-  // "vision web-Courses Link" Sheet থেকে সরাসরি gviz দিয়ে কোর্সের নামে
-  // Tab খুঁজে class data আনে।
-  //
-  // ⚠️ বাস্তবে দেখা গেছে gviz-এর sheet= প্যারামিটারে না-মেলা Tab নাম দিলে
-  // status:"error" রিটার্ন করে না — বরং চুপচাপ প্রথম Tab-এর ডেটা দিয়ে দেয়।
-  // তাই সেটা ধরার জন্য একটা "probe" ট্রিক ব্যবহার করা হচ্ছে: আসল courseName-এর
-  // পাশাপাশি একটা নিশ্চিতভাবে-অস্তিত্বহীন নাম দিয়েও একটা fetch করা হয় (যেটা
-  // গ্যারান্টিড fallback ট্রিগার করবে)। দুটোর ডেটা হুবহু এক হলে বোঝা যায়
-  // আসল fetch-ও fallback পেয়েছে (মানে real Tab নেই) — তখন সেটাকে "not found"
-  // ধরে enroll ব্লক করা হয়। একই কোর্সের জন্য বারবার fetch এড়াতে ছোট একটা
-  // cache রাখা হয়েছে (enroll-time চেক আর dashboard-এ class load — দুই
-  // জায়গাতেই ব্যবহার হয়)।
-  async function fetchGvizTab(tabName){
+  // "vision web-Courses Link" Sheet থেকে সরাসরি gviz দিয়ে কোর্সের নামে Tab খুঁজে
+  // class data আনে। gviz-এর sheet= প্যারামিটার না-মেলা Tab নামে মাঝেমধ্যে চুপচাপ
+  // অন্য (ভুল/fallback) Tab-এর ডেটা দিয়ে দেয় — কনটেন্ট তুলনা করে এটা নির্ভরযোগ্যভাবে
+  // ধরা যায় না (fallback Tab-টা যদি Sheet-এর প্রথম Tab-ই হয়, তাহলে ধরা পড়ে না)।
+  // তাই Sheet-এ প্রতিটা Tab-এর প্রতিটা row-এর কলাম E-তে সেই Tab-এর কোর্সের নাম
+  // (marker হিসেবে) বসানো থাকে — fetch করার পর প্রতিটা row-এর marker courseName-এর
+  // সাথে হুবহু মিলিয়ে দেখা হয়; না মিললে সেই row বাদ দেওয়া হয় (ভুল Tab থেকে এসেছে
+  // ধরে নিয়ে)। এতে Tab-এর position যাই হোক, ভুল কোর্সের ডেটা কখনো দেখানো হয় না।
+  // একই কোর্সের জন্য বারবার fetch এড়াতে ছোট একটা cache রাখা হয়েছে (enroll-time
+  // চেক আর dashboard-এ class load — দুই জায়গাতেই ব্যবহার হয়)।
+  async function fetchClassData(courseName){
+    if(classDataCache.has(courseName)) return classDataCache.get(courseName);
+    const notFound = {status:'error', message:'এই course-এর class sheet/tab পাওয়া যায়নি। Course title, sheet-এর tab name এবং কলাম E-এর marker একই হতে হবে।'};
     const controller = new AbortController();
     const timeout = setTimeout(()=>controller.abort(), 20000);
     try{
-      const response = await fetch(CLASS_SHEET_URL(tabName), {cache:'no-store', signal:controller.signal});
-      if(!response.ok) return null;
-      return parseGvizClass(await response.text());
+      const response = await fetch(CLASS_SHEET_URL(courseName), {cache:'no-store', signal:controller.signal});
+      if(!response.ok){ classDataCache.set(courseName, notFound); return notFound; }
+      const json = parseGvizClass(await response.text());
+      if(json.status === 'error'){ classDataCache.set(courseName, notFound); return notFound; }
+      const rows = (json.table?.rows || []).map(row=>{
+        const c = row.c || [];
+        const subject = clean(c[0]?.v ?? c[0]?.f ?? '');
+        const chapter = clean(c[1]?.v ?? c[1]?.f ?? '');
+        const className = clean(c[2]?.v ?? c[2]?.f ?? '');
+        const url = clean(c[3]?.v ?? c[3]?.f ?? '');
+        const marker = clean(c[4]?.v ?? c[4]?.f ?? '');
+        if(!subject || !url || marker !== courseName) return null; // marker না মিললে ভুল/fallback Tab
+        return {subject, chapter, className, url};
+      }).filter(Boolean);
+      const result = rows.length ? {status:'ok', data:rows} : {status:'error', message:'এই course-এর জন্য এখনো কোনো class পাওয়া যায়নি।'};
+      classDataCache.set(courseName, result);
+      return result;
     }catch(error){
-      return error.name === 'AbortError' ? 'timeout' : null;
+      console.error('Class data fetch failed:', error);
+      const result = error.name === 'AbortError'
+        ? {status:'error', message:'সার্ভারে সাড়া পেতে বেশি সময় লাগছে। ইন্টারনেট সংযোগ চেক করুন।'}
+        : notFound;
+      return result;
     }finally{
       clearTimeout(timeout);
     }
   }
 
-  async function fetchClassData(courseName){
-    if(classDataCache.has(courseName)) return classDataCache.get(courseName);
-    const notFound = {status:'error', message:'এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।'};
-    const timeoutResult = {status:'error', message:'সার্ভারে সাড়া পেতে বেশি সময় লাগছে। ইন্টারনেট সংযোগ চেক করুন।'};
-
-    const [real, probe] = await Promise.all([
-      fetchGvizTab(courseName),
-      fetchGvizTab(`__no_such_tab__${Date.now()}`)
-    ]);
-
-    if(real === 'timeout'){ return timeoutResult; }
-    if(!real || real.status === 'error'){ classDataCache.set(courseName, notFound); return notFound; }
-
-    // real fetch গ্যারান্টিড-ভুয়া probe-এর মতোই ডেটা দিলে সেটা fallback —
-    // মানে courseName-এর নামে আসলে কোনো Tab নেই
-    if(probe && probe !== 'timeout' && probe.status !== 'error'){
-      const realRows = JSON.stringify(real.table?.rows || []);
-      const probeRows = JSON.stringify(probe.table?.rows || []);
-      if(realRows === probeRows){
-        classDataCache.set(courseName, notFound);
-        return notFound;
-      }
-    }
-
-    const rows = (real.table?.rows || []).map(row=>{
-      const c = row.c || [];
-      const subject = clean(c[0]?.v ?? c[0]?.f ?? '');
-      const chapter = clean(c[1]?.v ?? c[1]?.f ?? '');
-      const className = clean(c[2]?.v ?? c[2]?.f ?? '');
-      const url = clean(c[3]?.v ?? c[3]?.f ?? '');
-      if(!subject || !url) return null;
-      return {subject, chapter, className, url};
-    }).filter(Boolean);
-    const result = rows.length ? {status:'ok', data:rows} : {status:'error', message:'এই course-এর জন্য এখনো কোনো class পাওয়া যায়নি।'};
-    classDataCache.set(courseName, result);
-    return result;
-  }
 
   async function loadCourseClasses(courseName){
     classLearningReset();
