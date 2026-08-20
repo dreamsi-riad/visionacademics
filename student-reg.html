@@ -737,8 +737,13 @@ footer a:hover{ color:#fff; }
   const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbyFknLx2VIXNoV9M_XL8kQUNwrjCmUpz9MJpnhT9L4Pk--ADSbjUhacMtAFHKkmoEEs/exec";
   const LS_USER_KEY = "va_user";
   const LS_REGISTERED_KEY = "va_registered";
-  const CLASS_SHEET_ID = "1ubgMyTh8rJl48Bm2PAeucVlW6gFZ88GVBKbbj-OdTVY";
-  const CLASS_SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${CLASS_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  // আগে এখানে gviz/tq পাবলিক API ব্যবহার হতো, কিন্তু সেটা tab name না মিললেও
+  // silently প্রথম Tab-এর ডেটা রিটার্ন করত (Google Sheets-এর নিজস্ব bug/quirk)।
+  // তাই এখন একটা Apps Script Web App ব্যবহার করা হচ্ছে, যেটা
+  // SpreadsheetApp.getSheetByName() দিয়ে reliably tab match করে —
+  // tab না থাকলে সরাসরি error রিটার্ন করে, কোনো fallback নেই।
+  const CLASS_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbyuEZgpm-tVyo7Xjxy5CQKLlvrffeMkJVinPjtpEQJ4h9_7fOuHjHi-OwgiCdo54fTbPg/exec";
+  const classDataCache = new Map();
   const enrollParam = new URLSearchParams(window.location.search).get('enroll');
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -828,45 +833,65 @@ footer a:hover{ color:#fff; }
     return m ? m[1] : '';
   }
 
-  function parseGvizText(text){
-    const a=text.indexOf('{'), b=text.lastIndexOf('}');
-    if(a<0 || b<0) throw Error('Invalid Google Sheets response');
-    return JSON.parse(text.slice(a,b+1));
+  // Apps Script Class Data API কল করে — কোর্সের নামে Tab আছে কিনা reliably
+  // চেক করে (Tab না থাকলে gviz-এর মতো fallback করে না, সরাসরি error দেয়)।
+  // একই কোর্সের জন্য বারবার fetch এড়াতে ছোট একটা cache রাখা হয়েছে
+  // (enroll-time চেক আর dashboard-এ class load — দুই জায়গাতেই ব্যবহার হয়)।
+  async function fetchClassData(courseName){
+    if(classDataCache.has(courseName)) return classDataCache.get(courseName);
+    const controller = new AbortController();
+    const timeout = setTimeout(()=>controller.abort(), 20000);
+    try{
+      const response = await fetch(CLASS_API_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({action:'getClassData', course:courseName}),
+        signal:controller.signal
+      });
+      if(!response.ok) throw new Error(`HTTP ${response.status}`);
+      const json = await response.json();
+      classDataCache.set(courseName, json);
+      return json;
+    }catch(error){
+      console.error('Class data fetch failed:', error);
+      return {
+        status:'error',
+        message: error.name === 'AbortError'
+          ? 'সার্ভারে সাড়া পেতে বেশি সময় লাগছে। Apps Script deployment/access চেক করুন।'
+          : 'এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।'
+      };
+    }finally{
+      clearTimeout(timeout);
+    }
   }
 
   async function loadCourseClasses(courseName){
     classLearningReset();
     if(!courseName) return;
-    try{
-      const response=await fetch(CLASS_SHEET_URL(courseName),{cache:'no-store'});
-      if(!response.ok) throw Error(`HTTP ${response.status}`);
-      const json=parseGvizText(await response.text());
-      const rows=(json.table?.rows || []).map(row=>{
-        const c=row.c || [];
-        return {subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),chapter:String(c[1]?.v ?? c[1]?.f ?? '').trim(),className:String(c[2]?.v ?? c[2]?.f ?? '').trim(),url:String(c[3]?.v ?? c[3]?.f ?? '').trim()};
-      }).filter(x=>x.subject && x.url);
-      if(!rows.length){
-        courseLearningPanel.style.display='block'; subjectRow.innerHTML=''; classList.innerHTML='<div class="learning-empty">এই course-এর কোনো class এখনো পাওয়া যায়নি।</div>'; return;
-      }
-      const subjects=[...new Set(rows.map(x=>x.subject))];
+    const result = await fetchClassData(courseName);
+    const rows = (result.status === 'ok' && Array.isArray(result.data)) ? result.data : [];
+    if(!rows.length){
       courseLearningPanel.style.display='block';
-      subjectRow.innerHTML=subjects.map((subject,i)=>`<button type="button" class="subject-btn${i===0?' active':''}" data-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`).join('');
-      const showSubject=(subject)=>{
-        subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.subject===subject));
-        classPlayer.style.display='none'; classPlayer.innerHTML='';
-        const filtered=rows.filter(x=>x.subject===subject);
-        classList.innerHTML=filtered.map((item,index)=>`<button type="button" class="class-item" data-video="${escapeHtml(item.url)}"><span class="class-play">▶</span><span class="class-meta"><span class="class-title">${escapeHtml(item.className || `Class ${index+1}`)}</span><span class="class-chapter">${escapeHtml(item.chapter || '')}</span></span></button>`).join('');
-        classList.querySelectorAll('.class-item').forEach(item=>item.addEventListener('click',()=>{
-          const id=youtubeId(item.dataset.video); if(!id) return;
-          classPlayer.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0" title="Class video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-          classPlayer.style.display='block'; classPlayer.scrollIntoView({behavior:'smooth',block:'nearest'});
-        }));
-      };
-      subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.addEventListener('click',()=>showSubject(btn.dataset.subject)));
-      showSubject(subjects[0]);
-    }catch(error){
-      console.error('Course class loading failed:',error); courseLearningPanel.style.display='block'; subjectRow.innerHTML=''; classList.innerHTML='<div class="learning-empty">এই course-এর class sheet/tab পাওয়া যায়নি। Course title এবং sheet-এর tab name একই হতে হবে।</div>';
+      subjectRow.innerHTML='';
+      classList.innerHTML=`<div class="learning-empty">${escapeHtml(result.message || 'এই course-এর কোনো class এখনো পাওয়া যায়নি।')}</div>`;
+      return;
     }
+    const subjects=[...new Set(rows.map(x=>x.subject))];
+    courseLearningPanel.style.display='block';
+    subjectRow.innerHTML=subjects.map((subject,i)=>`<button type="button" class="subject-btn${i===0?' active':''}" data-subject="${escapeHtml(subject)}">${escapeHtml(subject)}</button>`).join('');
+    const showSubject=(subject)=>{
+      subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.subject===subject));
+      classPlayer.style.display='none'; classPlayer.innerHTML='';
+      const filtered=rows.filter(x=>x.subject===subject);
+      classList.innerHTML=filtered.map((item,index)=>`<button type="button" class="class-item" data-video="${escapeHtml(item.url)}"><span class="class-play">▶</span><span class="class-meta"><span class="class-title">${escapeHtml(item.className || `Class ${index+1}`)}</span><span class="class-chapter">${escapeHtml(item.chapter || '')}</span></span></button>`).join('');
+      classList.querySelectorAll('.class-item').forEach(item=>item.addEventListener('click',()=>{
+        const id=youtubeId(item.dataset.video); if(!id) return;
+        classPlayer.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0" title="Class video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        classPlayer.style.display='block'; classPlayer.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }));
+    };
+    subjectRow.querySelectorAll('.subject-btn').forEach(btn=>btn.addEventListener('click',()=>showSubject(btn.dataset.subject)));
+    showSubject(subjects[0]);
   }
 
   function classLearningReset(){
@@ -966,36 +991,18 @@ footer a:hover{ color:#fff; }
       .finally(()=>clearTimeout(timeout));
   }
 
-  // Class Sheet-এ (CLASS_SHEET_ID) কোর্সের নামে একটা tab আছে কিনা, এবং সেই tab-এ
-  // অন্তত একটা বৈধ class row (subject + video url) আছে কিনা — সেটা যাচাই করে।
-  // tab না থাকলে বা খালি থাকলে false রিটার্ন করে, তখন enroll হতে দেওয়া হবে না।
-  async function classTabHasContent(courseName){
-    try{
-      const response=await fetch(CLASS_SHEET_URL(courseName),{cache:'no-store'});
-      if(!response.ok) return false;
-      const json=parseGvizText(await response.text());
-      if(json.status === 'error') return false;
-      const rows=(json.table?.rows || []).map(row=>{
-        const c=row.c || [];
-        return {
-          subject:String(c[0]?.v ?? c[0]?.f ?? '').trim(),
-          url:String(c[3]?.v ?? c[3]?.f ?? '').trim()
-        };
-      }).filter(x=>x.subject && x.url);
-      return rows.length > 0;
-    }catch(e){
-      return false;
-    }
-  }
-
   async function enrollCourse(courseName){
     const user=JSON.parse(localStorage.getItem(LS_USER_KEY) || 'null');
     if(!user || !user.mobile) return false;
 
+    // Enroll করার আগেই Class Sheet-এ (Apps Script দিয়ে reliably) কোর্সের নামে
+    // Tab আছে কিনা এবং তাতে অন্তত একটা class row আছে কিনা চেক করা হয়।
+    // না থাকলে enroll-ই হতে দেওয়া হয় না।
     showLoading('কোর্সের class materials যাচাই করা হচ্ছে...');
-    const hasMaterials = await classTabHasContent(courseName);
+    const classCheck = await fetchClassData(courseName);
+    const hasMaterials = classCheck.status === 'ok' && Array.isArray(classCheck.data) && classCheck.data.length > 0;
     if(!hasMaterials){
-      throw new Error('এই কোর্সের জন্য এখনো কোনো course materials পাওয়া যায়নি। তাই এখন enroll করা সম্ভব হচ্ছে না, দয়া করে পরে আবার চেষ্টা করুন।');
+      throw new Error(classCheck.message || 'এই কোর্সের জন্য এখনো কোনো course materials পাওয়া যায়নি। তাই এখন enroll করা সম্ভব হচ্ছে না, দয়া করে পরে আবার চেষ্টা করুন।');
     }
 
     showLoading('কোর্সের তথ্য লোড হচ্ছে...');
