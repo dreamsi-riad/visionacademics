@@ -562,9 +562,11 @@
         // ============================================================
         // Google Sheet course details loader
         // ============================================================
-        const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
-        const SHEET_TABS = ['SSC','HSC','BBA','MBA','BBS','BBA Professional'];
-        const SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+        // Apps Script Web App — index.html-এর Teachers/Courses/Free Classes লোডারের
+        // সাথে একই endpoint, action:'getCourses' পাঠানো হয়। gviz/tq পাবলিক API-এর
+        // পরিবর্তে এটা ব্যবহারের কারণ: tab name ঠিক না মিললে gviz silently ভুল
+        // tab-এর data দিত, এখানে getSheetByName() reliably tab match করে।
+        const SHEET_API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwJE0tUKclbs2e2IIubsFvrLTA9P8wvavVasPlpIIUTDa0Wt2bg8BLNKlmBK1kHvD0/exec';
         const bnDigits='০১২৩৪৫৬৭৮৯', enDigits='0123456789';
         const clean=v=>String(v??'').trim();
         const escapeHtml=v=>clean(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -574,24 +576,39 @@
         function uniqueSlug(name,cat,used){const base=slugify(name),cp=slugify(cat);let slug=base;if(used.has(slug))slug=`${cp}-${base}`;let n=2;while(used.has(slug))slug=`${cp}-${base}-${n++}`;used.add(slug);return slug}
         const parseFeatures=v=>clean(v).split(/[,،]/).map(clean).filter(Boolean);
         const formatPrice=v=>{const x=clean(v);if(!x)return '';return /[৳$€£]/.test(x)?toBn(x):`৳${toBn(x)}`};
-        function parseGviz(text){const a=text.indexOf('{'),b=text.lastIndexOf('}');if(a<0||b<0)throw Error('Invalid Google Sheets response');return JSON.parse(text.slice(a,b+1));}
         function getCourseSlug(){return new URLSearchParams(window.location.search).get('course');}
-        async function fetchTab(tab){
-            const response=await fetch(SHEET_URL(tab),{cache:'no-store'});
-            if(!response.ok)throw Error(`${tab}: HTTP ${response.status}`);
-            const json=parseGviz(await response.text());
-            return (json.table?.rows||[]).map(row=>{
-                const c=row.c||[];
-                const v=Array.from({length:9},(_,i)=>clean(c[i]?.v??c[i]?.f??''));
-                const [name,tag,image,shortDescription,longDescription,price,oldPrice,priceNote,featureText]=v;
-                if(!name)return null;
-                return {name,tag,image:normalizeImageUrl(image),shortDescription,longDescription,price:formatPrice(price),oldPrice:formatPrice(oldPrice),priceNote,features:parseFeatures(featureText),category:tab,slug:slugify(name)};
+        async function fetchAllCourses(){
+            const response=await fetch(SHEET_API_ENDPOINT, {
+                method:'POST',
+                headers:{'Content-Type':'text/plain;charset=utf-8'},
+                body:JSON.stringify({action:'getCourses'}),
+                cache:'no-store'
+            });
+            if(!response.ok) throw Error(`Courses: HTTP ${response.status}`);
+            const json=await response.json();
+            if(json.status !== 'ok') throw Error(json.message || 'Courses data fetch failed');
+            return (json.data||[]).map(row=>{
+                const name=clean(row.name);
+                if(!name) return null;
+                return {
+                    name,
+                    tag:clean(row.tag),
+                    image:normalizeImageUrl(row.image),
+                    shortDescription:clean(row.shortDescription),
+                    longDescription:clean(row.longDescription),
+                    price:formatPrice(row.price),
+                    oldPrice:formatPrice(row.oldPrice),
+                    priceNote:clean(row.priceNote),
+                    features:parseFeatures(row.featureText),
+                    category:row.category,
+                    slug:slugify(name)
+                };
             }).filter(Boolean);
         }
         async function getAllCourses(){
             const used=new Set();
-            const results=await Promise.all(SHEET_TABS.map(fetchTab));
-            return results.flat().map(c=>({...c,slug:uniqueSlug(c.name,c.category,used)}));
+            const results=await fetchAllCourses();
+            return results.map(c=>({...c,slug:uniqueSlug(c.name,c.category,used)}));
         }
 
         function renderCourse(course){
