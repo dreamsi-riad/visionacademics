@@ -599,7 +599,7 @@
             const content=document.getElementById('courseContent');
             loadingState.style.display='none';
             if(!course){
-                content.innerHTML=`<div class="not-found"><h2>😕 কোর্সটি খুঁজে পাওয়া যায়নি</h2><p>আপনি যে কোর্সটি খুঁজছেন, সেটি Google Sheet-এর কোনো tab-এ পাওয়া যায়নি।</p><a href="index.html#courses" class="btn btn-primary">সব কোর্স দেখুন</a></div>`;
+                content.innerHTML=`<div class="not-found"><h2>😕 কোর্সটি খুঁজে পাওয়া যায়নি</h2><p>আপনি যে কোর্সটি খুঁজছেন, সেটি খুঁজে পাওয়া যায়নি।</p><a href="index.html#courses" class="btn btn-primary">সব কোর্স দেখুন</a></div>`;
                 content.style.display='block';
                 return;
             }
@@ -640,7 +640,7 @@
             }catch(error){
                 console.error('Course details loading failed:',error);
                 document.getElementById('loadingState').style.display='none';
-                content.innerHTML=`<div class="sheet-error"><h2>কোর্সের তথ্য লোড করা যায়নি</h2><p>Google Sheet access বা internet connection চেক করে আবার চেষ্টা করুন।</p><button class="btn btn-primary" onclick="location.reload()">আবার চেষ্টা করুন</button></div>`;
+                content.innerHTML=`<div class="sheet-error"><h2>কোর্সের তথ্য লোড করা যায়নি</h2><p>ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন।</p><button class="btn btn-primary" onclick="location.reload()">আবার চেষ্টা করুন</button></div>`;
                 content.style.display='block';
             }
         }
