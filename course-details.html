@@ -622,7 +622,7 @@
                         <div class="detail-description">${escapeHtml(description).replace(/\n/g,'<br>')}</div>
                         ${featuresHtml}
                         <div class="detail-actions">
-                            <a href="student-reg.html?enroll=${encodeURIComponent(course.name)}" class="btn btn-primary enroll-btn" data-enroll-course="${escapeHtml(course.name)}">Enroll Now</a>
+                            <a href="student-reg.html?enroll=${encodeURIComponent(course.name)}" class="btn btn-primary enroll-btn">Enroll Now</a>
                             <a href="index.html#courses" class="btn btn-outline">সব কোর্স দেখুন</a>
                         </div>
                     </div>
@@ -644,13 +644,6 @@
                 content.style.display='block';
             }
         }
-
-        document.addEventListener('click',(event)=>{
-            const btn=event.target.closest('.enroll-btn');
-            if(!btn) return;
-            const courseName=btn.getAttribute('data-enroll-course') || '';
-            if(!courseName) return;
-        });
 
         document.addEventListener('DOMContentLoaded',()=>{
             const burger=document.getElementById('burgerBtn');
