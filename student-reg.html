@@ -571,6 +571,17 @@ footer a:hover{ color:#fff; }
               </div>
 
               <div class="form-row">
+                <label for="reg_department">ডিপার্টমেন্ট <span class="req">*</span></label>
+                <select id="reg_department" name="department" required>
+                  <option value="" disabled selected>নির্বাচন করুন</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Management">Management</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Finance">Finance</option>
+                </select>
+              </div>
+
+              <div class="form-row">
                 <label for="reg_year">বর্ষ <span class="req">*</span></label>
                 <select id="reg_year" name="year" required>
                   <option value="" disabled selected>নির্বাচন করুন</option>
@@ -662,7 +673,7 @@ footer a:hover{ color:#fff; }
               <div class="badge-row">
                 <span class="badge badge-blue" id="dashLevel">—</span>
                 <span class="badge badge-green" id="dashYear">—</span>
-                <span class="badge badge-purple" id="dashSession">—</span>
+                <span class="badge badge-purple" id="dashDepartment">—</span>
               </div>
             </div>
           </div>
@@ -882,8 +893,8 @@ footer a:hover{ color:#fff; }
     hideLoading();
     document.getElementById('dashName').textContent = data.name || '—';
     document.getElementById('dashLevel').textContent = data.level || '—';
-    document.getElementById('dashYear').textContent = data.year || '—';
-    document.getElementById('dashSession').textContent = data.session || '—';
+    document.getElementById('dashYear').textContent = data.year ? (data.session ? `${data.year} (${data.session})` : data.year) : '—';
+    document.getElementById('dashDepartment').textContent = data.department || '—';
     document.getElementById('dashInstitute').textContent = data.institute || '—';
     document.getElementById('dashMobile').textContent = data.mobile || '—';
 
@@ -992,6 +1003,7 @@ footer a:hover{ color:#fff; }
       action: 'register',
       name: document.getElementById('reg_name').value.trim(),
       level: document.getElementById('reg_level').value,
+      department: document.getElementById('reg_department').value,
       year: document.getElementById('reg_year').value,
       session: document.getElementById('reg_session').value.trim(),
       institute: document.getElementById('reg_institute').value.trim(),
