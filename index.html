@@ -1621,11 +1621,9 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 // Teachers tab columns: A Name, B Photo URL, C Subject, D Designation
 // ============================================================
 (function(){
-  // Apps Script Web App — এই একই URL Teachers, Courses, Free Classes তিনটার
-  // জন্যই ব্যবহার হয় (action প্যারামিটার দিয়ে আলাদা হয়)। gviz/tq পাবলিক API
-  // এর বদলে এটা ব্যবহার করা হচ্ছে কারণ getSheetByName() reliably tab match
-  // করে — tab না থাকলে error দেয়, silent fallback নেই।
-  const SHEET_API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwJE0tUKclbs2e2IIubsFvrLTA9P8wvavVasPlpIIUTDa0Wt2bg8BLNKlmBK1kHvD0/exec';
+  const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
+  const TEACHERS_TAB = 'Teachers';
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(TEACHERS_TAB)}`;
   const teacherGrid = document.getElementById('teacherGrid');
   if(!teacherGrid) return;
 
@@ -1639,22 +1637,23 @@ document.querySelectorAll('#navLinks a').forEach(link => {
     if(x.includes('drive.google.com')&&i) return `https://drive.google.com/thumbnail?id=${i[1]}&sz=w1000`;
     return x;
   }
+  function parseGviz(t){
+    const a=t.indexOf('{'),b=t.lastIndexOf('}');
+    if(a<0||b<0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(t.slice(a,b+1));
+  }
   async function loadTeachers(){
-    teacherGrid.innerHTML='<div class="teacher-data-state">শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>';
+    teacherGrid.innerHTML='<div class="teacher-data-state">Google Sheet থেকে শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>';
     try{
-      const r=await fetch(SHEET_API_ENDPOINT, {
-        method:'POST',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify({action:'getTeachers'}),
-        cache:'no-store'
-      });
+      const r=await fetch(SHEET_URL,{cache:'no-store'});
       if(!r.ok) throw Error(`Teachers: HTTP ${r.status}`);
-      const j=await r.json();
-      if(j.status !== 'ok') throw Error(j.message || 'Teachers data fetch failed');
-      const teachers=(j.data||[]).map(row=>{
-        const name=clean(row.name);
-        if(!name) return null;
-        return {name, photo:imageUrl(row.photo), subject:clean(row.subject), designation:clean(row.designation)};
+      const j=parseGviz(await r.text());
+      const teachers=(j.table?.rows||[]).map(row=>{
+        const c=row.c||[];
+        const v=Array.from({length:4},(_,i)=>clean(c[i]?.v??c[i]?.f??''));
+        const [name,photo,subject,designation]=v;
+        if(!name || name.toLowerCase()==='teacher name') return null;
+        return {name,photo:imageUrl(photo),subject,designation};
       }).filter(Boolean);
 
       if(!teachers.length){
@@ -1684,11 +1683,9 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 // Google Sheet → Dynamic Courses
 // ============================================================
 (function(){
-  // Apps Script Web App — Teachers/Free Classes-এর সাথে একই endpoint,
-  // শুধু action:'getCourses' পাঠানো হয়। gviz/tq এর পরিবর্তে এটা ব্যবহারের
-  // কারণ: tab name ঠিক না মিললে gviz silently ভুল tab-এর data দিত।
-  const SHEET_API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwJE0tUKclbs2e2IIubsFvrLTA9P8wvavVasPlpIIUTDa0Wt2bg8BLNKlmBK1kHvD0/exec';
+  const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
   const SHEET_TABS = ['SSC','HSC','BBA','MBA','BBS','BBA Professional'];
+  const SHEET_URL = tab => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
   const catGrid=document.getElementById('catGrid'), courseGrid=document.getElementById('courseGrid'), toolbar=document.getElementById('courseDataToolbar'), resultCount=document.getElementById('courseResultCount'), resetBtn=document.getElementById('courseResetBtn'), errorBox=document.getElementById('courseDataError'), retryBtn=document.getElementById('courseRetryBtn');
   const CATEGORY_META={
     'SSC':{color:'#2F6FE4',bg:'#EAF1FE',icon:'<path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12.5V17c0 1.5 2.5 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 10v6"/>'},
@@ -1708,39 +1705,13 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   function uniqueSlug(name,cat,used){const base=slugify(name),cp=slugify(cat);let slug=base;if(used.has(slug))slug=`${cp}-${base}`;let n=2;while(used.has(slug))slug=`${cp}-${base}-${n++}`;used.add(slug);return slug}
   function features(v){return clean(v).split(/[,،]/).map(clean).filter(Boolean)}
   function price(v){const x=clean(v);if(!x)return '';return /[৳$€£]/.test(x)?toBn(x):`৳${toBn(x)}`}
-  async function fetchAllCourses(){
-    const r=await fetch(SHEET_API_ENDPOINT, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({action:'getCourses'}),
-      cache:'no-store'
-    });
-    if(!r.ok) throw Error(`Courses: HTTP ${r.status}`);
-    const j=await r.json();
-    if(j.status !== 'ok') throw Error(j.message || 'Courses data fetch failed');
-    return (j.data||[]).map(row=>{
-      const name=clean(row.name);
-      if(!name) return null;
-      return {
-        name,
-        tag:clean(row.tag),
-        image:imageUrl(row.image),
-        shortDescription:clean(row.shortDescription),
-        longDescription:clean(row.longDescription),
-        price:price(row.price),
-        oldPrice:price(row.oldPrice),
-        priceNote:clean(row.priceNote),
-        features:features(row.featureText),
-        category:row.category,
-        slug:''
-      };
-    }).filter(Boolean);
-  }
+  function parseGviz(t){const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a<0||b<0)throw Error('Invalid Google Sheets response');return JSON.parse(t.slice(a,b+1))}
+  async function fetchTab(tab){const r=await fetch(SHEET_URL(tab),{cache:'no-store'});if(!r.ok)throw Error(`${tab}: HTTP ${r.status}`);const j=parseGviz(await r.text());return (j.table?.rows||[]).map(row=>{const c=row.c||[],v=Array.from({length:9},(_,i)=>clean(c[i]?.v??c[i]?.f??''));const [name,tag,image,shortDescription,longDescription,p,oldPrice,priceNote,featureText]=v;if(!name)return null;return{name,tag,image:imageUrl(image),shortDescription,longDescription,price:price(p),oldPrice:price(oldPrice),priceNote,features:features(featureText),category:tab,slug:''}}).filter(Boolean)}
   function categoryHtml(cat,count){const m=CATEGORY_META[cat]||{color:'#5B8FBF',bg:'#EEF4F8',icon:'<circle cx="12" cy="12" r="8"/>'};return `<a href="#courses" class="cat-card" data-cat="${esc(cat)}" style="--cat-color:${m.color}"><span class="cat-icon" style="background:${m.bg}"><svg viewBox="0 0 24 24" fill="none" stroke="${m.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${m.icon}</svg></span><span class="cat-text"><b>${esc(cat)}</b><span>${toBn(count)}টি কোর্স</span></span></a>`}
   function cardHtml(c){const m=CATEGORY_META[c.category]||{color:'#5B8FBF'};return `<article class="course-card" data-category="${esc(c.category)}" data-course-slug="${esc(c.slug)}"><img class="course-image" src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy"><div class="course-top"><span class="eyebrow" style="color:${m.color}">${esc(c.category)}</span>${c.tag?`<span class="course-tag">${esc(c.tag)}</span>`:''}</div><div class="course-body"><h3>${esc(c.name)}</h3><p>${esc(c.shortDescription)}</p><div class="course-foot"><div class="price"><div class="price-row">${c.price?`<span class="price-now">${esc(c.price)}</span>`:''}${c.oldPrice?`<span class="price-old">${esc(c.oldPrice)}</span>`:''}</div>${c.priceNote?`<small>${esc(c.priceNote)}</small>`:''}</div><a href="course-details.html?course=${encodeURIComponent(c.slug)}" class="btn btn-primary course-details-trigger">বিস্তারিত</a></div></div></article>`}
   function renderCategories(){const counts={};allCourses.forEach(c=>counts[c.category]=(counts[c.category]||0)+1);const cats=SHEET_TABS.filter(t=>counts[t]>0);catGrid.innerHTML=cats.length?cats.map(t=>categoryHtml(t,counts[t])).join(''):'<div class="course-empty">Google Sheet-এ এখনো কোনো course row পাওয়া যায়নি।</div>'}
   function renderCourses(cat=null){activeCategory=cat;const list=cat?allCourses.filter(c=>c.category===cat):allCourses;courseGrid.innerHTML=list.length?list.map(cardHtml).join(''):'<div class="course-empty"><strong>এই বিভাগে এখন কোনো কোর্স নেই।</strong><br>Google Sheet-এ data row যোগ করলে এখানে course card automatically দেখা যাবে।</div>';catGrid.querySelectorAll('.cat-card').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));toolbar.hidden=!allCourses.length;const n=list.length;resultCount.textContent=cat?`${cat}: ${toBn(n)}টি কোর্স`:`মোট ${toBn(n)}টি কোর্স`}
-  async function loadCourses(){errorBox.hidden=true;courseGrid.innerHTML='<div class="course-data-loading"><span class="course-loader"></span><span>কোর্সের তথ্য লোড হচ্ছে...</span></div>';catGrid.innerHTML='<div class="course-data-loading category-loading">ক্যাটাগরি লোড হচ্ছে...</div>';try{const used=new Set();allCourses=await fetchAllCourses();allCourses.forEach(c=>c.slug=uniqueSlug(c.name,c.category,used));renderCategories();renderCourses(null)}catch(e){console.error(e);catGrid.innerHTML='<div class="course-empty">ক্যাটাগরি লোড করা যায়নি।</div>';courseGrid.innerHTML='';toolbar.hidden=true;errorBox.hidden=false}}
+  async function loadCourses(){errorBox.hidden=true;courseGrid.innerHTML='<div class="course-data-loading"><span class="course-loader"></span><span>Google Sheet থেকে কোর্সের তথ্য লোড হচ্ছে...</span></div>';catGrid.innerHTML='<div class="course-data-loading category-loading">ক্যাটাগরি লোড হচ্ছে...</div>';try{const used=new Set();allCourses=(await Promise.all(SHEET_TABS.map(t=>fetchTab(t)))).flat();allCourses.forEach(c=>c.slug=uniqueSlug(c.name,c.category,used));renderCategories();renderCourses(null)}catch(e){console.error(e);catGrid.innerHTML='<div class="course-empty">ক্যাটাগরি লোড করা যায়নি।</div>';courseGrid.innerHTML='';toolbar.hidden=true;errorBox.hidden=false}}
   catGrid.addEventListener('click',e=>{const b=e.target.closest('.cat-card');if(!b)return;e.preventDefault();renderCourses(activeCategory===b.dataset.cat?null:b.dataset.cat);courseGrid.scrollIntoView({behavior:'smooth',block:'start'})});
   resetBtn.addEventListener('click',()=>renderCourses(null));retryBtn.addEventListener('click',loadCourses);loadCourses();
 })();
@@ -1771,9 +1742,9 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 // যত data row → তত video card
 // ============================================================
 (function(){
-  // Apps Script Web App — Teachers/Courses-এর সাথে একই endpoint,
-  // action:'getFreeClasses' পাঠানো হয়।
-  const SHEET_API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwJE0tUKclbs2e2IIubsFvrLTA9P8wvavVasPlpIIUTDa0Wt2bg8BLNKlmBK1kHvD0/exec';
+  const SHEET_ID = '1XM3NTovZf0O9XspzOzhnshA8fDXgpkyg7tWDUuaTTP8';
+  const VIDEO_TAB = 'Free Classes';
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(VIDEO_TAB)}`;
   const pillRow = document.getElementById('videoPillRow');
   const videoGrid = document.getElementById('videoGrid');
   let videos = [];
@@ -1781,6 +1752,12 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 
   const clean = v => String(v ?? '').trim();
   const esc = v => clean(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function parseGviz(text){
+    const a = text.indexOf('{'), b = text.lastIndexOf('}');
+    if(a < 0 || b < 0) throw Error('Invalid Google Sheets response');
+    return JSON.parse(text.slice(a, b + 1));
+  }
 
   function youtubeId(url){
     const x = clean(url);
@@ -1801,19 +1778,14 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   }
 
   async function fetchVideos(){
-    const r = await fetch(SHEET_API_ENDPOINT, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify({action:'getFreeClasses'}),
-      cache:'no-store'
-    });
+    const r = await fetch(SHEET_URL, {cache:'no-store'});
     if(!r.ok) throw Error(`Free Classes: HTTP ${r.status}`);
-    const j = await r.json();
-    if(j.status !== 'ok') throw Error(j.message || 'Free Classes data fetch failed');
-    return (j.data || []).map(row => {
-      const category = clean(row.category);
-      const title = clean(row.title);
-      const url = clean(row.url);
+    const j = parseGviz(await r.text());
+    return (j.table?.rows || []).map(row => {
+      const c = row.c || [];
+      const category = clean(c[0]?.v ?? c[0]?.f ?? '');
+      const title = clean(c[1]?.v ?? c[1]?.f ?? '');
+      const url = clean(c[2]?.v ?? c[2]?.f ?? '');
       const id = youtubeId(url);
       if(!category || !title || !id) return null;
       return {category, title, url, id};
