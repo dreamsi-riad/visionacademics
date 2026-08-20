@@ -1386,7 +1386,7 @@ footer{
 
       <div class="course-data-error" id="courseDataError" hidden>
         <strong>কোর্সের তথ্য লোড করা যায়নি</strong>
-        <p>Google Sheet-এর access এবং internet connection চেক করে আবার চেষ্টা করুন।</p>
+        <p>ইন্টারনেট কানেকশন চেক করে আবার চেষ্টা করুন।</p>
         <button type="button" class="btn btn-primary" id="courseRetryBtn">আবার চেষ্টা করুন</button>
       </div>
 
@@ -1435,7 +1435,7 @@ footer{
       </div>
 
       <div class="video-grid" id="videoGrid">
-        <div class="video-data-loading">Google Sheet থেকে ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>
+        <div class="video-data-loading">ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>
       </div>
     </div>
   </section>
@@ -1451,7 +1451,7 @@ footer{
         <p>যারা প্রতিদিন ক্লাসে থেকে আপনার প্রস্তুতিকে এগিয়ে নেবেন।</p>
       </div>
       <div class="teacher-grid" id="teacherGrid" aria-live="polite">
-        <div class="teacher-data-state">Google Sheet থেকে শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>
+        <div class="teacher-data-state">শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>
       </div>
     </div>
   </section>
@@ -1675,7 +1675,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
     return JSON.parse(t.slice(a,b+1));
   }
   async function loadTeachers(){
-    teacherGrid.innerHTML='<div class="teacher-data-state">Google Sheet থেকে শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>';
+    teacherGrid.innerHTML='<div class="teacher-data-state">শিক্ষকবৃন্দের তথ্য লোড হচ্ছে...</div>';
     try{
       const r=await fetch(SHEET_URL,{cache:'no-store'});
       if(!r.ok) throw Error(`Teachers: HTTP ${r.status}`);
@@ -1689,7 +1689,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
       }).filter(Boolean);
 
       if(!teachers.length){
-        teacherGrid.innerHTML='<div class="teacher-data-state">Google Sheet-এ এখনো কোনো শিক্ষক তথ্য পাওয়া যায়নি।</div>';
+        teacherGrid.innerHTML='<div class="teacher-data-state">এখনো কোনো শিক্ষক তথ্য পাওয়া যায়নি।</div>';
         return;
       }
 
@@ -1705,7 +1705,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
       `).join('');
     }catch(e){
       console.error(e);
-      teacherGrid.innerHTML='<div class="teacher-data-state">শিক্ষকদের তথ্য লোড করা যায়নি। Google Sheet-এর access এবং internet connection চেক করুন।</div>';
+      teacherGrid.innerHTML='<div class="teacher-data-state">শিক্ষকদের তথ্য লোড করা যায়নি। ইন্টারনেট কানেকশন চেক করুন।</div>';
     }
   }
   loadTeachers();
@@ -1741,9 +1741,9 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   async function fetchTab(tab){const r=await fetch(SHEET_URL(tab),{cache:'no-store'});if(!r.ok)throw Error(`${tab}: HTTP ${r.status}`);const j=parseGviz(await r.text());return (j.table?.rows||[]).map(row=>{const c=row.c||[],v=Array.from({length:9},(_,i)=>clean(c[i]?.v??c[i]?.f??''));const [name,tag,image,shortDescription,longDescription,p,oldPrice,priceNote,featureText]=v;if(!name)return null;return{name,tag,image:imageUrl(image),shortDescription,longDescription,price:price(p),oldPrice:price(oldPrice),priceNote,features:features(featureText),category:tab,slug:''}}).filter(Boolean)}
   function categoryHtml(cat,count){const m=CATEGORY_META[cat]||{color:'#5B8FBF',bg:'#EEF4F8',icon:'<circle cx="12" cy="12" r="8"/>'};return `<a href="#courses" class="cat-card" data-cat="${esc(cat)}" style="--cat-color:${m.color}"><span class="cat-icon" style="background:${m.bg}"><svg viewBox="0 0 24 24" fill="none" stroke="${m.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${m.icon}</svg></span><span class="cat-text"><b>${esc(cat)}</b><span>${toBn(count)}টি কোর্স</span></span></a>`}
   function cardHtml(c){const m=CATEGORY_META[c.category]||{color:'#5B8FBF'};return `<article class="course-card" data-category="${esc(c.category)}" data-course-slug="${esc(c.slug)}"><img class="course-image" src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy"><div class="course-top"><span class="eyebrow" style="color:${m.color}">${esc(c.category)}</span>${c.tag?`<span class="course-tag">${esc(c.tag)}</span>`:''}</div><div class="course-body"><h3>${esc(c.name)}</h3><p>${esc(c.shortDescription)}</p><div class="course-foot"><div class="price"><div class="price-row">${c.price?`<span class="price-now">${esc(c.price)}</span>`:''}${c.oldPrice?`<span class="price-old">${esc(c.oldPrice)}</span>`:''}</div>${c.priceNote?`<small>${esc(c.priceNote)}</small>`:''}</div><a href="course-details.html?course=${encodeURIComponent(c.slug)}" data-course-name="${esc(c.name)}" class="btn btn-primary course-details-trigger">বিস্তারিত</a></div></div></article>`}
-  function renderCategories(){const counts={};allCourses.forEach(c=>counts[c.category]=(counts[c.category]||0)+1);const cats=SHEET_TABS.filter(t=>counts[t]>0);catGrid.innerHTML=cats.length?cats.map(t=>categoryHtml(t,counts[t])).join(''):'<div class="course-empty">Google Sheet-এ এখনো কোনো course row পাওয়া যায়নি।</div>'}
-  function renderCourses(cat=null){activeCategory=cat;const list=cat?allCourses.filter(c=>c.category===cat):allCourses;courseGrid.innerHTML=list.length?list.map(cardHtml).join(''):'<div class="course-empty"><strong>এই বিভাগে এখন কোনো কোর্স নেই।</strong><br>Google Sheet-এ data row যোগ করলে এখানে course card automatically দেখা যাবে।</div>';catGrid.querySelectorAll('.cat-card').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));toolbar.hidden=!allCourses.length;const n=list.length;resultCount.textContent=cat?`${cat}: ${toBn(n)}টি কোর্স`:`মোট ${toBn(n)}টি কোর্স`}
-  async function loadCourses(){errorBox.hidden=true;courseGrid.innerHTML='<div class="course-data-loading"><span class="course-loader"></span><span>Google Sheet থেকে কোর্সের তথ্য লোড হচ্ছে...</span></div>';catGrid.innerHTML='<div class="course-data-loading category-loading">ক্যাটাগরি লোড হচ্ছে...</div>';try{const used=new Set();allCourses=(await Promise.all(SHEET_TABS.map(t=>fetchTab(t)))).flat();allCourses.forEach(c=>c.slug=uniqueSlug(c.name,c.category,used));renderCategories();renderCourses(null)}catch(e){console.error(e);catGrid.innerHTML='<div class="course-empty">ক্যাটাগরি লোড করা যায়নি।</div>';courseGrid.innerHTML='';toolbar.hidden=true;errorBox.hidden=false}}
+  function renderCategories(){const counts={};allCourses.forEach(c=>counts[c.category]=(counts[c.category]||0)+1);const cats=SHEET_TABS.filter(t=>counts[t]>0);catGrid.innerHTML=cats.length?cats.map(t=>categoryHtml(t,counts[t])).join(''):'<div class="course-empty">এখনো কোনো কোর্স যোগ করা হয়নি।</div>'}
+  function renderCourses(cat=null){activeCategory=cat;const list=cat?allCourses.filter(c=>c.category===cat):allCourses;courseGrid.innerHTML=list.length?list.map(cardHtml).join(''):'<div class="course-empty"><strong>এই বিভাগে এখন কোনো কোর্স নেই।</strong><br>নতুন কোর্স যোগ করা হলে এখানে automatically দেখা যাবে।</div>';catGrid.querySelectorAll('.cat-card').forEach(x=>x.classList.toggle('active',x.dataset.cat===cat));toolbar.hidden=!allCourses.length;const n=list.length;resultCount.textContent=cat?`${cat}: ${toBn(n)}টি কোর্স`:`মোট ${toBn(n)}টি কোর্স`}
+  async function loadCourses(){errorBox.hidden=true;courseGrid.innerHTML='<div class="course-data-loading"><span class="course-loader"></span><span>কোর্সের তথ্য লোড হচ্ছে...</span></div>';catGrid.innerHTML='<div class="course-data-loading category-loading">ক্যাটাগরি লোড হচ্ছে...</div>';try{const used=new Set();allCourses=(await Promise.all(SHEET_TABS.map(t=>fetchTab(t)))).flat();allCourses.forEach(c=>c.slug=uniqueSlug(c.name,c.category,used));renderCategories();renderCourses(null)}catch(e){console.error(e);catGrid.innerHTML='<div class="course-empty">ক্যাটাগরি লোড করা যায়নি।</div>';courseGrid.innerHTML='';toolbar.hidden=true;errorBox.hidden=false}}
   catGrid.addEventListener('click',e=>{const b=e.target.closest('.cat-card');if(!b)return;e.preventDefault();renderCourses(activeCategory===b.dataset.cat?null:b.dataset.cat);courseGrid.scrollIntoView({behavior:'smooth',block:'start'})});
   resetBtn.addEventListener('click',()=>renderCourses(null));retryBtn.addEventListener('click',loadCourses);loadCourses();
 })();
@@ -1913,7 +1913,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
   function renderPills(){
     const categories = [...new Set(videos.map(v => v.category))];
     if(!categories.length){
-      pillRow.innerHTML = '<div class="video-data-state">Google Sheet-এ এখনো কোনো Free Class data নেই।</div>';
+      pillRow.innerHTML = '<div class="video-data-state">এখনো কোনো Free Class যোগ করা হয়নি।</div>';
       return;
     }
     if(!activeCategory || !categories.includes(activeCategory)) activeCategory = categories[0];
@@ -1964,7 +1964,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
 
   async function loadFreeClasses(){
     pillRow.innerHTML = '<div class="video-data-loading">ভিডিও বিভাগ লোড হচ্ছে...</div>';
-    videoGrid.innerHTML = '<div class="video-data-loading">Google Sheet থেকে ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>';
+    videoGrid.innerHTML = '<div class="video-data-loading">ফ্রি ক্লাসের ভিডিও লোড হচ্ছে...</div>';
     try{
       videos = await fetchVideos();
       renderPills();
@@ -1972,7 +1972,7 @@ document.querySelectorAll('#navLinks a').forEach(link => {
     }catch(e){
       console.error(e);
       pillRow.innerHTML = '<div class="video-data-state">ভিডিও বিভাগ লোড করা যায়নি।</div>';
-      videoGrid.innerHTML = '<div class="video-data-state">Google Sheet-এর access এবং internet connection চেক করুন।</div>';
+      videoGrid.innerHTML = '<div class="video-data-state">ইন্টারনেট কানেকশন চেক করুন।</div>';
     }
   }
 
