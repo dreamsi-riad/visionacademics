@@ -125,6 +125,20 @@
             font-weight: 700;
             font-size: 16px;
             color: #fff;
+            object-fit: cover;
+            background: linear-gradient(135deg,#1E2A47,#2F3F66);
+        }
+        .shop-status-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--ink-soft);
+            padding: 40px 0;
+            font-size: 15.5px;
+        }
+        .stock-badge {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--margin);
         }
         .product-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
         .product-body h3 { font-size: 17.5px; font-weight: 700; }
@@ -233,91 +247,15 @@
         </section>
 
         <!-- ============================================================
-             প্রোডাক্ট গ্রিড — আপাতত স্ট্যাটিক (সরাসরি HTML-এ বসানো)।
-             নতুন প্রোডাক্ট যোগ করতে নিচের <article class="product-card">...</article>
-             ব্লকটা কপি করে বদলে দিন। "অর্ডার করুন" বাটনের data-* অ্যাট্রিবিউটগুলোই
-             মডালে দেখানো/পাঠানো তথ্য নিয়ন্ত্রণ করে —
-             data-name       → প্রোডাক্টের নাম
-             data-price      → বর্তমান দাম (মডালে দেখানো হবে)
-             data-has-size   → "1" রাখলে সাইজ ফিল্ড দেখাবে (জামা/টি-শার্টের জন্য),
-                                বই বা অন্য প্রোডাক্টের জন্য এই অ্যাট্রিবিউটটা বাদ দিন
+             প্রোডাক্ট গ্রিড — এখন Google Sheet ("shop item list" ট্যাব) থেকে
+             Apps Script দিয়ে dynamically লোড হয়। নতুন প্রোডাক্ট যোগ/বন্ধ করতে
+             চাইলে HTML-এ কিছু বদলাতে হবে না — শুধু Sheet-এ row যোগ করুন বা
+             Status কলাম "Active"/"Inactive" করে দিন।
              ============================================================ -->
         <section class="shop-section">
             <div class="container">
                 <div class="shop-grid" id="shopGrid">
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#1E2A47,#2F3F66);">VISION Cotton T-Shirt</div>
-                        <div class="product-body">
-                            <h3>VISION কটন টি-শার্ট</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৪৫০</span>
-                                <span class="price-new">৳৩০০</span>
-                            </div>
-                            <button class="order-btn" data-name="VISION কটন টি-শার্ট" data-price="৳৩০০" data-has-size="1">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#2F6FE4,#1E2A47);">VISION Polo (White)</div>
-                        <div class="product-body">
-                            <h3>VISION পোলো টি-শার্ট (সাদা)</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৫০০</span>
-                                <span class="price-new">৳৩৮০</span>
-                            </div>
-                            <button class="order-btn" data-name="VISION পোলো টি-শার্ট (সাদা)" data-price="৳৩৮০" data-has-size="1">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#111827,#1E2A47);">VISION Polo (Black)</div>
-                        <div class="product-body">
-                            <h3>VISION পোলো টি-শার্ট (কালো)</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৫০০</span>
-                                <span class="price-new">৳৩৮০</span>
-                            </div>
-                            <button class="order-btn" data-name="VISION পোলো টি-শার্ট (কালো)" data-price="৳৩৮০" data-has-size="1">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#C97F1F,#E8A33D);">VISION Hoodie</div>
-                        <div class="product-body">
-                            <h3>VISION হুডি</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৮০০</span>
-                                <span class="price-new">৳৬৫০</span>
-                            </div>
-                            <button class="order-btn" data-name="VISION হুডি" data-price="৳৬৫০" data-has-size="1">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#4C8C6B,#2F6F4F);">সেরা কলেজ ভর্তি সহায়িকা</div>
-                        <div class="product-body">
-                            <h3>সেরা কলেজ ভর্তি সহায়িকা ২০২৬</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৩৫০</span>
-                                <span class="price-new">৳২৮০</span>
-                            </div>
-                            <button class="order-btn" data-name="সেরা কলেজ ভর্তি সহায়িকা ২০২৬" data-price="৳২৮০">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
-                    <article class="product-card">
-                        <div class="product-image" style="background:linear-gradient(135deg,#C84B4B,#8F2E2E);">SSC রসায়ন গাইড</div>
-                        <div class="product-body">
-                            <h3>SSC রসায়ন গাইড</h3>
-                            <div class="product-price">
-                                <span class="price-old">৳৪০০</span>
-                                <span class="price-new">৳৩২০</span>
-                            </div>
-                            <button class="order-btn" data-name="SSC রসায়ন গাইড" data-price="৳৩২০">অর্ডার করুন</button>
-                        </div>
-                    </article>
-
+                    <p class="shop-status-msg" id="shopLoadingMsg">প্রোডাক্ট লোড হচ্ছে...</p>
                 </div>
             </div>
         </section>
@@ -396,6 +334,94 @@
         })();
 
         // ============================================================
+        // শপ Google Sheet-এর Apps Script endpoint
+        // ============================================================
+        const SHOP_FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbycXYAIzueQWFa00RlqfOGiMYbBTOOHgQ5Nsbh4tS2sCrt454K5qq8_yKzY0wtfvE0j6g/exec";
+
+        function callShopApi(payload){
+            const controller = new AbortController();
+            const timeout = setTimeout(()=>controller.abort(), 20000);
+            return fetch(SHOP_FORM_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload),
+                signal: controller.signal
+            })
+                .then(res=>{
+                    if(!res.ok) throw new Error('সার্ভার থেকে তথ্য পাওয়া যায়নি।');
+                    return res.json();
+                })
+                .catch(err=>{
+                    if(err.name === 'AbortError') throw new Error('সার্ভারে সাড়া পেতে বেশি সময় লাগছে। আবার চেষ্টা করুন।');
+                    throw err;
+                })
+                .finally(()=>clearTimeout(timeout));
+        }
+
+        // ============================================================
+        // প্রোডাক্ট লোড + রেন্ডার
+        // (Google Sheet "shop item list" ট্যাব থেকে — শুধু Status = Active)
+        // ============================================================
+        let SHOP_PRODUCTS = [];
+
+        function escapeHtml(str){
+            const div = document.createElement('div');
+            div.textContent = String(str == null ? '' : str);
+            return div.innerHTML;
+        }
+
+        function renderProducts(products){
+            const grid = document.getElementById('shopGrid');
+
+            if(!products.length){
+                grid.innerHTML = '<p class="shop-status-msg">এই মুহূর্তে কোনো প্রোডাক্ট পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            grid.innerHTML = products.map(function(p, idx){
+                const outOfStock = Number(p.stock) <= 0;
+                const imageHtml = p.imageUrl
+                    ? '<img class="product-image" src="' + escapeHtml(p.imageUrl) + '" alt="' + escapeHtml(p.name) + '" loading="lazy">'
+                    : '<div class="product-image">' + escapeHtml(p.name) + '</div>';
+
+                return '' +
+                    '<article class="product-card">' +
+                        imageHtml +
+                        '<div class="product-body">' +
+                            '<h3>' + escapeHtml(p.name) + '</h3>' +
+                            '<div class="product-price">' +
+                                (p.oldPrice ? '<span class="price-old">৳' + escapeHtml(p.oldPrice) + '</span>' : '') +
+                                '<span class="price-new">৳' + escapeHtml(p.newPrice) + '</span>' +
+                            '</div>' +
+                            (outOfStock
+                                ? '<span class="stock-badge">স্টক শেষ</span><button class="order-btn" disabled style="opacity:.55;cursor:not-allowed;">স্টক নেই</button>'
+                                : '<button class="order-btn" data-index="' + idx + '">অর্ডার করুন</button>'
+                            ) +
+                        '</div>' +
+                    '</article>';
+            }).join('');
+        }
+
+        function loadProducts(){
+            callShopApi({ action: 'get_products' })
+                .then(function(result){
+                    if(result.status === 'ok' && Array.isArray(result.data)){
+                        SHOP_PRODUCTS = result.data;
+                        renderProducts(SHOP_PRODUCTS);
+                    } else {
+                        document.getElementById('shopGrid').innerHTML =
+                            '<p class="shop-status-msg">❌ প্রোডাক্ট লোড করা যায়নি। পরে আবার চেষ্টা করুন।</p>';
+                    }
+                })
+                .catch(function(){
+                    document.getElementById('shopGrid').innerHTML =
+                        '<p class="shop-status-msg">❌ সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।</p>';
+                });
+        }
+
+        loadProducts();
+
+        // ============================================================
         // অর্ডার মডাল — খোলা/বন্ধ + ফর্ম হ্যান্ডলিং
         // ============================================================
         (function(){
@@ -410,11 +436,12 @@
 
             function openModal(product){
                 nameEl.textContent = product.name;
-                priceEl.textContent = product.price;
+                priceEl.textContent = '৳' + product.newPrice;
                 sizeRow.style.display = product.hasSize ? '' : 'none';
                 document.getElementById('orderSize').required = !!product.hasSize;
+                form.dataset.productId = product.productId;
                 form.dataset.productName = product.name;
-                form.dataset.productPrice = product.price;
+                form.dataset.productPrice = product.newPrice;
                 status.className = 'form-status';
                 status.textContent = '';
                 modal.classList.add('open');
@@ -429,12 +456,11 @@
 
             document.getElementById('shopGrid').addEventListener('click', function(e){
                 const btn = e.target.closest('.order-btn');
-                if(!btn) return;
-                openModal({
-                    name: btn.dataset.name,
-                    price: btn.dataset.price,
-                    hasSize: btn.dataset.hasSize === '1'
-                });
+                if(!btn || btn.disabled) return;
+                const idx = Number(btn.dataset.index);
+                const product = SHOP_PRODUCTS[idx];
+                if(!product) return;
+                openModal(product);
             });
 
             closeBtn.addEventListener('click', closeModal);
@@ -442,37 +468,54 @@
             document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
 
             // ============================================================
-            // ফর্ম সাবমিট — এখনো কোনো সার্ভার/Google Sheet-এর সাথে যুক্ত করা হয়নি।
-            // যখন যুক্ত করতে চাইবেন, index.html-এর "msgForm" সাবমিট স্ক্রিপ্টের প্যাটার্ন
-            // অনুসরণ করে এখানে fetch(FORM_ENDPOINT, {method:'POST', mode:'no-cors', body:data})
-            // বসিয়ে দিলেই এই ফর্মটাও একই Cloudflare Worker → Google Sheet পাইপলাইনে
-            // (অথবা নতুন Tab/Worker বানিয়ে) কাজ করা শুরু করবে।
+            // ফর্ম সাবমিট — শপ Apps Script এ order পাঠায়
+            // (Products শীটের Stock-ও সেখানেই স্বয়ংক্রিয়ভাবে কমে যায়)
             // ============================================================
             form.addEventListener('submit', function(e){
                 e.preventDefault();
+
+                const phone = document.getElementById('orderPhone').value.trim();
+                if(!/^01[0-9]{9}$/.test(phone)){
+                    status.textContent = '❌ সঠিক মোবাইল নম্বর দিন (যেমন: 01XXXXXXXXX)।';
+                    status.className = 'form-status show err';
+                    return;
+                }
 
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'প্রসেস হচ্ছে...';
                 status.className = 'form-status';
 
                 const orderData = {
-                    product: form.dataset.productName,
+                    action: 'place_order',
+                    productId: form.dataset.productId,
+                    productName: form.dataset.productName,
                     price: form.dataset.productPrice,
-                    name: document.getElementById('orderName').value.trim(),
-                    phone: document.getElementById('orderPhone').value.trim(),
+                    customerName: document.getElementById('orderName').value.trim(),
+                    mobile: phone,
                     address: document.getElementById('orderAddress').value.trim(),
                     size: sizeRow.style.display !== 'none' ? document.getElementById('orderSize').value : '',
                     quantity: document.getElementById('orderQty').value
                 };
-                console.log('অর্ডার ফর্মের তথ্য (এখনো সার্ভারে পাঠানো হচ্ছে না):', orderData);
 
-                // TODO: এখানে আসল fetch() কল বসবে যখন অর্ডার সাবমিট সিস্টেম রেডি হবে।
-                setTimeout(function(){
-                    status.textContent = '✅ অর্ডারের তথ্য নেওয়া হয়েছে। নিশ্চিত করতে আমরা শীঘ্রই আপনার নম্বরে যোগাযোগ করব।';
-                    status.className = 'form-status show ok';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'অর্ডার কনফার্ম করুন';
-                }, 500);
+                callShopApi(orderData)
+                    .then(function(result){
+                        if(result.status === 'ok'){
+                            status.textContent = '✅ ' + (result.message || 'অর্ডার সফলভাবে গ্রহণ করা হয়েছে। শীঘ্রই আপনার নম্বরে যোগাযোগ করা হবে।');
+                            status.className = 'form-status show ok';
+                            form.reset();
+                            loadProducts(); // স্টক আপডেট রিফ্লেক্ট করতে প্রোডাক্ট তালিকা রিফ্রেশ
+                        } else {
+                            throw new Error(result.message || 'অর্ডার ব্যর্থ হয়েছে।');
+                        }
+                    })
+                    .catch(function(err){
+                        status.textContent = '❌ ' + (err.message || 'একটি সমস্যা হয়েছে, আবার চেষ্টা করুন।');
+                        status.className = 'form-status show err';
+                    })
+                    .finally(function(){
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'অর্ডার কনফার্ম করুন';
+                    });
             });
         })();
     </script>
