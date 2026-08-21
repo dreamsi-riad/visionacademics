@@ -525,9 +525,9 @@
                 <a href="index.html#why">কেন আমরা</a>
                 <a href="index.html#teachers">শিক্ষকবৃন্দ</a>
                 <a href="index.html#videos">ফ্রি ক্লাস</a>
-                <a href="index.html#contact">যোগাযোগ</a>
+                <a href="shop.html">শপ</a>
             </nav>
-            <a href="student-reg.html" class="nav-cta">লগইন</a>
+            <a href="student-reg.html" class="nav-cta" id="navLoginBtn">লগইন</a>
             <button class="burger" id="burgerBtn">☰</button>
         </div>
     </header>
@@ -651,6 +651,16 @@
             if(burger&&nav) burger.addEventListener('click',()=>nav.classList.toggle('open'));
             if(nav) nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
             loadCourseDetails();
+
+            // ইনডেক্স পেজের মতোই — লগইন করা থাকলে (localStorage-এ va_user থাকলে)
+            // নেভবারের "লগইন" বাটনটা "প্রোফাইল" দেখাবে
+            const loginBtn = document.getElementById('navLoginBtn');
+            if(loginBtn){
+                try{
+                    const loggedIn = !!localStorage.getItem('va_user');
+                    loginBtn.textContent = loggedIn ? 'প্রোফাইল' : 'লগইন';
+                }catch(e){}
+            }
         });
     </script>
 </body>
