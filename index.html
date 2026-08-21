@@ -1235,8 +1235,8 @@ footer{
       <a href="#videos">ফ্রি ক্লাস</a>
       <a href="shop.html">শপ</a>
     </nav>
-    <!-- নেভবারের ডানপাশের "ভর্তি হোন" বাটন — ক্লিক করলে সরাসরি student-reg.html পেজে যাবে -->
-    <a href="student-reg.html" class="nav-cta" id="navLoginBtn">লগইন</a>
+    <!-- নেভবারের ডানপাশের "ভর্তি হোন" বাটন — ক্লিক করলে সরাসরি student-login.html পেজে যাবে -->
+    <a href="student-login.html" class="nav-cta" id="navLoginBtn">লগইন</a>
     <button class="burger" id="burgerBtn">☰</button>
   </div>
 </header>
@@ -1769,7 +1769,7 @@ function vaShowToast(message){
 // ============================================================
 // "বিস্তারিত" বাটনে ক্লিক করলে সরাসরি course-details.html-এ না পাঠিয়ে
 // আগে Course Link Sheet-এ (gviz দিয়ে) চেক করে ঐ কোর্সের নামে কোনো Tab/
-// class data আছে কিনা (student-reg.html-এর মতোই কলাম E marker মিলিয়ে —
+// class data আছে কিনা (student-login.html-এর মতোই কলাম E marker মিলিয়ে —
 // gviz-এর silent-wrong-tab quirk এড়াতে)। data না থাকলে course-details.html-এ
 // না গিয়ে সাথে সাথে একটা toast মেসেজ দেখায় যে কোর্সটি এখনো available না।
 // ============================================================
@@ -2027,7 +2027,7 @@ function vaShowToast(message){
   });
 })();
 
-// নোট: নেভবারের "লগইন" বাটন সরাসরি student-reg.html পেজে নিয়ে যায়।
+// নোট: নেভবারের "লগইন" বাটন সরাসরি student-login.html পেজে নিয়ে যায়।
 // প্রতিটা কোর্স কার্ডের "বিস্তারিত" বাটন সব কোর্সের জন্য একই course-details.html
 // পেজে নিয়ে যায়, শুধু URL এর শেষে ?course=স্লাগ অংশটা আলাদা আলাদা হয়
 // (যেমন ?course=ssc-accounting-batch)। course-details.html পেজে সেই স্লাগ পড়ে
